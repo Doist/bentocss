@@ -1,0 +1,252 @@
+// Name:            Component
+// Description:     Collection of atomic text classes
+//
+// Namespace:       `text-*`
+//                  `heading-*`
+//                  `link-*`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/text.less
+// https://github.com/suitcss/utils-text/blob/0.4.2/lib/text.css
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// Color
+
+@component-color-text-muted:                    @base-color-text-muted;
+@component-color-text-primary:                  @base-color-text-primary;
+@component-color-text-success:                  @base-color-text-success;
+@component-color-text-warning:                  @base-color-text-warning;
+@component-color-text-danger:                   @base-color-text-danger;
+@component-color-text-contrast:                 @base-color-text-inverse;
+
+@component-color-link-muted:                    @base-color-text;
+@component-color-link-muted-hover:              @base-color-text;
+
+// Text
+
+@component-text-bold-font-weight:               @base-bold-font-weight;
+
+@component-text-small-font-size:                11/@px;
+@component-text-small-line-height:              16/11;
+@component-text-large-font-size:                18/@px;
+@component-text-large-line-height:              24/18;
+@component-text-large-font-weight:              @base-normal-font-weight;
+
+@component-heading-large-small-font-size:       36/@px;
+@component-heading-large-small-line-height:     42/36;
+@component-heading-large-font-size:             52/@px;
+@component-heading-large-line-height:           64/52;
+
+
+/* Text
+ ========================================================================== */
+
+/*
+ * Font smoothing
+ *
+ * Antialiased font smoothing works best for light text on a dark background
+ * Note this only applies to webkit-based desktop browsers and Firefox 25 (and later) on the Mac
+ * http://www.usabilitypost.com/2012/11/05/stop-fixing-font-smoothing/
+ */
+
+.text-antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Size modifiers
+ ========================================================================== */
+
+.text-small {
+    font-size: @component-text-small-font-size;
+    line-height: @component-text-small-line-height;
+}
+
+.text-large {
+    font-size: @component-text-large-font-size;
+    line-height: @component-text-large-line-height;
+    font-weight: @component-text-large-font-weight;
+}
+
+
+/* Weight modifiers
+ ========================================================================== */
+
+.text-bold { font-weight: @component-text-bold-font-weight; }
+
+
+/* Style modifiers
+ ========================================================================== */
+
+.text-italic { font-style: italic; }
+.text-regular { font-style: normal; }
+.text-uppercase { text-transform: uppercase; }
+
+/**
+ * Enables font kerning in all browsers.
+ * http://blog.typekit.com/2014/02/05/kerning-on-the-web/
+ *
+ * 1. Chrome (not Windows), Firefox, Safari 6+, iOS, Android
+ * 2. Chrome (not Windows), Firefox, IE 10+
+ * 3. Safari 7 and future browsers
+ */
+
+.text-kern {
+    /* 1 */
+    text-rendering: optimizeLegibility;
+    /* 2 */
+    font-feature-settings: "kern" 1;
+    /* 3 */
+    font-kerning: normal;
+}
+
+
+/* Color modifiers
+ ========================================================================== */
+
+.text-muted { color: @component-color-text-muted; }
+.text-primary { color: @component-color-text-primary; }
+.text-success { color: @component-color-text-success; }
+.text-warning { color: @component-color-text-warning; }
+.text-danger { color: @component-color-text-danger; }
+.text-contrast { color: @component-color-text-contrast; }
+
+/**
+ * Inherit the ancestor's text color.
+ */
+
+.text-color-inherit {
+  color: inherit;
+}
+
+
+/* Alignment modifiers
+ ========================================================================== */
+
+.text-start { text-align: @start; }
+.text-end { text-align: @end; }
+.text-center { text-align: center; }
+.text-justify { text-align: justify; }
+
+.text-top { vertical-align: top; }
+.text-middle { vertical-align: middle; }
+.text-bottom { vertical-align: bottom; }
+
+/* Only tablets portrait and smaller */
+@media (max-width: @breakpoint-medium-max) {
+
+    .text-center-medium { text-align: center; }
+    .text-start-medium { text-align: @start; }
+
+}
+
+/* Phone landscape and smaller */
+@media (max-width: @breakpoint-small-max) {
+
+    .text-center-small { text-align: center; }
+    .text-start-small { text-align: @start; }
+
+}
+
+
+/* Wrap modifiers
+ ========================================================================== */
+
+/*
+ * Prevent text from wrapping onto multiple lines
+ */
+
+.text-nowrap { white-space: nowrap; }
+
+/**
+ * Text truncation
+ *
+ * Prevent text from wrapping onto multiple lines, and truncate with an
+ * ellipsis.
+ *
+ * 1. Ensure that the node has a maximum width after which truncation can
+ *    occur.
+ * 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
+ *    nodes.
+ */
+
+.text-truncate {
+    /* 1 */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* 2 */
+    word-wrap: normal;
+}
+
+/*
+ * Break strings if their length exceeds the width of their container
+ */
+
+.text-break {
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+
+/* Headings
+ ========================================================================== */
+
+.heading-large {
+    font-size: @component-heading-large-small-font-size;
+    line-height: @component-heading-large-small-line-height;
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .heading-large {
+        font-size: @component-heading-large-font-size;
+        line-height: @component-heading-large-line-height;
+    }
+
+}
+
+
+/* Link
+ ========================================================================== */
+
+/*
+ * Let links appear in default text color
+ */
+
+.link-muted { color: @component-color-link-muted; }
+
+.link-muted:hover { color: @component-color-link-muted-hover; }
+
+/*
+ * Reset link style
+ */
+
+.link-reset,
+.link-reset:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-text;
+
+.hook-util-text() {}

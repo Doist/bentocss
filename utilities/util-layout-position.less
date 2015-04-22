@@ -1,0 +1,141 @@
+// Name:            Position
+// Description:     Collection of position utility classes
+//
+// Namespace:       `position-*`
+//                  `z-*`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
+// https://github.com/suitcss/utils-position/blob/0.2.2/lib/position.css
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_positions.scss
+//
+// ========================================================================
+
+
+/* ========================================================================
+   Util: Position
+ ========================================================================== */
+
+.position-absolute,
+[class^='position-top'],
+[class*=' position-top'],
+[class^='position-bottom'],
+[class*=' position-bottom'] { position: absolute; }
+
+.position-top {
+    top: 0;
+    width: 100%;
+}
+
+.position-bottom {
+    bottom: 0;
+    width: 100%;
+}
+
+.position-top-start {
+    top: 0;
+    @{start}: 0;
+}
+
+.position-top-end {
+    top: 0;
+    @{end}: 0;
+}
+
+.position-top-left {
+    top: 0;
+    left: 0;
+}
+
+.position-top-right {
+    top: 0;
+    right: 0;
+}
+
+.position-bottom-start {
+    bottom: 0;
+    @{start}: 0;
+}
+
+.position-bottom-end {
+    bottom: 0;
+    @{end}: 0;
+}
+
+.position-bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.position-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+/**
+ * Cover
+ *
+ * Pins to all corners by default. But when a width and/or height are
+ * provided, the element will be centered in its nearest relatively-positioned
+ * ancestor.
+ */
+
+.position-cover {
+    display: table;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/*
+ * Relative
+ */
+
+.position-relative { position: relative; }
+
+/*
+ * Static
+ */
+
+.position-static { position: static; }
+
+/**
+ * Fixed
+ *
+ * 1. Make sure fixed elements are promoted into a new layer, for performance
+ *    reasons.
+ */
+
+.position-fixed {
+    position: fixed;
+    /* 1 */
+    backface-visibility: hidden;
+}
+
+
+/* z-index
+ ========================================================================== */
+
+.z-1 { z-index: @base-z-1; }
+.z-2 { z-index: @base-z-2; }
+.z-3 { z-index: @base-z-3; }
+.z-4 { z-index: @base-z-4; }
+.z-5 { z-index: @base-z-5; }
+.z-6 { z-index: @base-z-6; }
+.z-7 { z-index: @base-z-7; }
+.z-8 { z-index: @base-z-8; }
+.z-9 { z-index: @base-z-9; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-position;
+
+.hook-util-position() {}

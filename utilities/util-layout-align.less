@@ -1,0 +1,118 @@
+// Name:            Align
+// Description:     Collection of alignment utility classes
+//
+// Namespace:       `align-*`
+//                  `vertical-*`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
+// https://github.com/suitcss/utils-align/blob/0.2.2/lib/align.css
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@layout-align-horizontal:                       15/@px;
+@layout-align-vertical:                         15/@px;
+
+
+/* ========================================================================
+   Util: Align
+ ========================================================================== */
+
+/* Alignment of images and objects
+ ========================================================================== */
+
+/*
+ * Alignment
+ */
+
+[class^='align-'],
+[class*=' align-'] {
+    display: block;
+    margin-bottom: @layout-align-vertical;
+}
+
+.align-start {
+    margin-@{end}: @layout-align-horizontal;
+    float: @start;
+}
+
+.align-end {
+    margin-@{start}: @layout-align-horizontal;
+    float: @end;
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .align-medium-start {
+        margin-@{end}: @layout-align-horizontal;
+        margin-bottom: @layout-align-vertical;
+        float: @start;
+    }
+
+    .align-medium-end {
+        margin-@{start}: @layout-align-horizontal;
+        margin-bottom: @layout-align-vertical;
+        float: @end;
+    }
+
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Vertical alignment
+ ========================================================================== */
+
+/*
+ * Remove whitespace between child elements when using `inline-block`
+ */
+
+.vertical-align { font-size: 0.001px; }
+
+/*
+ *  The `vertical-align` container needs a specific height
+ */
+
+.vertical-align:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+/*
+ * Sub-object which can have any height
+ * 1. Reset whitespace hack
+ */
+
+.vertical-align__middle,
+.vertical-align__bottom {
+    display: inline-block;
+    max-width: 100%;
+    /* 1 */
+    font-size: 1rem;
+}
+
+.vertical-align__baseline { vertical-align: baseline; }
+.vertical-align__bottom { vertical-align: bottom; }
+.vertical-align__middle { vertical-align: middle; }
+.vertical-align__top { vertical-align: top; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-align;
+
+.hook-util-align() {}

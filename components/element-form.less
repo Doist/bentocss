@@ -1,0 +1,619 @@
+// Name:            Form
+// Description:     Defines styles for forms
+//
+// Namepsace:       `form`
+//
+// Sub-objects:     `form__row`
+//                  `form__help-inline`
+//                  `form__help-block`
+//                  `form__label`
+//                  `form__legend`
+//                  `form__controls`
+//                  `form__controls-condensed`
+//                  `form__icon`
+//
+// Modifiers:       `form--stacked`
+//                  `form--horizontal`
+//
+// Sub-modifiers:   `form__control--danger`
+//                  `form__control--success`
+//                  `form__control--small`
+//                  `form__control--large`
+//                  `form__control--blank`
+//                  `form__control--width-mini`
+//                  `form__control--width-small`
+//                  `form__control--width-medium`
+//                  `form__control--width-large`
+//                  `form__controls--text`
+//
+// Dependencies:    vars-base
+//
+// Markup:
+//
+// <!-- form -->
+// <form class="form">
+//     <div class="form__row">
+//         <label class="form__label" for="form-input-1"></label>
+//         <div class="form__controls">
+//             <input class="form__control" type="text" id="form-input-1" placeholder="Text">
+//         </div>
+//     </div>
+// </form>
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/form.less
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@form-height:                                   @base-height;
+@form-padding:                                  4/@px 6/@px;
+@form-border:                                   @base-color-border;
+@form-border-width:                             @base-border-width;
+@form-background:                               @base-color-background-canvas;
+@form-color:                                    @base-color-text;
+
+@form-focus-border:                             @base-color-border-primary-box;
+@form-focus-background:                         @base-color-background-primary-box;
+@form-focus-color:                              @base-color-text;
+
+@form-disabled-border:                          @base-color-border;
+@form-disabled-background:                      @base-color-background-light;
+@form-disabled-color:                           @base-color-text-muted;
+
+@form-placeholder-color:                        @base-color-text-muted;
+
+@form-gutter:                                   15/@px;
+
+@form-legend-border:                            @base-color-border;
+@form-legend-border-width:                      @base-border-width;
+@form-legend-font-size:                         18/@px;
+@form-legend-line-height:                       30/18;
+
+@form-small-height:                             @base-height-small;
+@form-large-height:                             @base-height-large;
+@form-small-padding:                            3/@px 3/@px;
+@form-large-padding:                            8/@px 6/@px;
+@form-small-font-size:                          12/@px;
+@form-large-font-size:                          16/@px;
+
+@form-danger-border:                            @base-color-border-danger-box;
+@form-danger-background:                        @base-color-background-danger-box;
+@form-danger-color:                             @base-color-text-danger;
+
+@form-success-border:                           @base-color-border-success-box;
+@form-success-background:                       @base-color-background-success-box;
+@form-success-color:                            @base-color-text-success;
+
+@form-blank-border:                             @base-color-border;
+@form-blank-border-style:                       dashed;
+
+@form-mini-width:                               40/@px;
+@form-small-width:                              130/@px;
+@form-medium-width:                             200/@px;
+@form-large-width:                              500/@px;
+
+@form-help-inline-margin-start:                 10/@px;
+@form-help-block-margin-top:                    5/@px;
+
+@form-controls-condensed-margin-vertical:       5/@px;
+
+@form-stacked-margin-bottom:                    5/@px;
+@form-stacked-font-weight:                      @base-bold-font-weight;
+
+@form-horizontal-label-width:                   200/@px;
+@form-horizontal-label-margin-top:              5/@px;
+@form-horizontal-controls-margin-start:         215/@px;
+@form-horizontal-controls-text-padding-top:     5/@px;
+
+@form-icon-width:                               30/@px;
+@form-icon-font-size:                           14/@px;
+@form-icon-color:                               @base-color-text-muted;
+
+
+/* ========================================================================
+   Component: Form
+ ========================================================================== */
+
+/* Normalize
+ ========================================================================== */
+
+/*
+ * 1. Define consistent box sizing.
+ *    Default is `content-box` with following exceptions set to `border-box`
+ *    `button`, `select`, `input[type="checkbox"]` and `input[type="radio"]`
+ *    `input[type="search"]` in Chrome, Safari and Opera
+ *    `input[type="color"]` in Firefox
+ * 2. Address margins set differently in Firefox/IE and Chrome/Safari/Opera.
+ * 3. Remove `border-radius` in iOS.
+ * 4. Correct `font` properties and `color` not being inherited.
+ */
+
+input,
+select,
+textarea {
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */
+    margin: 0;
+    /* 3 */
+    border-radius: 0;
+    /* 4 */
+    font: inherit;
+    color: inherit;
+}
+
+/*
+ * Address inconsistent `text-transform` inheritance which is only inherit in Firefox
+ */
+
+select { text-transform: none; }
+
+/*
+ * 1. Correct `font` properties not being inherited.
+ * 2. Don't inherit the `font-weight` and use `bold` instead.
+ * NOTE: Both declarations don't work in Chrome, Safari and Opera.
+ */
+
+optgroup {
+    /* 1 */
+    font: inherit;
+    /* 2 */
+    font-weight: bold;
+}
+
+/*
+ * Removes inner padding and border in Firefox 4+.
+ */
+
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*
+ * Removes excess padding in IE 8/9/10.
+ */
+
+input[type="checkbox"],
+input[type="radio"] { padding: 0; }
+
+/*
+ * Improves consistency of cursor style for clickable elements
+ */
+
+input[type="checkbox"]:not(:disabled),
+input[type="radio"]:not(:disabled) { cursor: pointer; }
+
+/*
+ * Remove default style in iOS.
+ */
+
+textarea,
+input:not([type]),
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="number"],
+input[type="datetime"] { -webkit-appearance: none; }
+
+/*
+ * Remove inner padding and search cancel button in Chrome, Safari and Opera on OS X.
+ */
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/*
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { height: auto; }
+
+/*
+ * Define consistent border, margin, and padding.
+ */
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * 1. Remove default vertical scrollbar in IE 8/9/10/11.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+textarea {
+    /* 1 */
+    overflow: auto;
+    /* 2 */
+    vertical-align: top;
+}
+
+/*
+ * Removes placeholder transparency in Firefox.
+ */
+
+::-moz-placeholder { opacity: 1; }
+
+/*
+ * Removes `box-shadow` for invalid controls in Firefox.
+ */
+
+:invalid { box-shadow: none; }
+
+/*
+ * Vertical alignment
+ */
+
+input:not([type="radio"]):not([type="checkbox"]),
+select { vertical-align: middle; }
+
+
+/* Style
+ ========================================================================== */
+
+/*
+ * Remove margin from the last-child
+ */
+
+.form > :last-child { margin-bottom: 0; }
+
+/*
+ * Controls
+ * Except for `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
+ * 1. Must be `height` because `min-height` is not working in OSX
+ * 2. Responsiveness: Sets a maximum width relative to the parent to scale on narrower viewports
+ * 3. Vertical `padding` needed for `select` elements in Firefox
+ * 4. Style
+ */
+
+.form__control {
+    /* 1 */
+    height: @form-height;
+    /* 2 */
+    max-width: 100%;
+    /* 3 */
+    padding: @form-padding;
+    /* 4 */
+    border: @form-border-width solid @form-border;
+    background: @form-background;
+    color: @form-color;
+    -webkit-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+    .hook-form-control;
+
+    // Focus state
+    &:focus {
+        border-color: @form-focus-border;
+        outline: 0;
+        background: @form-focus-background;
+        color: @form-focus-color;
+        .hook-form-control-focus;
+    }
+
+    // Disabled state
+    &:disabled {
+        border-color: @form-disabled-border;
+        background-color: @form-disabled-background;
+        color: @form-disabled-color;
+        .hook-form-control-disabled;
+    }
+}
+
+/*
+ * Placeholder
+ */
+
+.form__control:-ms-input-placeholder { color: @form-placeholder-color !important; }
+.form__control::-moz-placeholder,
+.form__control::-webkit-input-placeholder { color: @form-placeholder-color; }
+
+.form__control:disabled:-ms-input-placeholder { color: @form-disabled-color !important; }
+.form__control:disabled::-moz-placeholder,
+.form__control:disabled::-webkit-input-placeholder { color: @form-disabled-color; }
+
+/*
+ * Legend
+ * 1. Behave like block element
+ * 2. Correct `color` not being inherited in IE 8/9/10/11.
+ * 3. Remove padding
+ * 4. `margin-bottom` is not working in Safari and Opera.
+ *    Using `padding` and :after instead to create the border
+ * 5. Style
+ */
+
+.form__legend {
+    /* 1 */
+    width: 100%;
+    /* 2 */
+    border: 0;
+    /* 3 */
+    padding: 0;
+    /* 4 */
+    padding-bottom: @form-gutter;
+    /* 5 */
+    font-size: @form-legend-font-size;
+    line-height: @form-legend-line-height;
+    .hook-form-legend;
+}
+
+/*
+ * 1. Fixes IE9
+ */
+
+.form__legend:after {
+    content: "";
+    display: block;
+    border-bottom: @form-legend-border-width solid @form-legend-border;
+    /* 1 */
+    width: 100%;
+}
+
+
+/* Size modifiers
+ * Higher specificity needed to override defaults
+ ========================================================================== */
+
+.form__control--small {
+    height: @form-small-height;
+    padding: @form-small-padding;
+    font-size: @form-small-font-size;
+}
+
+.form__control--large  {
+    height: @form-large-height;
+    padding: @form-large-padding;
+    font-size: @form-large-font-size;
+}
+
+
+/* Reset height
+ * Must be after size modifiers
+ ========================================================================== */
+
+textarea.form__control,
+select[multiple].form__control,
+select[size].form__control { height: auto; }
+
+
+/* Validation states
+ * Using !important to keep the selector simple
+ ========================================================================== */
+
+/*
+ * Error state
+ */
+
+.form__control--danger {
+    border-color: @form-danger-border !important;
+    background: @form-danger-background !important;
+    color: @form-danger-color !important;
+    .hook-form-control-danger;
+}
+
+/*
+ * Success state
+ */
+
+.form__control--success  {
+    border-color: @form-success-border !important;
+    background: @form-success-background !important;
+    color: @form-success-color !important;
+    .hook-form-control-success;
+}
+
+
+/* Style sub-modifiers
+ ========================================================================== */
+
+/*
+ * Blank form control
+ */
+
+.form__control--blank {
+    border-color: transparent;
+    border-style: @form-blank-border-style;
+    background: none;
+    .hook-form-control-blank;
+}
+
+.form__control--blank:focus {
+    border-color: @form-blank-border;
+    background: none;
+    .hook-form-control-blank-focus;
+}
+
+
+/* Size sub-modifiers
+ ========================================================================== */
+
+/*
+ * Fixed widths
+ * Different widths for mini sized `input` and `select` elements
+ */
+
+input.form__control--width-mini { width: @form-mini-width; }
+select.form__control--width-mini { width: (@form-mini-width + 25/@px); }
+
+.form__control--width-small { width: @form-small-width; }
+.form__control--width-medium { width: @form-medium-width; }
+.form__control--width-large { width: @form-large-width; }
+
+
+/* Sub-objects: `form__row`
+ * Groups labels and controls in rows
+ ========================================================================== */
+
+/*
+ * Micro clearfix
+ * Needed for `form--horizontal` modifier
+ */
+
+.form__row:before,
+.form__row:after {
+    content: "";
+    display: table;
+}
+
+.form__row:after { clear: both; }
+
+/*
+ * Vertical gutter
+ */
+
+.form__row + .form__row { margin-top: @form-gutter; }
+
+
+/* Help text
+ * Sub-object: `form__help-inline`, `form__help-block`
+ ========================================================================== */
+
+.form__help-inline {
+    display: inline-block;
+    margin: 0;
+    margin-@{start}: @form-help-inline-margin-start;
+}
+
+.form__help-block { margin: @form-help-block-margin-top 0 0 0; }
+
+
+/* Controls content
+ * Sub-object: `form__controls`, `form__controls-condensed`
+ ========================================================================== */
+
+/*
+ * Remove margins
+ */
+
+.form__controls > :first-child { margin-top: 0; }
+.form__controls > :last-child { margin-bottom: 0; }
+
+/*
+ * Group controls and text into blocks with a small spacing between blocks
+ */
+
+.form__controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
+
+
+/* Modifier: `form--stacked`
+ * Requires sub-object: `form__label`
+ ========================================================================== */
+
+.form--stacked .form__label {
+    display: block;
+    margin-bottom: @form-stacked-margin-bottom;
+    font-weight: @form-stacked-font-weight;
+    .hook-form-stacked-label;
+}
+
+
+/* Modifier: `form--horizontal`
+ * Requires sub-objects: `form__label`, `form__controls`
+ ========================================================================== */
+
+/* Tablet portrait and smaller */
+@media (max-width: @breakpoint-medium-max) {
+
+    /* Behave like `form-stacked` */
+    .form--horizontal .form__label {
+        display: block;
+        margin-bottom: @form-stacked-margin-bottom;
+        font-weight: @form-stacked-font-weight;
+        .hook-form-stacked-label;
+    }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    .form--horizontal .form__label {
+        width: @form-horizontal-label-width;
+        margin-top: @form-horizontal-label-margin-top;
+        float: @start;
+        .hook-form-horizontal-label;
+    }
+
+    .form--horizontal .form__controls { margin-@{start}: @form-horizontal-controls-margin-start; }
+
+    /* Better vertical alignment if controls are checkboxes and radio buttons with text */
+    .form--horizontal .form__controls--text { padding-top: @form-horizontal-controls-text-padding-top; }
+
+}
+
+
+/* Sub-object: `form__icon`
+ ========================================================================== */
+
+/*
+ * 1. Container width fits its content
+ * 2. Create position context
+ * 3. Prevent `inline-block` consequences
+ */
+
+.form__icon {
+    /* 1 */
+    display: inline-block;
+    /* 2 */
+    position: relative;
+    /* 3 */
+    max-width: 100%;
+}
+
+/*
+ * 1. Make form element clickable through icon
+ */
+
+.form__icon > [class^='icon-'],
+.form__icon > [class*=' icon-'] {
+    position: absolute;
+    top: 50%;
+    width: @form-icon-width;
+    margin-top: round(@form-icon-font-size / -2);
+    font-size: @form-icon-font-size;
+    color: @form-icon-color;
+    text-align: center;
+    /* 1 */
+    pointer-events: none;
+}
+
+.form__icon > .form__control { padding-@{start}: @form-icon-width; }
+
+/*
+ * Sub-modifier: `form__icon--flip`
+ */
+
+.form__icon--flip > [class^='icon-'],
+.form__icon--flip > [class*=' icon-'] { @{end}: 0; }
+.form__icon--flip > .form__control { padding-@{end}: @form-icon-width; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-form-misc;
+
+.hook-form-control() {}
+.hook-form-control-focus() {}
+.hook-form-control-disabled() {}
+.hook-form-control-blank() {}
+.hook-form-control-blank-focus() {}
+.hook-form-control-danger() {}
+.hook-form-control-success() {}
+.hook-form-legend() {}
+.hook-form-stacked-label() {}
+.hook-form-horizontal-label() {}
+.hook-form-misc() {}

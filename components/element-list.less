@@ -1,0 +1,156 @@
+// Name:            List
+// Description:     Defines styles for lists
+//
+// Namespace:       `list`
+//                  `list-description`
+//
+// Modifiers:       `list--line`
+//                  `list--striped`
+//                  `list--space`
+//                  `list-description--horizontal`
+//                  `list-description--line`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/list.less
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/description-list.less
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@list-padding-start:                            20/@px;
+
+@list-line-margin-top:                          5/@px;
+@list-line-border:                              @base-color-border;
+@list-line-border-width:                        @base-border-width;
+
+@list-striped-padding-vertical:                 5/@px;
+@list-striped-padding-horizontal:               5/@px;
+@list-striped-background:                       @base-color-background-light;
+
+@list-space-margin-top:                         10/@px;
+
+@list-description-term-font-weight:             @base-bold-font-weight;
+
+@list-description-horizontal-width:             160/@px;
+@list-description-horizontal-margin-start:      180/@px;
+
+@list-description-line-margin-top:              5/@px;
+@list-description-line-border-width:            @base-border-width;
+@list-description-line-border:                  @base-color-border;
+@list-description-line-color:                   @base-color-text-muted;
+
+
+/* ========================================================================
+   Component: List
+ ========================================================================== */
+
+/* Normalize
+ ========================================================================== */
+
+ul,
+ol {
+    padding-@{start}: @list-padding-start;
+}
+
+dt { font-weight: @list-description-term-font-weight; }
+dd { margin-@{start}: 0; }
+
+
+/* Lists
+ ========================================================================== */
+
+.list {
+    padding: 0;
+    list-style: none;
+}
+
+/*
+ * Micro clearfix to make list more robust
+ */
+
+.list > li:before,
+.list > li:after {
+    content: "";
+    display: table;
+}
+
+.list > li:after { clear: both; }
+
+
+/* Modifier: `list--line`
+ ========================================================================== */
+
+.list--line > li:nth-child(n+2) {
+    margin-top: @list-line-margin-top;
+    padding-top: @list-line-margin-top;
+    border-top: @list-line-border-width solid @list-line-border;
+}
+
+
+/* Modifier: `list--striped`
+ ========================================================================== */
+
+.list--striped > li {
+    padding: @list-striped-padding-vertical @list-striped-padding-horizontal;
+}
+
+.list--striped > li:nth-of-type(odd) { background: @list-striped-background; }
+
+
+/* Modifier: `list--space`
+ ========================================================================== */
+
+.list--space > li:nth-child(n+2) { margin-top: @list-space-margin-top; }
+
+
+/* Description lists
+ ========================================================================== */
+
+/* Modifier: `list-description--horizontal`
+ ========================================================================== */
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .list-description--horizontal { overflow: hidden; }
+
+    .list-description--horizontal > dt {
+        width: @list-description-horizontal-width;
+        float: @start;
+        clear: both;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .list-description--horizontal > dd { margin-@{start}: @list-description-horizontal-margin-start; }
+
+}
+
+
+/* Modifier: `list-description--line`
+ ========================================================================== */
+
+.list-description--line > dt { font-weight: normal; }
+
+.list-description--line > dt:nth-child(n+2) {
+    margin-top: @list-description-line-margin-top;
+    padding-top: @list-description-line-margin-top;
+    border-top: @list-description-line-border-width solid @list-description-line-border;
+}
+
+.list-description--line > dd { color: @list-description-line-color; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-list-misc;
+
+.hook-list-misc() {}

@@ -1,0 +1,479 @@
+// Name:            Flex
+// Description:     Defines styles to create layouts with flexbox
+//
+// Namespace:       `flex`
+//                  `flex-inline`
+//
+// Sub-objects:     `flex__item` (optional, implied)
+//
+// Modifiers:       `flex--stretch`
+//                  `flex--top`
+//                  `flex--middle`
+//                  `flex--baseline`
+//                  `flex--bottom`
+//                  `flex--center`
+//                  `flex--end`
+//                  `flex--space-between`
+//                  `flex--space-around`
+//                  `flex--start`
+//                  `flex--row`
+//                  `flex--row-reverse`
+//                  `flex--column`
+//                  `flex--column-reverse`
+//                  `flex--wrap`
+//                  `flex--wrap-reverse`
+//                  `flex--wrap-none`
+//                  `flex--wrap-stretch`
+//                  `flex--wrap-top`
+//                  `flex--wrap-middle`
+//                  `flex--wrap-bottom`
+//                  `flex--wrap-space-between`
+//                  `flex--wrap-space-around`
+//
+// Sub-modifiers:   `flex__item--first`
+//                  `flex__item--last`
+//                  `flex__item--none`
+//                  `flex__item--auto`
+//                  `flex__item--1`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/flex.less
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_flex-object.scss
+//
+// Notes:
+//
+// Browser support for the flexible box layout module is limited.
+// http://caniuse.com/#feat=flexbox
+//
+// Updated with latest vendor prefix data from caniuse.com as of 10-04-2015
+// Tested with Autoprefixer on codepen.io
+//
+// ========================================================================
+
+
+/* ========================================================================
+   Component: Flex
+ ========================================================================== */
+
+.c-flex-display-flex() {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.c-flex-display-inline-flex() {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
+.flex { .c-flex-display-flex; }
+.flex-inline { .c-flex-display-inline-flex; }
+
+/*
+ * Fixes initial flex-shrink value in IE10
+ */
+
+.flex > *,
+.flex-inline > * { -ms-flex-negative: 1; }
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .flex-small { .c-flex-display-flex; }
+    .flex-small-inline { .c-flex-display-inline-flex; }
+
+    .flex-small > *,
+    .flex-small-inline > * { -ms-flex-negative: 1; }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .flex-medium { .c-flex-display-flex; }
+    .flex-medium-inline { .c-flex-display-inline-flex; }
+
+    .flex-medium > *,
+    .flex-medium-inline > * { -ms-flex-negative: 1; }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    .flex-large { .c-flex-display-flex; }
+    .flex-large-inline { .c-flex-display-inline-flex; }
+
+    .flex-large > *,
+    .flex-large-inline > * { -ms-flex-negative: 1; }
+
+}
+
+/* Large desktop and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    .flex-xlarge { .c-flex-display-flex; }
+    .flex-xlarge-inline { .c-flex-display-inline-flex; }
+
+    .flex-xlarge > *,
+    .flex-xlarge-inline > * { -ms-flex-negative: 1; }
+
+}
+
+
+/* Alignment modifiers
+ ========================================================================== */
+
+/*
+ * Vertical alignment
+ */
+
+/*  Default value is `stretch` */
+.flex--stretch {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+}
+
+.flex--top {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+}
+
+.flex--middle {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.flex--baseline {
+    -webkit-box-align: baseline;
+    -webkit-align-items: baseline;
+        -ms-flex-align: baseline;
+            align-items: baseline;
+}
+
+.flex--bottom {
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+}
+
+/*
+ * Horizontal alignment
+ */
+
+/*  Default value is `flex-start` */
+
+/* Left for LTR. */
+.flex--start {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+}
+
+.flex--center {
+   -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+/* Right for LTR. */
+.flex--end {
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+}
+
+.flex--space-between {
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.flex--space-around {
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around;
+}
+
+
+/* Direction modifiers
+ ========================================================================== */
+
+/*  Default value is `row` */
+.flex--row {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+
+.flex--row-reverse {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+}
+
+.flex--column {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+.flex--column-reverse {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: column-reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+}
+
+
+/* Wrap modifiers
+ ========================================================================== */
+
+/*  Default value is `nowrap` */
+.flex--wrap-none {
+    -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+}
+
+.flex--wrap {
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+
+.flex--wrap-reverse {
+    -webkit-flex-wrap: wrap-reverse;
+        -ms-flex-wrap: wrap-reverse;
+            flex-wrap: wrap-reverse;
+}
+
+/*
+ * Horizontal wrapping
+ */
+
+/*  Default value is `stretch` */
+.flex--wrap-stretch {
+    -webkit-align-content: stretch;
+        -ms-flex-line-pack: stretch;
+            align-content: stretch;
+}
+
+.flex--wrap-top {
+    -webkit-align-content: flex-start;
+        -ms-flex-line-pack: start;
+            align-content: flex-start;
+}
+
+.flex--wrap-middle {
+    -webkit-align-content: center;
+        -ms-flex-line-pack: center;
+            align-content: center;
+}
+
+.flex--wrap-bottom {
+    -webkit-align-content: flex-end;
+        -ms-flex-line-pack: end;
+            align-content: flex-end;
+}
+
+.flex--wrap-space-between {
+    -webkit-align-content: space-between;
+        -ms-flex-line-pack: justify;
+            align-content: space-between;
+}
+
+.flex--wrap-space-around {
+    -webkit-align-content: space-around;
+        -ms-flex-line-pack: distribute;
+            align-content: space-around;
+}
+
+
+/* Sub-object: `flex__item`
+ ========================================================================== */
+
+.flex__item {
+    box-sizing: border-box;
+}
+
+
+/* Item ordering
+ * Sub-modifiers: `flex__item--*`
+ ========================================================================== */
+
+/*
+ * Default is 0
+ */
+
+.flex__item--first {
+      -webkit-box-ordinal-group: 0;
+      -webkit-order: -1;
+          -ms-flex-order: -1;
+              order: -1;
+}
+
+.flex__item--last {
+    -webkit-box-ordinal-group: 1025;
+    -webkit-order: 1024;
+        -ms-flex-order: 1024;
+            order: 1024;
+}
+
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .flex__item--first-small {
+          -webkit-box-ordinal-group: 0;
+          -webkit-order: -1;
+              -ms-flex-order: -1;
+                  order: -1;
+    }
+
+    .flex__item--last-small {
+        -webkit-box-ordinal-group: 1025;
+        -webkit-order: 1024;
+            -ms-flex-order: 1024;
+                order: 1024;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .flex__item--first-medium {
+          -webkit-box-ordinal-group: 0;
+          -webkit-order: -1;
+              -ms-flex-order: -1;
+                  order: -1;
+    }
+
+    .flex__item--last-medium {
+        -webkit-box-ordinal-group: 1025;
+        -webkit-order: 1024;
+            -ms-flex-order: 1024;
+                order: 1024;
+    }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    .flex__item--first-large {
+          -webkit-box-ordinal-group: 0;
+          -webkit-order: -1;
+              -ms-flex-order: -1;
+                  order: -1;
+    }
+
+    .flex__item--last-large {
+        -webkit-box-ordinal-group: 1025;
+        -webkit-order: 1024;
+            -ms-flex-order: 1024;
+                order: 1024;
+    }
+
+}
+
+/* Large screen and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    .flex__item--first-xlarge {
+          -webkit-box-ordinal-group: 0;
+          -webkit-order: -1;
+              -ms-flex-order: -1;
+                  order: -1;
+    }
+
+    .flex__item--last-xlarge {
+        -webkit-box-ordinal-group: 1025;
+        -webkit-order: 1024;
+            -ms-flex-order: 1024;
+                order: 1024;
+    }
+
+}
+
+
+/* Item dimensions
+ * Sub-modifiers: `flex__item--*`
+ ========================================================================== */
+
+/*
+ * Initial: 0 1 auto
+ * Content dimensions, but shrinks
+ */
+
+/*
+ * No Flex: 0 0 auto
+ * Content dimensions
+ */
+
+.flex__item--none {
+    -webkit-box-flex: 0;
+    -webkit-flex: none;
+        -ms-flex: none;
+            flex: none;
+}
+
+/*
+ * Relative Flex: 1 1 auto
+ * Space is allocated considering content
+ * 1. Fixes flex-shrink value in IE10
+ */
+
+.flex__item--auto {
+    -webkit-box-flex: 1;
+    -webkit-flex: auto;
+        -ms-flex: auto;
+            flex: auto;
+    /* 1 */
+    -ms-flex-negative: 1;
+}
+
+/*
+ * Absolute Flex: 1 1 0%
+ * Space is allocated solely based on flex
+ */
+
+.flex__item--1 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-flex-misc;
+
+.hook-flex-misc() {}

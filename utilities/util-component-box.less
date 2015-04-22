@@ -1,0 +1,174 @@
+// Name:            Box
+// Description:     Collection of atomic box classes
+//
+// Namespace:       `border-*`
+//                  `bg-*`
+//                  `fg-*`
+//                  `opacity-*`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_colors.scss
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_color-borders.scss
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_background-images.scss
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// Color
+
+@component-color-darken-1:                      @base-color-darken-1;
+@component-color-darken-2:                      @base-color-darken-2;
+@component-color-darken-3:                      @base-color-darken-3;
+@component-color-darken-4:                      @base-color-darken-4;
+
+// Border
+
+@component-base-border-width:                   @base-border-width;
+
+@component-base-border-rounded:                 @base-border-radius;
+@component-mini-border-rounded:                 @base-border-radius-mini;
+@component-small-border-rounded:                @base-border-radius-small;
+@component-large-border-rounded:                @base-border-radius-large;
+
+@component-border-circle:                       @base-border-radius-circle;
+
+
+/* ========================================================================
+   Util: Box
+ ========================================================================== */
+
+/* Background
+ ========================================================================== */
+
+/*
+ * Background Color
+ */
+
+.bg-darken-1 { background-color: @component-color-darken-1; }
+.bg-darken-2 { background-color: @component-color-darken-2; }
+.bg-darken-3 { background-color: @component-color-darken-3; }
+.bg-darken-4 { background-color: @component-color-darken-4; }
+
+/*
+ * Background Images
+ */
+
+.bg-cover        { background-size: cover; }
+.bg-contain      { background-size: contain; }
+
+.bg-center       { background-position: center; }
+.bg-left         { background-position: left; }
+.bg-right        { background-position: right; }
+.bg-start        { background-position: @start; }
+.bg-end          { background-position: @end; }
+
+.bg-top          { background-position: top; }
+.bg-top-left     { background-position: top left; }
+.bg-top-right    { background-position: top right; }
+.bg-top-start    { background-position: top @start; }
+.bg-top-end      { background-position: top @end; }
+
+.bg-bottom       { background-position: bottom; }
+.bg-bottom-left  { background-position: bottom left; }
+.bg-bottom-right { background-position: bottom right; }
+.bg-bottom-start { background-position: bottom @start; }
+.bg-bottom-end   { background-position: bottom @end; }
+
+
+/* Border
+ ========================================================================== */
+
+.border {
+  border-style: solid;
+  border-width: @component-base-border-width;
+}
+
+.border-top {
+  border-top-style: solid;
+  border-top-width: @component-base-border-width;
+}
+
+.border-right {
+  border-right-style: solid;
+  border-right-width: @component-base-border-width;
+}
+
+.border-bottom {
+  border-bottom-style: solid;
+  border-bottom-width: @component-base-border-width;
+}
+
+.border-left {
+  border-left-style: solid;
+  border-left-width: @component-base-border-width;
+}
+
+.border-start {
+  border-@{start}-style: solid;
+  border-@{start}-width: @component-base-border-width;
+}
+
+.border-end {
+  border-@{end}-style: solid;
+  border-@{end}-width: @component-base-border-width;
+}
+
+/*
+ * Border Color
+ */
+
+.border-darken-1 { border-color: @component-color-darken-1; }
+.border-darken-2 { border-color: @component-color-darken-2; }
+.border-darken-3 { border-color: @component-color-darken-3; }
+.border-darken-4 { border-color: @component-color-darken-4; }
+
+/*
+ * Border Radius
+ */
+
+.border-circle { border-radius: @component-border-circle; }
+.border-rounded { border-radius: @component-base-border-rounded; }
+
+.border-rounded-top    { border-radius: @component-base-border-rounded @component-base-border-rounded 0 0; }
+.border-rounded-right  { border-radius: 0 @component-base-border-rounded @component-base-border-rounded 0; }
+.border-rounded-bottom { border-radius: 0 0 @component-base-border-rounded @component-base-border-rounded; }
+.border-rounded-left   { border-radius: @component-base-border-rounded 0 0 @component-base-border-rounded; }
+
+.border-rounded-start {
+    & when (@base-text-direction = ltr) {
+        border-radius: @component-base-border-rounded 0 0 @component-base-border-rounded;
+    }
+    & when (@base-text-direction = rtl) {
+        border-radius: 0 @component-base-border-rounded @component-base-border-rounded 0;
+    }
+}
+
+.border-rounded-end {
+    & when (@base-text-direction = ltr) {
+        border-radius: 0 @component-base-border-rounded @component-base-border-rounded 0;
+    }
+    & when (@base-text-direction = rtl) {
+        border-radius: @component-base-border-rounded 0 0 @component-base-border-rounded;
+    }
+}
+
+
+/* Opacity
+ ========================================================================== */
+
+.opacity-muted { opacity: .5 }
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-box;
+
+.hook-util-box() {}

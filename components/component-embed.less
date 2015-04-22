@@ -1,0 +1,123 @@
+// Name:            Embed
+// Description:     Flexible media embeds
+//
+// Namespace:       `embed`
+//
+// Sub-objects:     `embed__content`
+//                  `embed__ratio`
+//
+// Sub-modifiers:   `embed__ratio--*`
+//
+// Dependencies:    (none)
+//
+// Markup:
+//
+// <div class="embed">
+//     <div class="embed__ratio embed__ratio--16-9"></div>
+//     <div class="embed__content">
+//         <!-- child content -->
+//     </div>
+// </div>
+//
+// Based on:
+//
+// https://github.com/suitcss/components-flex-embed/tree/2.0.2
+//
+// ========================================================================
+
+
+/* ========================================================================
+   Component: Embed
+ ========================================================================== */
+
+/*
+ * Flexible media embeds
+ *
+ * For use with media embeds – such as videos, slideshows, or even images –
+ * that need to retain a specific aspect ratio but adapt to the width of their
+ * containing element.
+ *
+ * Based on: http://alistapart.com/article/creating-intrinsic-ratios-for-video
+ */
+
+.embed {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* Sub-object: `embed__ratio`
+ ========================================================================== */
+
+/*
+ * The aspect-ratio hack is applied to an empty element because it allows
+ * the component to respect `max-height`. Default aspect ratio is 1:1.
+ */
+
+.embed__ratio {
+    display: block;
+    padding-bottom: 100%;
+    width: 100%;
+}
+
+
+/* Ratio sub-modifiers
+ ========================================================================== */
+
+/*
+ * Modifier: 3:1 aspect ratio
+ */
+
+.embed__ratio--3-1 {
+    padding-bottom: 33.333%;
+}
+
+/*
+ * Modifier: 2:1 aspect ratio
+ */
+
+.embed__ratio--2-1 {
+    padding-bottom: 50%;
+}
+
+/*
+ * Modifier: 16:9 aspect ratio
+ */
+
+.embed__ratio--16-9 {
+    padding-bottom: 56.25%;
+}
+
+/*
+ * Modifier: 4:3 aspect ratio
+ */
+
+.embed__ratio--4-3 {
+    padding-bottom: 75%;
+}
+
+
+/* Sub-object: `embed__content`
+ ========================================================================== */
+
+/*
+ * Fit the content to the aspect ratio
+ */
+
+.embed__content {
+    bottom: 0;
+    height: 100%;
+    left: 0; // No need to change for RTL
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-embed-misc;
+
+.hook-embed-misc() {}

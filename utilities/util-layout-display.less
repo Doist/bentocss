@@ -1,0 +1,148 @@
+// Name:            Display
+// Description:     Collection of display utility classes
+//
+// Namespace:       `display-*`
+//                  `visible-*`
+//                  `invisible`
+//                  `hidden`
+//                  `hidden-*`
+//                  `sr-*`
+//                  `touch`
+//                  `notouch`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
+// https://github.com/twbs/bootstrap/blob/v3.3.2/less/utilities.less
+// https://github.com/suitcss/utils-display/blob/0.4.2/lib/display.css
+//
+// ========================================================================
+
+
+/* ========================================================================
+   Util: Display
+ ========================================================================== */
+
+/*
+ * Display
+ */
+
+.display-block { display: block; }
+.display-inline { display: inline; }
+
+/**
+ * 1. Fix for Firefox bug: an image styled `max-width: 100%` within an
+ * inline-block will display at its default size, and not limit its width to
+ * 100% of an ancestral container.
+ */
+.display-inline-block {
+    display: inline-block;
+    /* 1 */
+    max-width: 100%;
+}
+
+.display-table { display: table; }
+.display-table-cell { display: table-cell; }
+.display-table-row { display: table-row; }
+
+/*
+ * Visibility
+ * Avoids setting display to `block` so it works also with `inline-block` and `table`
+ */
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    .visible-small { display: none !important; }
+    .visible-medium { display: none !important; }
+    .hidden-large { display: none !important; }
+
+}
+
+/* Tablets portrait */
+@media (min-width: @breakpoint-medium) and (max-width: @breakpoint-medium-max) {
+
+    .visible-small { display: none !important; }
+    .visible-large { display: none !important ; }
+    .hidden-medium { display: none !important; }
+
+}
+
+/* Phone landscape and smaller*/
+@media (max-width: @breakpoint-small-max) {
+
+    .visible-medium { display: none !important; }
+    .visible-large { display: none !important; }
+    .hidden-small { display: none !important; }
+
+}
+
+/* Remove from the flow and screen readers on any device */
+.hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* It's hidden, but still affects layout */
+.invisible { visibility: hidden !important; }
+
+/* Show on hover */
+.visible-hover:hover .hidden,
+.visible-hover:hover .invisible {
+    display: block !important;
+    visibility: visible !important;
+}
+
+.visible-hover-inline:hover .hidden,
+.visible-hover-inline:hover .invisible {
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+/*
+ * Only display content to screen readers
+ * Completely remove from the flow but leave available to screen readers
+ * http://a11yproject.com/posts/how-to-hide-content/
+ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  border: 0;
+}
+
+/*
+ * Use in conjunction with .sr-only to only display content when it's focused.
+ * Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
+ */
+
+.sr-only--focusable {
+  &:active,
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+/* Hide on touch */
+.touch .hidden-touch,
+.notouch .hidden-notouch { display: none !important; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-display;
+
+.hook-util-display() {}

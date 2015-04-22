@@ -1,0 +1,87 @@
+// Name:            Overflow
+// Description:     Collection of overflow utility classes
+//
+// Namespace:       `position-*`
+//                  `z-*`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_utility-layout.scss
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@layout-scrollable-text-height:                 300/@px;
+
+@layout-scrollable-box-height:                  170/@px;
+@layout-scrollable-box-padding:                 10/@px;
+@layout-scrollable-box-border:                  @base-color-border;
+@layout-scrollable-box-border-width:            @base-border-width;
+
+
+/* ========================================================================
+   Util: Overflow
+ ========================================================================== */
+
+/* Scrollable
+ ========================================================================== */
+
+/*
+ * Enable scrolling for preformatted text
+ */
+
+.scrollable-text {
+    height: @layout-scrollable-text-height;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    resize: both;
+}
+
+/*
+ * Box with scrolling enabled
+ */
+
+.scrollable-box {
+    box-sizing: border-box;
+    height: @layout-scrollable-box-height;
+    padding: @layout-scrollable-box-padding;
+    border: @layout-scrollable-box-border-width solid @layout-scrollable-box-border;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    resize: both;
+}
+
+.scrollable-box > :last-child { margin-bottom: 0; }
+
+
+/* Overflow
+ ========================================================================== */
+
+/*
+ * Enable scrollbars if content is clipped
+ */
+
+.overflow-container {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.overflow-container > :last-child { margin-bottom: 0; }
+
+.overflow-hidden { overflow: hidden }
+.overflow-scroll { overflow: scroll }
+.overflow-auto   { overflow: auto }
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-overflow;
+
+.hook-util-overflow() {}

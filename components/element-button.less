@@ -1,0 +1,524 @@
+// Name:            Button
+// Description:     Defines styles for buttons
+//
+// Namespace:       `button`
+//
+// Super-objects:   `button-dropdown`
+//                  `button-group`
+//
+// Modifiers:       `button--primary`
+//                  `button--success`
+//                  `button--danger`
+//                  `button--link`
+//                  `button--mini`
+//                  `button--small`
+//                  `button--large`
+//
+// States:          `is-active`
+//                  `[disabled]`
+//
+// Dependencies:    vars-base
+//
+// Markup:
+//
+// <!-- button-group -->
+// <div class="button-group button-group--horizontal">
+//     <button class="button"></button>
+//     <button class="button"></button>
+// </div>
+//
+// <!-- button-group with wrapper elements (ul, ol, div...) -->
+// <ul class="button-group button-group--vertical">
+//     <li class="button-group__item">
+//         <a class="button" href="#">Dashboard</a>
+//     </li>
+//     <li class="button-group__item">
+//         <a class="button" href="#">Account</a>
+//     </li>
+//     <li class="button-group__item">
+//         <a class="button" href="#">Logout</a>
+//     </li>
+// </ul>
+//
+// <!-- button-dropdown -->
+// <div class="button-dropdown" data-dropdown>
+//     <button class="button"></button>
+//     <div class="dropdown dropdown--small">
+//         <ul class="nav nav--dropdown">
+//             <li><a href=""></a></li>
+//         </ul>
+//     </div>
+// </div>
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/button.less
+// https://github.com/uikit/uikit/blob/v2.17.0/themes/gradient/button.less
+// https://github.com/suitcss/components-button-group/blob/2.2.0/button-group.css
+// https://github.com/suitcss/components-button-group/blob/2.2.0/button-group.plugin.css
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@button-height:                                 @base-height;
+@button-mini-height:                            @base-height-mini;
+@button-small-height:                           @base-height-small;
+@button-large-height:                           @base-height-large;
+
+@button-line-height:                            30/16;
+@button-mini-line-height:                       20/11;
+@button-small-line-height:                      25/12;
+@button-large-line-height:                      40/16;
+
+@button-mini-font-size:                         11/@px;
+@button-small-font-size:                        12/@px;
+@button-large-font-size:                        16/@px;
+
+@button-padding-horizontal:                     12/@px;
+@button-mini-padding-horizontal:                6/@px;
+@button-small-padding-horizontal:               10/@px;
+@button-large-padding-horizontal:               15/@px;
+
+@button-font-size:                              16/@px;
+@button-font-weight:                            @base-normal-font-weight;
+@button-background:                             @base-color-background-normal;
+@button-color:                                  @base-color-text;
+@button-hover-background:                       @base-color-background-normal-hover;
+@button-hover-color:                            @base-color-text;
+@button-active-background:                      @base-color-background-normal-active;
+@button-active-color:                           @base-color-text;
+
+@button-primary-background:                     @base-color-background-primary;
+@button-primary-color:                          @base-color-text-inverse;
+@button-primary-hover-background:               @base-color-background-primary-hover;
+@button-primary-hover-color:                    @base-color-text-inverse;
+@button-primary-active-background:              @base-color-background-primary-active;
+@button-primary-active-color:                   @base-color-text-inverse;
+
+@button-success-background:                     @base-color-background-success;
+@button-success-color:                          @base-color-text-inverse;
+@button-success-hover-background:               @base-color-background-success-hover;
+@button-success-hover-color:                    @base-color-text-inverse;
+@button-success-active-background:              @base-color-background-success-active;
+@button-success-active-color:                   @base-color-text-inverse;
+
+@button-danger-background:                      @base-color-background-danger;
+@button-danger-color:                           @base-color-text-inverse;
+@button-danger-hover-background:                @base-color-background-danger-hover;
+@button-danger-hover-color:                     @base-color-text-inverse;
+@button-danger-active-background:               @base-color-background-danger-active;
+@button-danger-active-color:                    @base-color-text-inverse;
+
+@button-disabled-background:                    @base-color-background-light;
+@button-disabled-color:                         @base-color-text-muted;
+
+@button-link-color:                             @base-color-text-link;
+@button-link-hover-color:                       @base-color-text-link-hover;
+@button-link-hover-text-decoration:             underline;
+@button-link-disabled-color:                    @base-color-text-muted;
+
+@button-group-border-width:                     @base-border-width;
+
+
+/* ========================================================================
+   Component: Button
+ ========================================================================== */
+
+/*
+ * Fix a Firefox 4+ bug whereby `input type="submit"` gains 2px extra padding
+ */
+
+.button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*
+ * 1. Correct inability to style clickable `input` types in iOS.
+ * 2. Remove margins in Chrome, Safari and Opera.
+ * 3. Remove borders for `button`.
+ * 4. Address `overflow` set to `hidden` in IE 8/9/10/11.
+ * 5. Correct `font` properties and `color` not being inherited for `button`.
+ * 6. Address inconsistent `text-transform` inheritance which is only inherit in Firefox and IE
+ * 7. Style
+ * 8. `line-height` is used to create a height
+ * 9. `min-height` is necessary for `input` elements in Firefox and Opera because `line-height` is not working.
+ * 10. Reset button group whitespace hack
+ * 11. Required for `a`.
+ */
+
+.button {
+    /* 1 */
+    -webkit-appearance: none;
+    /* 2 */
+    margin: 0;
+    /* 3 */
+    border: none;
+    /* 4 */
+    overflow: visible;
+    /* 5 */
+    font: inherit;
+    color: @button-color;
+    /* 6 */
+    text-transform: none;
+    /* 7 */
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 @button-padding-horizontal;
+    background: @button-background;
+    font-weight: @button-font-weight;
+    vertical-align: middle;
+    /* 8 */
+    line-height: @button-line-height;
+    /* 9 */
+    min-height: @button-height;
+    /* 10 */
+    font-size: @button-font-size;
+    /* 11 */
+    text-decoration: none;
+    text-align: center;
+    .hook-button;
+}
+
+.button:not(:disabled) { cursor: pointer; }
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Remove default focus style
+ * 3. Required for `a` elements
+ */
+
+.button:hover,
+.button:focus { // 1
+    background-color: @button-hover-background;
+    color: @button-hover-color;
+    /* 2 */
+    outline: none;
+    /* 3 */
+    text-decoration: none;
+    .hook-button-hover;
+}
+
+/* Active */
+.button:active,
+.button.is-active {
+    background-color: @button-active-background;
+    color: @button-active-color;
+    .hook-button-active;
+}
+
+
+/* Color modifiers
+ ========================================================================== */
+
+/*
+ * Modifier: `button--primary`
+ */
+
+.button--primary {
+    background-color: @button-primary-background;
+    color: @button-primary-color;
+    .hook-button-primary;
+}
+
+/* Hover */
+.button--primary:hover,
+.button--primary:focus {
+    background-color: @button-primary-hover-background;
+    color: @button-primary-hover-color;
+    .hook-button-primary-hover;
+}
+
+/* Active */
+.button--primary:active,
+.button--primary.is-active {
+    background-color: @button-primary-active-background;
+    color: @button-primary-active-color;
+    .hook-button-primary-active;
+}
+
+/*
+ * Modifier: `button--success`
+ */
+
+.button--success {
+    background-color: @button-success-background;
+    color: @button-success-color;
+    .hook-button-success;
+}
+
+/* Hover */
+.button--success:hover,
+.button--success:focus {
+    background-color: @button-success-hover-background;
+    color: @button-success-hover-color;
+    .hook-button-success-hover;
+}
+
+/* Active */
+.button--success:active,
+.button--success.is-active {
+    background-color: @button-success-active-background;
+    color: @button-success-active-color;
+    .hook-button-success-active;
+}
+
+/*
+ * Modifier: `button--danger`
+ */
+
+.button--danger {
+    background-color: @button-danger-background;
+    color: @button-danger-color;
+    .hook-button-danger;
+}
+
+/* Hover */
+.button--danger:hover,
+.button--danger:focus {
+    background-color: @button-danger-hover-background;
+    color: @button-danger-hover-color;
+    .hook-button-danger-hover;
+}
+
+/* Active */
+.button--danger:active,
+.button--danger.is-active {
+    background-color: @button-danger-active-background;
+    color: @button-danger-active-color;
+    .hook-button-danger-active;
+}
+
+
+/* Disabled state
+ * Overrides also the color modifiers
+ ========================================================================== */
+
+/* Equal for all button types */
+.button:disabled {
+    background-color: @button-disabled-background;
+    color: @button-disabled-color;
+    .hook-button-disabled;
+}
+
+
+/* Modifier: `button--link`
+ ========================================================================== */
+
+ /* Reset */
+.button--link,
+.button--link:hover,
+.button--link:focus,
+.button--link:active,
+.button--link.is-active,
+.button--link:disabled {
+    border-color: transparent;
+    background: none;
+    .hook-button-link-reset;
+}
+
+/* Color */
+.button--link { color: @button-link-color; }
+
+.button--link:hover,
+.button--link:focus,
+.button--link:active,
+.button--link.is-active {
+    color: @button-link-hover-color;
+    text-decoration: @button-link-hover-text-decoration;
+}
+
+.button--link:disabled { color: @button-link-disabled-color; }
+
+/* Focus */
+.button--link:focus { outline: 1px dotted; }
+
+
+/* Size modifiers
+ ========================================================================== */
+
+.button--mini {
+    min-height: @button-mini-height;
+    padding: 0 @button-mini-padding-horizontal;
+    line-height: @button-mini-line-height;
+    font-size: @button-mini-font-size;
+}
+
+.button--small {
+    min-height: @button-small-height;
+    padding: 0 @button-small-padding-horizontal;
+    line-height: @button-small-line-height;
+    font-size: @button-small-font-size;
+}
+
+.button--large {
+    min-height: @button-large-height;
+    padding: 0 @button-large-padding-horizontal;
+    line-height: @button-large-line-height;
+    font-size: @button-large-font-size;
+}
+
+
+/* Super-object `button-group`
+ ========================================================================== */
+
+/*
+ * 1. Behave like buttons
+ * 2. Create position context for dropdowns
+ * 3. Remove whitespace between child elements when using `inline-block`
+ * 4. Prevent buttons from wrapping
+ * 5. Remove any default styles that might be present when `ol` or `ul` are the
+ *    root element.
+ */
+
+.button-group {
+    /* 1 */
+    display: inline-block;
+    vertical-align: middle;
+    /* 2 */
+    position: relative;
+    /* 3 */
+    font-size: 0.001px;
+    /* 4 */
+    white-space: nowrap;
+    /* 5 */
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.button-group__item { display: inline-block; }
+
+/*
+ * Reset border-radius
+ */
+
+.button-group > .button:not(:first-child):not(:last-child),
+.button-group__item:not(:first-child):not(:last-child) .button { border-radius: 0; }
+
+.button-group > .button:first-child,
+.button-group__item:first-child .button {
+    border-bottom-@{end}-radius: 0;
+}
+
+.button-group > .button:last-child,
+.button-group__item:last-child .button {
+    border-top-@{start}-radius: 0;
+}
+
+/*
+ * Create position context to superimpose the successor elements border
+ * Known issue: If you use an `a` element as button and an icon inside,
+ * the active state will not work if you click the icon inside the button
+ * Workaround: Just use a `button` or `input` element as button
+ */
+
+.button-group .button:active { position: relative; }
+
+
+/* Modifier: `button-group--horizontal`
+ ========================================================================== */
+
+/*
+ * 1. Remove whitespace between child elements when using `inline-block`
+ */
+
+.button-group--horizontal .button {
+    display: inline-block;
+    /* 1 */
+    vertical-align: top;
+}
+
+/*
+ * Reset border-radius
+ */
+
+.button-group--horizontal > .button:first-child,
+.button-group--horizontal .button-group__item:first-child .button {
+    border-top-@{end}-radius: 0;
+}
+
+.button-group--horizontal > .button:last-child,
+.button-group--horizontal .button-group__item:last-child .button {
+    border-bottom-@{start}-radius: 0;
+}
+
+/*
+ * Collapse border
+ */
+
+.button-group--horizontal > .button:nth-child(n+2),
+.button-group--horizontal .button-group__item:nth-child(n+2) .button { margin-@{start}: -@button-group-border-width; }
+
+
+/* Modifier: `button-group--vertical`
+ ========================================================================== */
+
+.button-group--vertical .button {
+    display: block;
+    width: 100%;
+}
+
+/*
+ * Reset border-radius
+ */
+
+.button-group--vertical > .button:first-child,
+.button-group--vertical .button-group__item:first-child .button {
+    border-bottom-@{start}-radius: 0;
+}
+
+.button-group--vertical > .button:last-child,
+.button-group--vertical .button-group__item:last-child .button {
+    border-top-@{end}-radius: 0;
+}
+
+/*
+ * Collapse border
+ */
+
+.button-group--vertical > .button:nth-child(n+2),
+.button-group--vertical .button-group__item:nth-child(n+2) .button { margin-top: -@button-group-border-width; }
+
+
+/* Super-object: `button-dropdown`
+ ========================================================================== */
+
+/*
+ * 1. Behave like buttons
+ * 2. Create position context for dropdowns
+ */
+
+.button-dropdown {
+    /* 1 */
+    display: inline-block;
+    vertical-align: middle;
+    /* 2 */
+    position: relative;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-button-misc;
+
+.hook-button() {}
+.hook-button-hover() {}
+.hook-button-active() {}
+.hook-button-primary() {}
+.hook-button-primary-hover() {}
+.hook-button-primary-active() {}
+.hook-button-success() {}
+.hook-button-success-hover() {}
+.hook-button-success-active() {}
+.hook-button-danger() {}
+.hook-button-danger-hover() {}
+.hook-button-danger-active() {}
+.hook-button-disabled() {}
+.hook-button-link-reset() {}
+.hook-button-misc() {}

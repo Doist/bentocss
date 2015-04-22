@@ -1,0 +1,186 @@
+// Name:            Table
+// Description:     Defines styles for tables
+//
+// Namespace:       `table`
+//
+// Sub-objects:     `table__item` (implied)
+//
+// Modifiers:       `table--hover`
+//                  `table--striped`
+//                  `table--small`
+//                  `table__item--middle`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/table.less
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_base-tables.scss
+// https://github.com/inuitcss/objects.tables/blob/0.2.1/_objects.tables.scss
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@table-th-font-weight:                          @base-bold-font-weight;
+
+@table-border-width:                            @base-border-width;
+@table-border-style:                            solid;
+@table-border-color:                            @base-color-border;
+
+@table-margin-vertical:                         15/@px;
+@table-padding-vertical:                        8/@px;
+@table-padding-horizontal:                      8/@px;
+
+@table-caption-color:                           @base-color-text-muted;
+@table-caption-font-size:                       12/@px;
+
+@table-striped-background:                      @base-color-background-light;
+
+@table-padding-small-vertical:                  4/@px;
+@table-padding-small-horizontal:                8/@px;
+
+@table-hover-background:                        @base-color-background-light-hover;
+
+
+/* ========================================================================
+   Component: Table
+ ========================================================================== */
+
+/* Normalize
+ ========================================================================== */
+
+/*
+ * Remove most spacing between table cells.
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td,
+th {
+    padding: 0;
+}
+
+
+/* Style
+ ========================================================================== */
+
+/*
+ * 1. Remove most spacing between table cells.
+ * 2. Block element behavior
+ * 3. Style
+ */
+
+.table {
+	/* 1 */
+    border-collapse: collapse;
+    border-spacing: 0;
+    /* 2 */
+    width: 100%;
+    /* 3 */
+    margin-bottom: @table-margin-vertical;
+}
+
+/*
+ * Add margin if adjacent element
+ */
+
+* + .table { margin-top: @table-margin-vertical; }
+
+.table th,
+.table td {
+    padding: @table-padding-vertical @table-padding-horizontal;
+}
+
+/*
+ * Set alignment
+ */
+
+.table th {
+    text-align: @start;
+    font-weight: @table-th-font-weight;
+}
+.table td { vertical-align: top; }
+
+.table thead th { vertical-align: bottom; }
+
+/*
+ * Caption and footer
+ */
+
+.table caption,
+.table tfoot {
+    font-size: @table-caption-font-size;
+    font-style: italic;
+}
+
+.table caption {
+    text-align: @start;
+    color: @table-caption-color;
+}
+
+
+/* Modifier: `table--fixed`
+ ========================================================================== */
+
+.table--fixed { table-layout: fixed; }
+
+
+/* Border modifiers
+ * Modifiers: `table--cells`, `table--columns`, `table--rows`
+ ========================================================================== */
+
+.table--cells th,
+.table--cells td {
+    border: @table-border-width @table-border-style @table-border-color;
+}
+
+.table--columns th,
+.table--columns td {
+    border: 0 @table-border-style @table-border-color;
+    border-width: 0 @table-border-width;
+}
+
+.table--rows th,
+.table--rows td {
+    border-bottom: @table-border-width @table-border-style @table-border-color;
+}
+
+
+/* Modifier: `table--striped`
+ ========================================================================== */
+
+.table--striped tbody tr:nth-of-type(odd) { background: @table-striped-background; }
+
+
+/* Modifier: `table--hover`
+ ========================================================================== */
+
+.table--hover tbody tr:hover { background: @table-hover-background; }
+
+
+/* Spacing modifiers
+ * Modifiers: `table--small`
+ ========================================================================== */
+
+.table--small td { padding: @table-padding-small-vertical @table-padding-small-horizontal; }
+
+
+/* Sub-modifier: `table__item--middle`
+ ========================================================================== */
+
+.table__item--middle,
+.table__item--middle td { vertical-align: middle !important; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-table-misc;
+
+.hook-table-misc() {}

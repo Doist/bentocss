@@ -1,0 +1,651 @@
+// Name:            Size
+// Description:     Collection of size utility classes
+//
+// Namespace:       `width-*`
+//                  `height-*`
+//                  `size-*`
+//                  `responsive-*`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/grid.less
+// https://github.com/suitcss/utils-size/tree/0.7.2
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@layout-height-viewport-min-height:             600/@px;
+
+
+/* ========================================================================
+   Util: Size
+ ========================================================================== */
+
+/*
+ * Proportional widths
+ *
+ * Objects: `width-*`
+ ========================================================================== */
+
+/*
+ * Supports: 2, 3, 4, 5, 6, 8, 10, 12 part
+ */
+
+[class^="width-"],
+[class*=" width-"] {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/*
+ * Widths
+ */
+
+/* Whole */
+.width-full,
+.width-1-1 { width: 100%; }
+
+/* Halves */
+.width-1-2,
+.width-2-4,
+.width-3-6,
+.width-4-8,
+.width-5-10,
+.width-6-12 { width: 50%; }
+
+/* Thirds */
+.width-1-3,
+.width-2-6,
+.width-4-12 { width: 33.333%; }
+.width-2-3,
+.width-4-6,
+.width-8-12 { width: 66.666%; }
+
+/* Quarters */
+.width-1-4,
+.width-2-8,
+.width-3-12 { width: 25%; }
+.width-3-4,
+.width-6-8,
+.width-9-12 { width: 75%; }
+
+/* Fifths */
+.width-1-5,
+.width-2-10 { width: 20%; }
+.width-2-5,
+.width-4-10 { width: 40%; }
+.width-3-5,
+.width-6-10 { width: 60%; }
+.width-4-5,
+.width-8-10 { width: 80%; }
+
+/* Sixths */
+.width-1-6,
+.width-2-12 { width: 16.666%; }
+.width-5-6,
+.width-10-12 { width: 83.333%; }
+
+/* Eighths */
+.width-1-8 { width: 12.5%; }
+.width-3-8 { width: 37.5%; }
+.width-5-8 { width: 62.5%; }
+.width-7-8 { width: 87.5%; }
+
+/* Tenths */
+.width-1-10 { width: 10%; }
+.width-3-10 { width: 30%; }
+.width-7-10 { width: 70%; }
+.width-9-10 { width: 90%; }
+
+/* Twelfths */
+.width-1-12 { width: 8.333%; }
+.width-5-12 { width: 41.666%; }
+.width-7-12 { width: 58.333%; }
+.width-11-12 { width: 91.666%; }
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    /* Whole */
+    .width-small-full,
+    .width-small-1-1 { width: 100%; }
+
+    /* Halves */
+    .width-small-1-2,
+    .width-small-2-4,
+    .width-small-3-6,
+    .width-small-4-8,
+    .width-small-5-10,
+    .width-small-6-12 { width: 50%; }
+
+    /* Thirds */
+    .width-small-1-3,
+    .width-small-2-6,
+    .width-small-4-12 { width: 33.333%; }
+    .width-small-2-3,
+    .width-small-4-6,
+    .width-small-8-12 { width: 66.666%; }
+
+    /* Quarters */
+    .width-small-1-4,
+    .width-small-2-8,
+    .width-small-3-12 { width: 25%; }
+    .width-small-3-4,
+    .width-small-6-8,
+    .width-small-9-12 { width: 75%; }
+
+    /* Fifths */
+    .width-small-1-5,
+    .width-small-2-10 { width: 20%; }
+    .width-small-2-5,
+    .width-small-4-10 { width: 40%; }
+    .width-small-3-5,
+    .width-small-6-10 { width: 60%; }
+    .width-small-4-5,
+    .width-small-8-10 { width: 80%; }
+
+    /* Sixths */
+    .width-small-1-6,
+    .width-small-2-12 { width: 16.666%; }
+    .width-small-5-6,
+    .width-small-10-12 { width: 83.333%; }
+
+    /* Eighths */
+    .width-small-1-8 { width: 12.5%; }
+    .width-small-3-8 { width: 37.5%; }
+    .width-small-5-8 { width: 62.5%; }
+    .width-small-7-8 { width: 87.5%; }
+
+    /* Tenths */
+    .width-small-1-10 { width: 10%; }
+    .width-small-3-10 { width: 30%; }
+    .width-small-7-10 { width: 70%; }
+    .width-small-9-10 { width: 90%; }
+
+    /* Twelfths */
+    .width-small-1-12 { width: 8.333%; }
+    .width-small-5-12 { width: 41.666%; }
+    .width-small-7-12 { width: 58.333%; }
+    .width-small-11-12 { width: 91.666%; }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    /* Whole */
+    .width-medium-full,
+    .width-medium-1-1 { width: 100%; }
+
+    /* Halves */
+    .width-medium-1-2,
+    .width-medium-2-4,
+    .width-medium-3-6,
+    .width-medium-4-8,
+    .width-medium-5-10,
+    .width-medium-6-12 { width: 50%; }
+
+    /* Thirds */
+    .width-medium-1-3,
+    .width-medium-2-6,
+    .width-medium-4-12 { width: 33.333%; }
+    .width-medium-2-3,
+    .width-medium-4-6,
+    .width-medium-8-12 { width: 66.666%; }
+
+    /* Quarters */
+    .width-medium-1-4,
+    .width-medium-2-8,
+    .width-medium-3-12 { width: 25%; }
+    .width-medium-3-4,
+    .width-medium-6-8,
+    .width-medium-9-12 { width: 75%; }
+
+    /* Fifths */
+    .width-medium-1-5,
+    .width-medium-2-10 { width: 20%; }
+    .width-medium-2-5,
+    .width-medium-4-10 { width: 40%; }
+    .width-medium-3-5,
+    .width-medium-6-10 { width: 60%; }
+    .width-medium-4-5,
+    .width-medium-8-10 { width: 80%; }
+
+    /* Sixths */
+    .width-medium-1-6,
+    .width-medium-2-12 { width: 16.666%; }
+    .width-medium-5-6,
+    .width-medium-10-12 { width: 83.333%; }
+
+    /* Eighths */
+    .width-medium-1-8 { width: 12.5%; }
+    .width-medium-3-8 { width: 37.5%; }
+    .width-medium-5-8 { width: 62.5%; }
+    .width-medium-7-8 { width: 87.5%; }
+
+    /* Tenths */
+    .width-medium-1-10 { width: 10%; }
+    .width-medium-3-10 { width: 30%; }
+    .width-medium-7-10 { width: 70%; }
+    .width-medium-9-10 { width: 90%; }
+
+    /* Twelfths */
+    .width-medium-1-12 { width: 8.333%; }
+    .width-medium-5-12 { width: 41.666%; }
+    .width-medium-7-12 { width: 58.333%; }
+    .width-medium-11-12 { width: 91.666%; }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    /* Whole */
+    .width-large-full,
+    .width-large-1-1 { width: 100%; }
+
+    /* Halves */
+    .width-large-1-2,
+    .width-large-2-4,
+    .width-large-3-6,
+    .width-large-4-8,
+    .width-large-5-10,
+    .width-large-6-12 { width: 50%; }
+
+    /* Thirds */
+    .width-large-1-3,
+    .width-large-2-6,
+    .width-large-4-12 { width: 33.333%; }
+    .width-large-2-3,
+    .width-large-4-6,
+    .width-large-8-12 { width: 66.666%; }
+
+    /* Quarters */
+    .width-large-1-4,
+    .width-large-2-8,
+    .width-large-3-12 { width: 25%; }
+    .width-large-3-4,
+    .width-large-6-8,
+    .width-large-9-12 { width: 75%; }
+
+    /* Fifths */
+    .width-large-1-5,
+    .width-large-2-10 { width: 20%; }
+    .width-large-2-5,
+    .width-large-4-10 { width: 40%; }
+    .width-large-3-5,
+    .width-large-6-10 { width: 60%; }
+    .width-large-4-5,
+    .width-large-8-10 { width: 80%; }
+
+    /* Sixths */
+    .width-large-1-6,
+    .width-large-2-12 { width: 16.666%; }
+    .width-large-5-6,
+    .width-large-10-12 { width: 83.333%; }
+
+    /* Eighths */
+    .width-large-1-8 { width: 12.5%; }
+    .width-large-3-8 { width: 37.5%; }
+    .width-large-5-8 { width: 62.5%; }
+    .width-large-7-8 { width: 87.5%; }
+
+    /* Tenths */
+    .width-large-1-10 { width: 10%; }
+    .width-large-3-10 { width: 30%; }
+    .width-large-7-10 { width: 70%; }
+    .width-large-9-10 { width: 90%; }
+
+    /* Twelfths */
+    .width-large-1-12 { width: 8.333%; }
+    .width-large-5-12 { width: 41.666%; }
+    .width-large-7-12 { width: 58.333%; }
+    .width-large-11-12 { width: 91.666%; }
+
+}
+
+/* Large desktop and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    /* Whole */
+    .width-xlarge-full,
+    .width-xlarge-1-1 { width: 100%; }
+
+    /* Halves */
+    .width-xlarge-1-2,
+    .width-xlarge-2-4,
+    .width-xlarge-3-6,
+    .width-xlarge-4-8,
+    .width-xlarge-5-10,
+    .width-xlarge-6-12 { width: 50%; }
+
+    /* Thirds */
+    .width-xlarge-1-3,
+    .width-xlarge-2-6,
+    .width-xlarge-4-12 { width: 33.333%; }
+    .width-xlarge-2-3,
+    .width-xlarge-4-6,
+    .width-xlarge-8-12 { width: 66.666%; }
+
+    /* Quarters */
+    .width-xlarge-1-4,
+    .width-xlarge-2-8,
+    .width-xlarge-3-12 { width: 25%; }
+    .width-xlarge-3-4,
+    .width-xlarge-6-8,
+    .width-xlarge-9-12 { width: 75%; }
+
+    /* Fifths */
+    .width-xlarge-1-5,
+    .width-xlarge-2-10 { width: 20%; }
+    .width-xlarge-2-5,
+    .width-xlarge-4-10 { width: 40%; }
+    .width-xlarge-3-5,
+    .width-xlarge-6-10 { width: 60%; }
+    .width-xlarge-4-5,
+    .width-xlarge-8-10 { width: 80%; }
+
+    /* Sixths */
+    .width-xlarge-1-6,
+    .width-xlarge-2-12 { width: 16.666%; }
+    .width-xlarge-5-6,
+    .width-xlarge-10-12 { width: 83.333%; }
+
+    /* Eighths */
+    .width-xlarge-1-8 { width: 12.5%; }
+    .width-xlarge-3-8 { width: 37.5%; }
+    .width-xlarge-5-8 { width: 62.5%; }
+    .width-xlarge-7-8 { width: 87.5%; }
+
+    /* Tenths */
+    .width-xlarge-1-10 { width: 10%; }
+    .width-xlarge-3-10 { width: 30%; }
+    .width-xlarge-7-10 { width: 70%; }
+    .width-xlarge-9-10 { width: 90%; }
+
+    /* Twelfths */
+    .width-xlarge-1-12 { width: 8.333%; }
+    .width-xlarge-5-12 { width: 41.666%; }
+    .width-xlarge-7-12 { width: 58.333%; }
+    .width-xlarge-11-12 { width: 91.666%; }
+
+}
+
+
+/*
+ * Intrinsic widths
+ *
+ * Objects: `size-*`
+ ========================================================================== */
+
+/*
+ * Make an element shrink wrap its content.
+ */
+
+.size-fit-start,
+.size-fit-end {
+    display: block;
+    width: auto;
+}
+
+.size-fit-start {
+    float: @start;
+}
+
+.size-fit-end {
+    float: @end;
+}
+
+/*
+ * Make an element fill the remaining space.
+ * N.B. This will hide overflow.
+ */
+
+.size-fill {
+    display: block;
+    overflow: hidden;
+    width: auto;
+}
+
+/*
+ * An alternative method to make an element fill the remaining space.
+ * N.B. Do not use if child elements might be wider than the remaining space.
+ * In Chrome, Safari, and Firefox it results in undesired layout.
+ */
+
+.size-fill-alt {
+    display: table-cell;
+    max-width: 100%;
+    width: 10000px;
+}
+
+/**
+ * Make an element the width of its parent.
+ */
+
+.size-full {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+}
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .size-small-fit-start,
+    .size-small-fit-end {
+        display: block;
+        width: auto;
+    }
+
+    .size-small-fit-start {
+        float: @start;
+    }
+
+    .size-small-fit-end {
+        float: @end;
+    }
+
+    .size-small-fill {
+        display: block;
+        overflow: hidden;
+        width: auto;
+    }
+
+    .size-small-fill-alt {
+        display: table-cell;
+        max-width: 100%;
+        width: 10000px;
+    }
+
+    .size-small-full {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .size-medium-fit-start,
+    .size-medium-fit-end {
+        display: block;
+        width: auto;
+    }
+
+    .size-medium-fit-start {
+        float: @start;
+    }
+
+    .size-medium-fit-end {
+        float: @end;
+    }
+
+    .size-medium-fill {
+        display: block;
+        overflow: hidden;
+        width: auto;
+    }
+
+    .size-medium-fill-alt {
+        display: table-cell;
+        max-width: 100%;
+        width: 10000px;
+    }
+
+    .size-medium-full {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+    }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    .size-large-fit-start,
+    .size-large-fit-end {
+        display: block;
+        width: auto;
+    }
+
+    .size-large-fit-start {
+        float: @start;
+    }
+
+    .size-large-fit-end {
+        float: @end;
+    }
+
+    .size-large-fill {
+        display: block;
+        overflow: hidden;
+        width: auto;
+    }
+
+    .size-large-fill-alt {
+        display: table-cell;
+        max-width: 100%;
+        width: 10000px;
+    }
+
+    .size-large-full {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+    }
+
+}
+
+/* Large desktop and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    .size-xlarge-fit-start,
+    .size-small-fit-end {
+        display: block;
+        width: auto;
+    }
+
+    .size-xlarge-fit-start {
+        float: @start;
+    }
+
+    .size-xlarge-fit-end {
+        float: @end;
+    }
+
+    .size-xlarge-fill {
+        display: block;
+        overflow: hidden;
+        width: auto;
+    }
+
+    .size-xlarge-fill-alt {
+        display: table-cell;
+        max-width: 100%;
+        width: 10000px;
+    }
+
+    .size-xlarge-full {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+    }
+
+}
+
+
+/* Height
+ ========================================================================== */
+
+/*
+ * More robust if padding and border are used
+ */
+
+[class^='height-'],
+[class*=' height-'] {
+    box-sizing: border-box;
+}
+
+/*
+ * Useful to extend the `html` and `body` element to the full height of the page.
+ */
+
+.height-1-1 { height: 100%; }
+
+/*
+ * Useful to create image teasers
+ */
+
+.height-viewport {
+    height: 100vh;
+    min-height: @layout-height-viewport-min-height;
+}
+
+
+/* Responsive objects
+ ========================================================================== */
+
+/*
+ * 1. Corrects `max-width` and `max-height` behavior if padding and border are used
+ */
+
+.responsive-width,
+.responsive-height {
+    box-sizing: border-box;
+}
+
+/*
+ * Responsiveness: Sets a maximum width relative to the parent and auto scales the height
+ */
+
+.responsive-width {
+    max-width: 100%;
+    height: auto;
+}
+
+/*
+ * Responsiveness: Sets a maximum height relative to the parent and auto scales the width
+ * Only works if the parent element has a fixed height.
+ */
+
+.responsive-height {
+    max-height: 100%;
+    width: auto;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-util-size;
+
+.hook-util-size() {}

@@ -1,0 +1,311 @@
+// Name:            Arrange
+// Description:     Arranges/aligns horizontal cells, a bit like display:flex but display:table based
+//
+// Namespace:       `arrange`
+//
+// Sub-objects:     `arrange__size-fill`
+//                  `arrange__size-fit`
+//                  `arrange__intrinsic-fill`
+//                  `arrange__intrinsic-fit`
+//                  `arrange__intrinsic-stretch`
+//
+// Modifiers:       `arrange--bottom`
+//                  `arrange--middle`
+//                  `arrange--equal`
+//                  `arrange--gutter-collapse`
+//                  `arrange--gutter-medium`
+//                  `arrange--gutter-small`
+//
+// Dependencies:    vars-base
+//
+// Markup:
+//
+// <!-- arrange -->
+// <div class="arrange arrange--middle [arrange--gutter-medium]">
+//     <div class="arrange__size-fit">
+//         <img class="arrange__intrinsic-fit" src="img.png" alt="">
+//     </div>
+//     <div class="arrange__size-fill">
+//         Nicolas Gallagher @necolas
+//     </div>
+// </div>
+//
+// <!-- arrange--equal -->
+// <ul class="arrange arrange--equal">
+//     <li class="arrange__size-fill">
+//         <button class="button width-full">Reply</button>
+//     </li>
+//     <li class="arrange__size-fill">
+//         <button class="button width-full">Like</button>
+//     </li>
+//     <li class="arrange__size-fill">
+//         <button class="button width-full">Save</button>
+//     </li>
+// </ul>
+//
+// Based on:
+//
+// https://github.com/suitcss/components-arrange/blob/0.6.2/lib/arrange.css
+//
+// Notes:
+//
+// Makes use of child combinator `>` to allow for component nesting.
+//
+// Parent modifiers (indirect) `.arrange--middle > .arrange__size-fill`
+// could be by replaced by less convenient per-child modifiers (direct)
+// `.arrange__item--middle`.
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@arrange-gutter-horizontal:                     @base-gutter;
+@arrange-gutter-vertical:                       @base-gutter;
+
+@arrange-gutter-large-horizontal:               @base-gutter-large;
+@arrange-gutter-large-vertical:                 @base-gutter-large;
+
+@arrange-gutter-small-horizontal:               @base-gutter-small;
+@arrange-gutter-small-vertical:                 @base-gutter-small;
+
+
+/* ========================================================================
+   Component: Arrange
+ ========================================================================== */
+
+/*
+ * This component lets you lay out a row of cells in various ways. You can
+ * specify whether a cell should be wide enough to fit its content, or take up
+ * the remaining space in the row. It's also possible to give all cells an
+ * equal width, and to control their vertical alignment.
+ */
+
+/*
+ * 1. Protect against the component expanding beyond the confines of its
+ *    container if properties affecting the box-model are applied to the
+ *    component. Mainly necessary because of (5).
+ * 2. Rely on table layout.
+ * 3. Zero out the default spacing that might be on an element (e.g., `ul`).
+ * 4. Make sure the component fills at least the full width of its parent.
+ * 5. Reset the table-layout algorithm in case a component is nested.
+ */
+
+.arrange {
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */
+    display: table;
+    /* 3 */
+    margin: 0;
+    padding: 0;
+    /* 4 */
+    min-width: 100%;
+    /* 5 */
+    table-layout: auto;
+}
+
+/*
+ * There are two possible types of child. `arrange__size-fill` will expand to fill all
+ * of the remaining space not filled by `arrange_size-fit` elements.
+ *
+ * 1. Zero out any default spacing that might be on an element (e.g., `li`);
+ *    Margin has no effect when coupled with `display: table-cell`.
+ * 2. All cells are top-aligned by default
+ */
+
+.arrange__size-fill,
+.arrange__size-fit {
+    display: table-cell;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+    vertical-align: top;
+}
+
+/*
+ * Make sure the main content block expands to fill the remaining space.
+ */
+
+.arrange__size-fill {
+    width: 100%;
+}
+
+/*
+ * Where possible, protect against large images breaking the layout. Prevent them from
+ * exceeding the width of the main content block by making them fluid.
+ *
+ * Only work for all browsers with the `arrange--equal` variant. For Firefox
+ * and IE to constrain image dimensions for other layouts, large images will
+ * need their width set to `100%`.
+ */
+
+.arrange__intrinsic-fill {
+    height: auto;
+    max-width: 100%;
+}
+
+.arrange__intrinsic-stretch {
+    height: auto;
+    width: 100%;
+}
+
+/*
+ * Defend against a side-effect of this layout pattern: images in
+ * 'arrange__size-fit' cannot be fluid, otherwise they lose their ability to
+ * provide size to a cell.
+ */
+
+.arrange__intrinsic-fit {
+    max-width: none !important;
+    width: auto !important;
+}
+
+
+/* Vertical alignment modifiers
+ * Modifier: `arrange--middle`, `arrange--bottom`
+ ============================================================================ */
+
+.arrange--middle > .arrange__size-fill,
+.arrange--middle > .arrange__size-fit {
+    vertical-align: middle;
+}
+
+.arrange--bottom > .arrange__size-fill,
+.arrange--bottom > .arrange__size-fit {
+    vertical-align: bottom;
+}
+
+
+/* Equal-width modifier
+ * Modifier: `arrange--equal`
+ ============================================================================ */
+
+/*
+ * This layout algorithm will create equal-width table cells, irrespective of
+ * the width of their content.
+ *
+ * 1. The layout algorithm requires a set width to correctly calculate table
+ *    cell width.
+ */
+
+.arrange--equal {
+    table-layout: fixed;
+    /* 1 */
+    width: 100%;
+}
+
+/*
+ * Give the cells an equal width. This value ensures that Arrange is still 100%
+ * wide when gutters are used in conjunctions with equal-width cells.
+ *
+ * It's recommended that only 'arrange__size-fill' be used for equal width cells.
+ * Their inner images will automatically be responsive.
+ */
+
+.arrange--equal > .arrange__size-fill,
+.arrange--equal > .arrange__size-fit {
+    width: 1%;
+}
+
+
+/* Arrange gutter
+ ============================================================================ */
+
+/*
+ * Add a gutter between cells
+ *
+ * NOTE: this can trigger a horizontal scrollbar if the component is as wide as
+ * the viewport. Use padding on a container, or `overflow-x:hidden` to protect
+ * against it.
+ */
+
+/*
+ * Default gutter
+ */
+
+/* Horizontal */
+.arrange { margin-@{start}: -@arrange-gutter-horizontal; }
+
+.arrange__size-fit,
+.arrange__size-fill {
+    padding-@{start}: @arrange-gutter-horizontal;
+}
+
+/* Vertical */
+.arrange { margin-bottom: @arrange-gutter-vertical; }
+
+/* Large screen and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    /* Horizontal */
+    .arrange { margin-@{start}: -@arrange-gutter-large-horizontal; }
+
+    .arrange__size-fit,
+    .arrange__size-fill {
+        padding-@{start}: @arrange-gutter-large-horizontal;
+    }
+
+    /* Vertical */
+    .arrange { margin-bottom: @arrange-gutter-large-vertical; }
+
+}
+
+
+/* Modifiers: `arrange--gutter-collapse`, `arrange--gutter-medium`,
+ * `arrange--gutter-small`
+ ============================================================================ */
+
+/*
+ * Collapse gutter
+ */
+
+/* Horizontal */
+.arrange--gutter-collapse { margin-@{start}: 0; }
+
+.arrange--gutter-collapse > .arrange__size-fit,
+.arrange--gutter-collapse > .arrange__size-fill {
+    padding-@{start}: 0;
+}
+
+/* Vertical */
+.arrange--gutter-collapse { margin-bottom: 0; }
+
+/*
+ * Small gutter
+ */
+
+/* Horizontal */
+.arrange--gutter-small { margin-@{start}: -@arrange-gutter-small-horizontal; }
+
+.arrange--gutter-small > .arrange__size-fit,
+.arrange--gutter-small > .arrange__size-fill {
+    padding-@{start}: @arrange-gutter-small-horizontal;
+}
+
+/* Vertical */
+.arrange--gutter-small { margin-bottom: @arrange-gutter-small-vertical; }
+
+/*
+ * Medium gutter
+ */
+
+/* Horizontal */
+.arrange--gutter-medium { margin-@{start}: -@arrange-gutter-horizontal; }
+
+.arrange--gutter-medium > .arrange__size-fit,
+.arrange--gutter-medium > .arrange__size-fill {
+    padding-@{start}: @arrange-gutter-horizontal;
+}
+
+/* Vertical */
+.arrange--gutter-medium { margin-bottom: @arrange-gutter-vertical; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-arrange-misc;
+
+.hook-arrange-misc() {}
