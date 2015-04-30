@@ -58,22 +58,22 @@
    Component: Flex
  ========================================================================== */
 
-.c-flex-display-flex() {
+.flex-display-flex() {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
 }
 
-.c-flex-display-inline-flex() {
+.flex-display-inline-flex() {
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
     display: inline-flex;
 }
 
-.flex { .c-flex-display-flex; }
-.flex-inline { .c-flex-display-inline-flex; }
+.flex { .flex-display-flex; }
+.flex-inline { .flex-display-inline-flex; }
 
 /*
  * Fixes initial flex-shrink value in IE10
@@ -85,8 +85,8 @@
 /* Phone landscape and bigger */
 @media (min-width: @breakpoint-small) {
 
-    .flex-small { .c-flex-display-flex; }
-    .flex-small-inline { .c-flex-display-inline-flex; }
+    .flex-small { .flex-display-flex; }
+    .flex-small-inline { .flex-display-inline-flex; }
 
     .flex-small > *,
     .flex-small-inline > * { -ms-flex-negative: 1; }
@@ -96,8 +96,8 @@
 /* Tablet and bigger */
 @media (min-width: @breakpoint-medium) {
 
-    .flex-medium { .c-flex-display-flex; }
-    .flex-medium-inline { .c-flex-display-inline-flex; }
+    .flex-medium { .flex-display-flex; }
+    .flex-medium-inline { .flex-display-inline-flex; }
 
     .flex-medium > *,
     .flex-medium-inline > * { -ms-flex-negative: 1; }
@@ -107,8 +107,8 @@
 /* Desktop and bigger */
 @media (min-width: @breakpoint-large) {
 
-    .flex-large { .c-flex-display-flex; }
-    .flex-large-inline { .c-flex-display-inline-flex; }
+    .flex-large { .flex-display-flex; }
+    .flex-large-inline { .flex-display-inline-flex; }
 
     .flex-large > *,
     .flex-large-inline > * { -ms-flex-negative: 1; }
@@ -118,8 +118,8 @@
 /* Large desktop and bigger */
 @media (min-width: @breakpoint-xlarge) {
 
-    .flex-xlarge { .c-flex-display-flex; }
-    .flex-xlarge-inline { .c-flex-display-inline-flex; }
+    .flex-xlarge { .flex-display-flex; }
+    .flex-xlarge-inline { .flex-display-inline-flex; }
 
     .flex-xlarge > *,
     .flex-xlarge-inline > * { -ms-flex-negative: 1; }

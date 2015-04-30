@@ -1,20 +1,24 @@
 // Name:            Arrange
-// Description:     Arranges/aligns horizontal cells, a bit like display:flex but display:table based
+// Description:     Arranges/aligns cells, a bit like display:flex but display:table based
 //
-// Namespace:       `arrange`
+// Namespace:       `arrange-*`
 //
-// Sub-objects:     `arrange__size-fill`
-//                  `arrange__size-fit`
-//                  `arrange__intrinsic-fill`
-//                  `arrange__intrinsic-fit`
-//                  `arrange__intrinsic-stretch`
+// Sub-objects:     `arrange__item`
+//                  `arrange__object-intrinsic-fill`
+//                  `arrange__object-intrinsic-fit`
+//                  `arrange__object-intrinsic-stretch`
+//                  `arrange__object-center`
+//                  `arrange__object-end`
+//                  `arrange__object-start`
 //
-// Modifiers:       `arrange--bottom`
+// Modifiers:       `arrange--fit`
+//                  `arrange--bottom`
 //                  `arrange--middle`
 //                  `arrange--equal`
-//                  `arrange--gutter-collapse`
 //                  `arrange--gutter-medium`
 //                  `arrange--gutter-small`
+//
+// Sub-modifiers:   `arrange__item--fill`
 //
 // Dependencies:    vars-base
 //
@@ -22,23 +26,23 @@
 //
 // <!-- arrange -->
 // <div class="arrange arrange--middle [arrange--gutter-medium]">
-//     <div class="arrange__size-fit">
-//         <img class="arrange__intrinsic-fit" src="img.png" alt="">
+//     <div class="arrange__item">
+//         <img class="arrange__object-intrinsic-fit" src="img.png" alt="">
 //     </div>
-//     <div class="arrange__size-fill">
+//     <div class="arrange__item arrange__item--fill">
 //         Nicolas Gallagher @necolas
 //     </div>
 // </div>
 //
 // <!-- arrange--equal -->
 // <ul class="arrange arrange--equal">
-//     <li class="arrange__size-fill">
+//     <li class="arrange__item">
 //         <button class="button width-full">Reply</button>
 //     </li>
-//     <li class="arrange__size-fill">
+//     <li class="arrange__item">
 //         <button class="button width-full">Like</button>
 //     </li>
-//     <li class="arrange__size-fill">
+//     <li class="arrange__item">
 //         <button class="button width-full">Save</button>
 //     </li>
 // </ul>
@@ -46,12 +50,16 @@
 // Based on:
 //
 // https://github.com/suitcss/components-arrange/blob/0.6.2/lib/arrange.css
+// https://github.com/inuitcss/objects.flag/tree/0.3.2
+// http://getbootstrap.com/components/#list-group
+// http://semantic-ui.com/elements/list.html
+// http://semantic-ui.com/collections/menu.html
 //
 // Notes:
 //
 // Makes use of child combinator `>` to allow for component nesting.
 //
-// Parent modifiers (indirect) `.arrange--middle > .arrange__size-fill`
+// Parent modifiers (indirect) `.arrange--middle > .arrange__item`
 // could be by replaced by less convenient per-child modifiers (direct)
 // `.arrange__item--middle`.
 //
@@ -82,6 +90,22 @@
  * equal width, and to control their vertical alignment.
  */
 
+.arrange-small,
+.arrange-medium {
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.arrange-small > .arrange__item,
+.arrange-medium > .arrange__item {
+    display: block;
+    padding: 0;
+}
+
+/* Any width */
+
 /*
  * 1. Protect against the component expanding beyond the confines of its
  *    container if properties affecting the box-model are applied to the
@@ -92,7 +116,7 @@
  * 5. Reset the table-layout algorithm in case a component is nested.
  */
 
-.arrange {
+.arrange-default {
     /* 1 */
     box-sizing: border-box;
     /* 2 */
@@ -107,16 +131,15 @@
 }
 
 /*
- * There are two possible types of child. `arrange__size-fill` will expand to fill all
- * of the remaining space not filled by `arrange_size-fit` elements.
+ * There are two possible types of child. `arrange__item--fill` will expand to fill all
+ * of the remaining space not filled by regular `arrange__item` elements.
  *
  * 1. Zero out any default spacing that might be on an element (e.g., `li`);
  *    Margin has no effect when coupled with `display: table-cell`.
  * 2. All cells are top-aligned by default
  */
 
-.arrange__size-fill,
-.arrange__size-fit {
+.arrange-default > .arrange__item {
     display: table-cell;
     /* 1 */
     padding: 0;
@@ -124,12 +147,55 @@
     vertical-align: top;
 }
 
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small {
+        display: table;
+        min-width: 100%;
+        table-layout: auto;
+    }
+
+    .arrange-small > .arrange__item {
+        display: table-cell;
+        vertical-align: top;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium {
+        display: table;
+        min-width: 100%;
+        table-layout: auto;
+    }
+
+    .arrange-medium > .arrange__item {
+        display: table-cell;
+        vertical-align: top;
+    }
+}
+
 /*
  * Make sure the main content block expands to fill the remaining space.
  */
 
-.arrange__size-fill {
-    width: 100%;
+.arrange__item--fill { width: 100%; }
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small__item--fill { width: 100%; }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium__item--fill { width: 100%; }
+
 }
 
 /*
@@ -141,25 +207,125 @@
  * need their width set to `100%`.
  */
 
-.arrange__intrinsic-fill {
+.arrange__object-intrinsic-fill {
     height: auto;
     max-width: 100%;
 }
 
-.arrange__intrinsic-stretch {
+.arrange__object-intrinsic-stretch {
     height: auto;
     width: 100%;
 }
 
 /*
- * Defend against a side-effect of this layout pattern: images in
- * 'arrange__size-fit' cannot be fluid, otherwise they lose their ability to
+ * Defend against a side-effect of this layout pattern: images in regular
+ * 'arrange__item' cannot be fluid, otherwise they lose their ability to
  * provide size to a cell.
  */
 
-.arrange__intrinsic-fit {
+.arrange__object-intrinsic-fit {
     max-width: none !important;
     width: auto !important;
+}
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small__object-intrinsic-fill {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .arrange-small__object-intrinsic-stretch {
+        height: auto;
+        width: 100%;
+    }
+
+    .arrange-small__object-intrinsic-fit {
+        max-width: none !important;
+        width: auto !important;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium__object-intrinsic-fill {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .arrange-medium__object-intrinsic-stretch {
+        height: auto;
+        width: 100%;
+    }
+
+    .arrange-medium__object-intrinsic-fit {
+        max-width: none !important;
+        width: auto !important;
+    }
+}
+
+/*
+ * Object positioning.
+ */
+
+.arrange__object-start { float: @start; }
+.arrange__object-end { float: @end; }
+
+.arrange__object-center {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small__object-start { float: @start; }
+    .arrange-small__object-end { float: @end; }
+
+    .arrange-small__object-center {
+        display: table;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium__object-start { float: @start; }
+    .arrange-medium__object-end { float: @end; }
+
+    .arrange-medium__object-center {
+        display: table;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+
+/* Width modifiers
+ * Modifier: `arrange--fit`
+ ============================================================================ */
+
+.arrange--fit { min-width: 0; }
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small--fit { min-width: 0; }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium--fit { min-width: 0; }
+
 }
 
 
@@ -167,14 +333,29 @@
  * Modifier: `arrange--middle`, `arrange--bottom`
  ============================================================================ */
 
-.arrange--middle > .arrange__size-fill,
-.arrange--middle > .arrange__size-fit {
-    vertical-align: middle;
+.arrange--baseline > .arrange__item { vertical-align: baseline; }
+.arrange--bottom > .arrange__item { vertical-align: bottom; }
+.arrange--middle > .arrange__item { vertical-align: middle; }
+.arrange--top > .arrange__item { vertical-align: top; }
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small--baseline > .arrange__item { vertical-align: baseline; }
+    .arrange-small--bottom > .arrange__item { vertical-align: bottom; }
+    .arrange-small--middle > .arrange__item { vertical-align: middle; }
+    .arrange-small--top > .arrange__item { vertical-align: top; }
+
 }
 
-.arrange--bottom > .arrange__size-fill,
-.arrange--bottom > .arrange__size-fit {
-    vertical-align: bottom;
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium--baseline > .arrange__item { vertical-align: baseline; }
+    .arrange-medium--bottom > .arrange__item { vertical-align: bottom; }
+    .arrange-medium--middle > .arrange__item { vertical-align: middle; }
+    .arrange-medium--top > .arrange__item { vertical-align: top; }
+
 }
 
 
@@ -199,14 +380,38 @@
 /*
  * Give the cells an equal width. This value ensures that Arrange is still 100%
  * wide when gutters are used in conjunctions with equal-width cells.
- *
- * It's recommended that only 'arrange__size-fill' be used for equal width cells.
- * Their inner images will automatically be responsive.
  */
 
-.arrange--equal > .arrange__size-fill,
-.arrange--equal > .arrange__size-fit {
+.arrange--equal > .arrange__item {
     width: 1%;
+}
+
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small--equal {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .arrange-small--equal > .arrange__item {
+        width: 1%;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium--equal {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .arrange-medium--equal > .arrange__item {
+        width: 1%;
+    }
+
 }
 
 
@@ -221,86 +426,52 @@
  * against it.
  */
 
-/*
- * Default gutter
- */
-
-/* Horizontal */
-.arrange { margin-@{start}: -@arrange-gutter-horizontal; }
-
-.arrange__size-fit,
-.arrange__size-fill {
-    padding-@{start}: @arrange-gutter-horizontal;
-}
-
-/* Vertical */
-.arrange { margin-bottom: @arrange-gutter-vertical; }
-
-/* Large screen and bigger */
-@media (min-width: @breakpoint-xlarge) {
-
-    /* Horizontal */
-    .arrange { margin-@{start}: -@arrange-gutter-large-horizontal; }
-
-    .arrange__size-fit,
-    .arrange__size-fill {
-        padding-@{start}: @arrange-gutter-large-horizontal;
-    }
-
-    /* Vertical */
-    .arrange { margin-bottom: @arrange-gutter-large-vertical; }
-
-}
-
-
-/* Modifiers: `arrange--gutter-collapse`, `arrange--gutter-medium`,
- * `arrange--gutter-small`
+/* Modifiers: `arrange--gutter-small`, `arrange--gutter-medium`
  ============================================================================ */
-
-/*
- * Collapse gutter
- */
-
-/* Horizontal */
-.arrange--gutter-collapse { margin-@{start}: 0; }
-
-.arrange--gutter-collapse > .arrange__size-fit,
-.arrange--gutter-collapse > .arrange__size-fill {
-    padding-@{start}: 0;
-}
-
-/* Vertical */
-.arrange--gutter-collapse { margin-bottom: 0; }
 
 /*
  * Small gutter
  */
 
 /* Horizontal */
-.arrange--gutter-small { margin-@{start}: -@arrange-gutter-small-horizontal; }
-
-.arrange--gutter-small > .arrange__size-fit,
-.arrange--gutter-small > .arrange__size-fill {
+.arrange--gutter-small > .arrange__item:nth-child(n+2) {
     padding-@{start}: @arrange-gutter-small-horizontal;
 }
-
-/* Vertical */
-.arrange--gutter-small { margin-bottom: @arrange-gutter-small-vertical; }
 
 /*
  * Medium gutter
  */
 
 /* Horizontal */
-.arrange--gutter-medium { margin-@{start}: -@arrange-gutter-horizontal; }
-
-.arrange--gutter-medium > .arrange__size-fit,
-.arrange--gutter-medium > .arrange__size-fill {
+.arrange--gutter-medium > .arrange__item:nth-child(n+2) {
     padding-@{start}: @arrange-gutter-horizontal;
 }
 
-/* Vertical */
-.arrange--gutter-medium { margin-bottom: @arrange-gutter-vertical; }
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .arrange-small--gutter-small > .arrange__item:nth-child(n+2) {
+        padding-@{start}: @arrange-gutter-small-horizontal;
+    }
+
+    .arrange-small--gutter-medium > .arrange__item:nth-child(n+2) {
+        padding-@{start}: @arrange-gutter-horizontal;
+    }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .arrange-medium--gutter-small > .arrange__item:nth-child(n+2) {
+        padding-@{start}: @arrange-gutter-small-horizontal;
+    }
+
+    .arrange-medium--gutter-medium > .arrange__item:nth-child(n+2) {
+        padding-@{start}: @arrange-gutter-horizontal;
+    }
+
+}
 
 
 // Hooks

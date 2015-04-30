@@ -2,7 +2,7 @@
 // Description:     Defines styles for lists
 //
 // Namespace:       `list`
-//                  `list-description`
+//                  `list-description` (optional, implied)
 //
 // Modifiers:       `list--line`
 //                  `list--striped`
@@ -22,8 +22,6 @@
 
 // Variables
 // ========================================================================
-
-@list-padding-start:                            20/@px;
 
 @list-line-margin-top:                          5/@px;
 @list-line-border:                              @base-color-border;
@@ -52,11 +50,6 @@
 
 /* Normalize
  ========================================================================== */
-
-ul,
-ol {
-    padding-@{start}: @list-padding-start;
-}
 
 dt { font-weight: @list-description-term-font-weight; }
 dd { margin-@{start}: 0; }

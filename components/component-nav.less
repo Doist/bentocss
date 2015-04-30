@@ -1,0 +1,499 @@
+// Name:            Nav
+// Description:     Defines styles for common navigation patterns:
+//                  lists/breadcrumbs, pills/pagination, tabs.
+//
+// Namespace:       `nav`
+//
+// Sub-objects:     `nav__action`
+//                  `nav__item`
+//                  `nav__static`
+//
+// Modifiers:       `nav--center`
+//                  `nav--end`
+//                  `nav--start`
+//                  `nav--gutter-collapse`
+//                  `nav--gutter-small`
+//                  `nav--divider-*`
+//                  `nav--pills`
+//                  `nav--pills-equalize`
+//                  `nav--tabs`
+//                  `nav--tabs-bottom`
+//                  `nav--justify`
+//
+// States:          `is-active`
+//                  `is-disabled`
+//
+// Dependencies:    vars-base
+//
+// Markup:
+//
+// <!-- breadcrumb -->
+// <ul class="nav nav--divider-breadcrumb">
+//     <li class="nav__item"><a class="nav__action" href=""></a></li>
+//     <li class="nav__item"><a class="nav__action" href=""></a></li>
+//     <li class="nav__item is-active"><span class="nav__static"></span></li>
+// </ul>
+//
+// <!-- tabs -->
+// <ul class="nav nav--tabs">
+//     <li class="nav__item is-active"><a class="nav__action" href=""></a></li>
+//     <li class="nav__item"><a class="nav__action" href=""></a></li>
+// </ul>
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/breadcrumb.less
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/pagination.less
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/subnav.less
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/tab.less
+// http://getbootstrap.com/components/#nav
+//
+// Notes
+//
+// Navs (pills, tabs, breadcrumb, pagination...) cannot be nested inside each other.
+// This known limitation allows to keep extended parent selectors simple:
+// `.nav--pills .nav__action:hover` instead of
+// `.nav--pills > .nav__item > .nav__action:hover`.
+//
+// Dropdown menus can be nested inside navs, they use a different namespace
+// to avoid style conflicts.
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@nav-font-size:                              1rem;
+
+@nav-color:                                  @base-color-text;
+@nav-text-decoration:                        none;
+@nav-hover-color:                            @base-color-text-link;
+@nav-hover-text-decoration:                  none;
+@nav-active-color:                           @base-color-text-link;
+@nav-disabled-color:                         @base-color-text-muted;
+@nav-disabled-background:                    @base-color-background-light;
+@nav-static-active-color:                    @base-color-text-inverse;
+@nav-static-active-background:               @base-color-background-primary;
+
+@nav-gutter:                                 @base-gutter-small;
+@nav-gutter-small:                           @base-gutter-tiny;
+
+@nav-divider-breadcrumb:                     "/";
+@nav-divider-bar-height:                     10/@px;
+@nav-divider-bar-color:                      @base-color-border;
+@nav-divider-bar-width:                      @base-border-width;
+
+@nav-pills-color:                             @base-color-text;
+@nav-pills-background:                        @base-color-background-canvas;
+@nav-pills-padding-vertical:                  3/@px;
+@nav-pills-padding-horizontal:                9/@px;
+@nav-pills-hover-color:                       @base-color-text;
+@nav-pills-hover-background:                  @base-color-background-normal;
+@nav-pills-onclick-color:                     @base-color-text;
+@nav-pills-onclick-background:                @base-color-background-normal-active;
+@nav-pills-active-color:                      @base-color-text-inverse;
+@nav-pills-active-background:                 @base-color-background-primary;
+
+@nav-tab-border-color:                       @base-color-border;
+@nav-tab-border-width:                       @base-border-width;
+@nav-tab-padding-vertical:                   8/@px;
+@nav-tab-padding-horizontal:                 12/@px;
+@nav-tab-padding-top:                        @nav-tab-padding-vertical;
+@nav-tab-padding-bottom:                     @nav-tab-padding-vertical;
+@nav-tab-margin-horizontal:                  @base-gutter-tiny;
+@nav-tab-margin-vertical:                    @base-gutter-tiny;
+@nav-tab-color:                              @base-color-text-link;
+@nav-tab-hover-border:                       @base-color-background-normal-hover;
+@nav-tab-hover-background:                   @base-color-background-normal-hover;
+@nav-tab-hover-color:                        @base-color-text-link-hover;
+@nav-tab-active-border:                      @base-color-background-normal-active;
+@nav-tab-active-background:                  @base-color-background-canvas;
+@nav-tab-active-color:                       @base-color-text;
+@nav-tab-disabled-color:                     @base-color-text-muted;
+
+
+/* ========================================================================
+   Component: Nav
+ ========================================================================== */
+
+/*
+ * 1. Remove default list style
+ * 2. Remove whitespace between child elements when using `inline-block`
+ */
+
+.nav {
+    /* 1 */
+    padding: 0;
+    list-style: none;
+    /* 2 */
+    font-size: 0.001px;
+}
+
+
+/* Items
+ ========================================================================== */
+
+/*
+ * 1. Remove vertical gap with its container
+ */
+
+.nav__item,
+.nav__item:before,
+.nav__action,
+.nav__static {
+    display: inline-block;
+    /* 1 */
+    vertical-align: middle;
+}
+
+/*
+ * 1. Reset whitespace hack
+ * 2. Create position context for dropdown menus
+ */
+
+.nav__item {
+    white-space: nowrap;
+    /* 1 */
+    font-size: @nav-font-size;
+    /* 2 */
+    position: relative;
+}
+
+/* Default gutter */
+.nav__item:nth-last-child(n+2) {
+    margin-@{end}: @nav-gutter;
+}
+
+.nav__action,
+.nav__static {
+    text-decoration: @nav-text-decoration;
+    white-space: normal;
+}
+
+.nav__action {
+    color: @nav-color;
+}
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ */
+
+.nav__action:hover,
+.nav__action:focus { // 1
+    color: @nav-hover-color;
+    text-decoration: @nav-hover-text-decoration;
+    .hook-nav-action-hover;
+}
+
+/*
+ * Active
+ */
+
+.nav__item.is-active .nav__action {
+    color: @nav-active-color;
+    .hook-nav-action-active;
+}
+
+.nav__item.is-active .nav__static {
+    background: @nav-static-active-background;
+    color: @nav-static-active-color;
+    .hook-nav-static-active;
+}
+
+
+/* Alignment modifiers
+ ========================================================================== */
+
+.nav--start { text-align: @start; }
+.nav--end { text-align: @end; }
+.nav--center { text-align: center; }
+
+
+/* Gutter modifiers
+ ========================================================================== */
+
+.nav--gutter-collapse .nav__item:nth-last-child(n+2) {
+    margin-@{end}: 0;
+}
+
+.nav--gutter-small .nav__item:nth-last-child(n+2) {
+    margin-@{end}: @nav-gutter-small;
+}
+
+
+/* Modifier: 'nav--divider'
+ ========================================================================== */
+
+[class^='nav--divider-'] .nav__item:before,
+[class*=' nav--divider-'] .nav__item:before {
+    margin-@{end}: @nav-gutter;
+}
+
+/*
+ * Shape dividers
+ */
+
+.nav--divider-bar .nav__item:nth-child(n+2):before {
+    content: "";
+    height: @nav-divider-bar-height;
+    border-@{start}: @nav-divider-bar-width solid @nav-divider-bar-color;
+}
+
+/*
+ * Text dividers
+ */
+
+.nav--divider-breadcrumb .nav__item:nth-child(n+2):before {
+    content: @nav-divider-breadcrumb;
+}
+
+/* Text divider local override */
+.nav__item[data-nav-divider]:before {
+    content: attr(data-nav-divider) !important;
+}
+
+
+/* Modifier: 'nav--pills'
+ ========================================================================== */
+
+.nav--pills .nav__action,
+.nav--pills .nav__static {
+    padding: @nav-pills-padding-vertical @nav-pills-padding-horizontal;
+}
+
+.nav--pills .nav__action {
+    background: @nav-pills-background;
+    color: @nav-pills-color;
+}
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Remove default focus style
+ */
+
+.nav--pills .nav__action:hover,
+.nav--pills .nav__action:focus { // 1
+    background: @nav-pills-hover-background;
+    color: @nav-pills-hover-color;
+    /* 2 */
+    outline: none;
+}
+
+/* OnClick */
+.nav--pills .nav__action:active {
+    background: @nav-pills-onclick-background;
+    color: @nav-pills-onclick-color;
+}
+
+/*
+ * Active
+ */
+
+.nav--pills .nav__item.is-active .nav__action {
+    background: @nav-pills-active-background;
+    color: @nav-pills-active-color;
+}
+
+/* Second level modifier */
+
+/*
+ * 2. Reset text-align to center if alignment modifier is used
+ */
+
+.nav--pills-equalize .nav__action,
+.nav--pills-equalize .nav__static {
+    box-sizing: content-box;
+    min-width: @nav-pills-padding-horizontal;
+    /* 2 */
+    text-align: center;
+}
+
+
+/* Modifier: 'nav--tabs'
+ ========================================================================== */
+
+.nav--tabs {
+    border-bottom: @nav-tab-border-width solid @nav-tab-border-color;
+}
+
+/*
+ * 1. Collapse default gutter
+ */
+
+.nav--tabs .nav__item {
+    margin-bottom: -@nav-tab-border-width;
+    /* 1 */
+    margin-@{end}: 0;
+}
+
+/* Add gutter to action */
+.nav--tabs .nav__item:nth-last-child(n+2) .nav__action {
+    margin-@{end}: @nav-tab-margin-horizontal;
+}
+
+.nav--tabs .nav__action {
+    border: @nav-tab-border-width solid transparent;
+    border-bottom-width: 0;
+    color: @nav-tab-color;
+    padding: @nav-tab-padding-top @nav-tab-padding-horizontal @nav-tab-padding-bottom;
+}
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Also apply if dropdown is opened
+ * 3. Remove default focus style
+ */
+
+.nav--tabs .nav__action:hover,
+.nav--tabs .nav__action:focus, // 1
+.nav--tabs .nav__item.is-open .nav__action { // 2
+    background: @nav-tab-hover-background;
+    border-color: @nav-tab-hover-border;
+    color: @nav-tab-hover-color;
+    /* 3 */
+    outline: none;
+}
+
+.nav--tabs .nav__item:not(.is-active) .nav__action:hover,
+.nav--tabs .nav__item:not(.is-active) .nav__action:focus,
+.nav--tabs .nav__item.is-open:not(.is-active) .nav__action {
+    margin-bottom: @nav-tab-border-width;
+    padding-bottom: @nav-tab-padding-bottom - @nav-tab-border-width;
+}
+
+/* Active */
+.nav--tabs .nav__item.is-active .nav__action {
+    background: @nav-tab-active-background;
+    border-color: @nav-tab-active-border;
+    border-bottom-color: transparent;
+    color: @nav-tab-active-color;
+}
+
+/* Disabled */
+.nav--tabs .nav__item.is-disabled .nav__action {
+    color: @nav-tab-disabled-color;
+    cursor: text;
+}
+
+.nav--tabs .nav__item.is-disabled .nav__action:hover,
+.nav--tabs .nav__item.is-disabled .nav__action:focus {
+    background: none;
+    border-color: transparent;
+}
+
+/* Second level modifier */
+
+/*
+ * Reset and invert default top tabs styles
+ */
+
+.nav--tabs-bottom {
+    border-bottom: none;
+    border-top: @nav-tab-border-width solid @nav-tab-border-color;
+}
+
+.nav--tabs-bottom .nav__item {
+    margin-bottom: 0;
+    margin-top: -@nav-tab-border-width;
+}
+
+.nav--tabs-bottom .nav__action {
+    border-top-width: 0;
+    border-bottom-width: @nav-tab-border-width;
+    padding-top: @nav-tab-padding-bottom;
+    padding-bottom: @nav-tab-padding-top;
+}
+
+.nav--tabs-bottom .nav__item:not(.is-active) .nav__action:hover,
+.nav--tabs-bottom .nav__item:not(.is-active) .nav__action:focus,
+.nav--tabs-bottom .nav__item.is-open:not(.is-active) .nav__action {
+    margin-bottom: 0;
+    margin-top: @nav-tab-border-width;
+    padding-top: @nav-tab-padding-bottom - @nav-tab-border-width;
+    padding-bottom: @nav-tab-padding-top;
+}
+
+.nav--tabs-bottom .nav__item.is-active .nav__action {
+    border-top-color: transparent;
+    border-bottom-color: @nav-tab-active-border;
+}
+
+
+/* Modifier: 'nav--justify'
+ * For: 'nav--pills' and 'nav--tabs'
+ ========================================================================== */
+
+.nav--justify {
+    box-sizing: border-box;
+    display: table;
+    table-layout: fixed;
+    text-align: center;
+    width: 100%;
+}
+
+.nav--justify .nav__item {
+    display: table-cell;
+    margin: 0;
+    width: 1%;
+}
+
+.nav--justify .nav__action {
+    display: block;
+}
+
+.nav--justify.nav--tabs {
+    border-top: none;
+    border-bottom: none;
+}
+
+.nav--justify.nav--tabs .nav__item:not(.is-active) .nav__action:hover,
+.nav--justify.nav--tabs .nav__item:not(.is-active) .nav__action:focus,
+.nav--justify.nav--tabs .nav__item.is-open:not(.is-active) .nav__action {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.nav--justify.nav--tabs:not(.nav--tabs-bottom) .nav__item.is-active .nav__action {
+    border-bottom-color: transparent;
+}
+
+.nav--justify.nav--tabs-bottom .nav__item.is-active .nav__action {
+    border-top-color: transparent;
+}
+
+
+/* Disabled state
+ ========================================================================== */
+
+.nav .nav__item.is-disabled .nav__action {
+    background: none;
+    color: @nav-disabled-color;
+    cursor: text;
+    text-decoration: none;
+    .hook-nav-action-disabled;
+}
+
+.nav .nav__item.is-disabled .nav__static {
+    background-color: @nav-disabled-background;
+    color: @nav-disabled-color;
+    .hook-nav-static-disabled;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-nav-misc;
+
+.hook-nav-action-hover() {}
+.hook-nav-action-active() {}
+.hook-nav-action-disabled() {}
+
+.hook-nav-static-active() {}
+.hook-nav-static-disabled() {}
+
+.hook-nav-misc() {}
