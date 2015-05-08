@@ -33,7 +33,7 @@
 // <!-- form -->
 // <form class="form">
 //     <div class="form__row">
-//         <label class="form__label" for="form-input-1"></label>
+//         <label class="form__label" for="form-input-1">Text</label>
 //         <div class="form__controls">
 //             <input class="form__control" type="text" id="form-input-1" placeholder="Text">
 //         </div>
@@ -50,60 +50,65 @@
 // Variables
 // ========================================================================
 
-@form-height:                                   @base-height;
-@form-padding:                                  4/@px 6/@px;
-@form-border:                                   @base-color-border;
-@form-border-width:                             @base-border-width;
-@form-background:                               @base-color-background-canvas;
-@form-color:                                    @base-color-text;
+@form-control-height:                           @base-height;
+@form-control-padding:                          4/@px 6/@px;
+@form-control-font-size:                        @base-font-size;
 
-@form-focus-border:                             @base-color-border-primary-box;
-@form-focus-background:                         @base-color-background-primary-box;
-@form-focus-color:                              @base-color-text;
+@form-control-small-height:                     @base-height-small;
+@form-control-small-padding:                    3/@px 3/@px;
+@form-control-small-font-size:                  12/@px;
 
-@form-disabled-border:                          @base-color-border;
-@form-disabled-background:                      @base-color-background-light;
-@form-disabled-color:                           @base-color-text-muted;
+@form-control-large-height:                     @base-height-large;
+@form-control-large-padding:                    8/@px 6/@px;
+@form-control-large-font-size:                  16/@px;
 
-@form-placeholder-color:                        @base-color-text-muted;
+@form-control-mini-width:                       40/@px;
+@form-control-small-width:                      130/@px;
+@form-control-medium-width:                     200/@px;
+@form-control-large-width:                      500/@px;
 
-@form-gutter:                                   15/@px;
+@form-control-border-color:                     @base-color-border;
+@form-control-border-width:                     @base-border-width;
+@form-control-border-radius:                    0;
+@form-control-background:                       @base-color-background-canvas;
+@form-control-color:                            @base-color-text;
+@form-control-transition:                       all linear 0.2s;
 
-@form-legend-border:                            @base-color-border;
+@form-control-focus-border-color:               @base-color-border-primary-box;
+@form-control-focus-background:                 @base-color-background-primary-box;
+@form-control-focus-color:                      @base-color-text;
+
+@form-control-disabled-border-color:            @base-color-border;
+@form-control-disabled-background:              @base-color-background-light;
+@form-control-disabled-color:                   @base-color-text-muted;
+
+@form-control-placeholder-color:                @base-color-text-muted;
+
+@form-control-danger-border-color:              @base-color-border-danger-box;
+@form-control-danger-background:                @base-color-background-danger-box;
+@form-control-danger-color:                     @base-color-text-danger;
+
+@form-control-success-border-color:             @base-color-border-success-box;
+@form-control-success-background:               @base-color-background-success-box;
+@form-control-success-color:                    @base-color-text-success;
+
+@form-control-blank-border-color:               @base-color-border;
+@form-control-blank-border-style:               dashed;
+
+@form-label-font-weight:                        @base-bold-font-weight;
+@form-label-margin-bottom:                      5/@px;
+
+@form-legend-border-color:                      @base-color-border;
 @form-legend-border-width:                      @base-border-width;
 @form-legend-font-size:                         18/@px;
 @form-legend-line-height:                       30/18;
-
-@form-small-height:                             @base-height-small;
-@form-large-height:                             @base-height-large;
-@form-small-padding:                            3/@px 3/@px;
-@form-large-padding:                            8/@px 6/@px;
-@form-small-font-size:                          12/@px;
-@form-large-font-size:                          16/@px;
-
-@form-danger-border:                            @base-color-border-danger-box;
-@form-danger-background:                        @base-color-background-danger-box;
-@form-danger-color:                             @base-color-text-danger;
-
-@form-success-border:                           @base-color-border-success-box;
-@form-success-background:                       @base-color-background-success-box;
-@form-success-color:                            @base-color-text-success;
-
-@form-blank-border:                             @base-color-border;
-@form-blank-border-style:                       dashed;
-
-@form-mini-width:                               40/@px;
-@form-small-width:                              130/@px;
-@form-medium-width:                             200/@px;
-@form-large-width:                              500/@px;
 
 @form-help-inline-margin-start:                 10/@px;
 @form-help-block-margin-top:                    5/@px;
 
 @form-controls-condensed-margin-vertical:       5/@px;
 
-@form-stacked-margin-bottom:                    5/@px;
-@form-stacked-font-weight:                      @base-bold-font-weight;
+@form-gutter:                                   15/@px;
 
 @form-horizontal-label-width:                   200/@px;
 @form-horizontal-label-margin-top:              5/@px;
@@ -143,6 +148,7 @@ textarea {
     /* 3 */
     border-radius: 0;
     /* 4 */
+    -webkit-font-smoothing: inherit;
     font: inherit;
     color: inherit;
 }
@@ -282,48 +288,51 @@ select { vertical-align: middle; }
 
 .form__control {
     /* 1 */
-    height: @form-height;
+    height: @form-control-height;
     /* 2 */
     max-width: 100%;
     /* 3 */
-    padding: @form-padding;
+    padding: @form-control-padding;
     /* 4 */
-    border: @form-border-width solid @form-border;
-    background: @form-background;
-    color: @form-color;
-    -webkit-transition: all linear 0.2s;
-    transition: all linear 0.2s;
+    border: @form-control-border-width solid @form-control-border-color;
+    border-radius: @form-control-border-radius;
+    background: @form-control-background;
+    color: @form-control-color;
+    font-size: @form-control-font-size;
+    -webkit-transition: @form-control-transition;
+    transition: @form-control-transition;
     .hook-form-control;
 
     // Focus state
     &:focus {
-        border-color: @form-focus-border;
+        border-color: @form-control-focus-border-color;
         outline: 0;
-        background: @form-focus-background;
-        color: @form-focus-color;
+        background: @form-control-focus-background;
+        color: @form-control-focus-color;
         .hook-form-control-focus;
     }
 
     // Disabled state
     &:disabled {
-        border-color: @form-disabled-border;
-        background-color: @form-disabled-background;
-        color: @form-disabled-color;
+        border-color: @form-control-disabled-border-color;
+        background-color: @form-control-disabled-background;
+        color: @form-control-disabled-color;
         .hook-form-control-disabled;
     }
 }
 
 /*
  * Placeholder
+ * Keep -moz and -webkit rules separated, -moz won't work when grouped with -webkit
  */
 
-.form__control:-ms-input-placeholder { color: @form-placeholder-color !important; }
-.form__control::-moz-placeholder,
-.form__control::-webkit-input-placeholder { color: @form-placeholder-color; }
+.form__control:-ms-input-placeholder { color: @form-control-placeholder-color !important; }
+.form__control::-moz-placeholder { color: @form-control-placeholder-color; }
+.form__control::-webkit-input-placeholder { color: @form-control-placeholder-color; }
 
-.form__control:disabled:-ms-input-placeholder { color: @form-disabled-color !important; }
-.form__control:disabled::-moz-placeholder,
-.form__control:disabled::-webkit-input-placeholder { color: @form-disabled-color; }
+.form__control:disabled:-ms-input-placeholder { color: @form-control-disabled-color !important; }
+.form__control:disabled::-moz-placeholder{ color: @form-control-disabled-color; }
+.form__control:disabled::-webkit-input-placeholder { color: @form-control-disabled-color; }
 
 /*
  * Legend
@@ -357,7 +366,7 @@ select { vertical-align: middle; }
 .form__legend:after {
     content: "";
     display: block;
-    border-bottom: @form-legend-border-width solid @form-legend-border;
+    border-bottom: @form-legend-border-width solid @form-legend-border-color;
     /* 1 */
     width: 100%;
 }
@@ -368,15 +377,15 @@ select { vertical-align: middle; }
  ========================================================================== */
 
 .form__control--small {
-    height: @form-small-height;
-    padding: @form-small-padding;
-    font-size: @form-small-font-size;
+    height: @form-control-small-height;
+    padding: @form-control-small-padding;
+    font-size: @form-control-small-font-size;
 }
 
 .form__control--large  {
-    height: @form-large-height;
-    padding: @form-large-padding;
-    font-size: @form-large-font-size;
+    height: @form-control-large-height;
+    padding: @form-control-large-padding;
+    font-size: @form-control-large-font-size;
 }
 
 
@@ -398,9 +407,9 @@ select[size].form__control { height: auto; }
  */
 
 .form__control--danger {
-    border-color: @form-danger-border !important;
-    background: @form-danger-background !important;
-    color: @form-danger-color !important;
+    border-color: @form-control-danger-border-color !important;
+    background: @form-control-danger-background !important;
+    color: @form-control-danger-color !important;
     .hook-form-control-danger;
 }
 
@@ -409,9 +418,9 @@ select[size].form__control { height: auto; }
  */
 
 .form__control--success  {
-    border-color: @form-success-border !important;
-    background: @form-success-background !important;
-    color: @form-success-color !important;
+    border-color: @form-control-success-border-color !important;
+    background: @form-control-success-background !important;
+    color: @form-control-success-color !important;
     .hook-form-control-success;
 }
 
@@ -425,13 +434,13 @@ select[size].form__control { height: auto; }
 
 .form__control--blank {
     border-color: transparent;
-    border-style: @form-blank-border-style;
+    border-style: @form-control-blank-border-style;
     background: none;
     .hook-form-control-blank;
 }
 
 .form__control--blank:focus {
-    border-color: @form-blank-border;
+    border-color: @form-control-blank-border-color;
     background: none;
     .hook-form-control-blank-focus;
 }
@@ -445,12 +454,12 @@ select[size].form__control { height: auto; }
  * Different widths for mini sized `input` and `select` elements
  */
 
-input.form__control--width-mini { width: @form-mini-width; }
-select.form__control--width-mini { width: (@form-mini-width + 25/@px); }
+input.form__control--width-mini { width: @form-control-mini-width; }
+select.form__control--width-mini { width: (@form-control-mini-width + 25/@px); }
 
-.form__control--width-small { width: @form-small-width; }
-.form__control--width-medium { width: @form-medium-width; }
-.form__control--width-large { width: @form-large-width; }
+.form__control--width-small { width: @form-control-small-width; }
+.form__control--width-medium { width: @form-control-medium-width; }
+.form__control--width-large { width: @form-control-large-width; }
 
 
 /* Sub-objects: `form__row`
@@ -514,8 +523,8 @@ select.form__control--width-mini { width: (@form-mini-width + 25/@px); }
 
 .form--stacked .form__label {
     display: block;
-    margin-bottom: @form-stacked-margin-bottom;
-    font-weight: @form-stacked-font-weight;
+    margin-bottom: @form-label-margin-bottom;
+    font-weight: @form-label-font-weight;
     .hook-form-stacked-label;
 }
 
@@ -530,8 +539,8 @@ select.form__control--width-mini { width: (@form-mini-width + 25/@px); }
     /* Behave like `form-stacked` */
     .form--horizontal .form__label {
         display: block;
-        margin-bottom: @form-stacked-margin-bottom;
-        font-weight: @form-stacked-font-weight;
+        margin-bottom: @form-label-margin-bottom;
+        font-weight: @form-label-font-weight;
         .hook-form-stacked-label;
     }
 

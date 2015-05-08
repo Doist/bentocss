@@ -142,19 +142,52 @@
 .text-middle { vertical-align: middle; }
 .text-bottom { vertical-align: bottom; }
 
-/* Only tablets portrait and smaller */
-@media (max-width: @breakpoint-medium-max) {
+// Up
 
-    .text-center-medium { text-align: center; }
-    .text-start-medium { text-align: @start; }
+/* Phone landscape and bigger */
+@media (min-width: @breakpoint-small) {
+
+    .text-start-small-up { text-align: @start; }
+    .text-end-small-up { text-align: @end; }
+    .text-center-small-up { text-align: center; }
+
+}
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .text-start-medium-up { text-align: @start; }
+    .text-end-medium-up { text-align: @end; }
+    .text-center-medium-up { text-align: center; }
+
+}
+
+// Down
+
+/* Phone portrait and smaller */
+@media (max-width: @breakpoint-mini-max) {
+
+    .text-start-mini-down { text-align: @start; }
+    .text-end-mini-down { text-align: @end; }
+    .text-center-mini-down { text-align: center; }
 
 }
 
 /* Phone landscape and smaller */
 @media (max-width: @breakpoint-small-max) {
 
-    .text-center-small { text-align: center; }
-    .text-start-small { text-align: @start; }
+    .text-start-small-down { text-align: @start; }
+    .text-end-small-down { text-align: @end; }
+    .text-center-small-down { text-align: center; }
+
+}
+
+/* Tablets portrait and smaller */
+@media (max-width: @breakpoint-medium-max) {
+
+    .text-start-medium-down { text-align: @start; }
+    .text-end-medium-down { text-align: @end; }
+    .text-center-medium-down { text-align: center; }
 
 }
 

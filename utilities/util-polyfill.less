@@ -6,6 +6,7 @@
 // Based on:
 //
 // https://github.com/twbs/bootstrap/blob/v3.3.2/less/mixins/vendor-prefixes.less
+// https://github.com/twbs/bootstrap/blob/v3.3.2/less/mixins/gradients.less
 //
 // Notes:
 //
@@ -15,8 +16,7 @@
 // ========================================================================
 
 
-// Vendor Prefixes
-
+// - Gradients
 // - Animations
 // - Backface visibility
 // - Content columns
@@ -25,6 +25,74 @@
 // - Transformations
 // - Transitions
 // - User Select
+
+
+// Gradients
+
+// Unprefixed: Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+// Prefixed: Android 4.1 - 4.3
+
+// Horizontal gradient, from left to right
+.gradient-horizontal(@start-color; @end-color; @start-percent: 0%; @end-percent: 100%) {
+    background-repeat: repeat-x;
+    background-image: -webkit-linear-gradient(left, @start-color @start-percent, @end-color @end-percent);
+    background-image: linear-gradient(to right, @start-color @start-percent, @end-color @end-percent);
+    .gradient-ie(@start-color; @end-color; horizontal);
+}
+
+// Vertical gradient, from top to bottom
+.gradient-vertical(@start-color; @end-color; @start-percent: 0%; @end-percent: 100%) {
+    background-repeat: repeat-x;
+    background-image: -webkit-linear-gradient(top, @start-color @start-percent, @end-color @end-percent);
+    background-image: linear-gradient(to bottom, @start-color @start-percent, @end-color @end-percent);
+    .gradient-ie(@start-color; @end-color; vertical);
+}
+
+.gradient-directional(@start-color; @end-color; @angle: 45deg; @ie-direction: horizontal) {
+    background-repeat: repeat-x;
+    // http://www.quirksmode.org/css/images/angles.html
+    // http://www.sitepoint.com/building-linear-gradient-mixin-sass/
+    background-image: -webkit-linear-gradient((90 - @angle), @start-color, @end-color);
+    background-image: linear-gradient(@angle, @start-color, @end-color);
+    .gradient-ie(@start-color; @end-color; @ie-direction);
+}
+
+.gradient-horizontal-tricolor(@start-color; @mid-color; @end-color; @color-stop: 50%) {
+    background-repeat: no-repeat;
+    background-image: -webkit-linear-gradient(left, @start-color, @mid-color @color-stop, @end-color);
+    background-image: linear-gradient(to right, @start-color, @mid-color @color-stop, @end-color);
+    .gradient-ie(@start-color; @end-color; horizontal);
+}
+
+.gradient-vertical-tricolor(@start-color; @mid-color; @end-color; @color-stop: 50%) {
+    background-repeat: no-repeat;
+    background-image: -webkit-linear-gradient(top, @start-color, @mid-color @color-stop, @end-color);
+    background-image: linear-gradient(to bottom, @start-color, @mid-color @color-stop, @end-color);
+    .gradient-ie(@start-color; @end-color; vertical);
+}
+
+.gradient-radial(@inner-color; @outer-color; @ie-direction: vertical) {
+    background-repeat: no-repeat;
+    background-image: -webkit-radial-gradient(circle, @inner-color, @outer-color);
+    background-image: radial-gradient(circle, @inner-color, @outer-color);
+    .gradient-ie(@inner-color; @outer-color; @ie-direction);
+}
+
+.gradient-striped(@color: rgba(255,255,255,.15); @angle: 45deg) {
+    background-image: -webkit-linear-gradient((90 - @angle), @color 25%, transparent 25%, transparent 50%, @color 50%, @color 75%, transparent 75%, transparent);
+    background-image: linear-gradient(@angle, @color 25%, transparent 25%, transparent 50%, @color 50%, @color 75%, transparent 75%, transparent);
+}
+
+// IE9 and down
+// Color stops are not available in IE9 and below
+.gradient-ie(@start-color, @end-color, @direction: vertical) {
+    & when (@direction = horizontal) {
+        filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@start-color),argb(@end-color)));
+    }
+    & when (@direction = vertical) {
+        filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@start-color),argb(@end-color)));
+    }
+}
 
 
 // Animations
@@ -205,4 +273,13 @@
      -moz-user-select: @select;
       -ms-user-select: @select; // IE10+
           user-select: @select;
+}
+
+
+// Fixes
+
+// Fix Firefox aliased borders when using transparent border colors
+// http://stackoverflow.com/a/21039128
+.moz-border-smoothing {
+    -moz-transform: scale(.9999);
 }

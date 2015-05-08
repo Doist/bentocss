@@ -1,5 +1,5 @@
 // Name:            Navbar
-// Description:     Defines styles for the navigation bar
+// Description:     Defines styles for navigation bars
 //
 // Mixin:           `navbar-structure`
 //
@@ -180,7 +180,7 @@
 
     .navbar__nav-link {
         // 1
-        height: @navbar-nav-height;
+        min-height: @navbar-nav-height;
         line-height: @navbar-nav-line-height;
         padding: 0 @navbar-nav-padding-horizontal;
         // 2
@@ -217,7 +217,7 @@
     // ==========================================================================
 
     .navbar__content {
-        height: @navbar-nav-height;
+        min-height: @navbar-nav-height;
         padding: 0 @navbar-nav-padding-horizontal;
     }
 

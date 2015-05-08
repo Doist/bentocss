@@ -81,9 +81,13 @@
 @base-color-text-link:                          #07d;
 @base-color-text-link-hover:                    #059;
 @base-color-text-primary:                       #2d7091;
+@base-color-text-primary-hover:                 saturate(darken(@base-color-text-primary, 5%), 10%);
 @base-color-text-success:                       #659f13;
+@base-color-text-success-hover:                 saturate(darken(@base-color-text-success, 5%), 10%);
 @base-color-text-warning:                       #e28327;
+@base-color-text-warning-hover:                 saturate(darken(@base-color-text-warning, 5%), 10%);
 @base-color-text-danger:                        #d85030;
+@base-color-text-danger-hover:                  saturate(darken(@base-color-text-danger, 5%), 10%);
 @base-color-text-highlight:                     #d05;
 @base-color-text-shadow:                        #fff;
 @base-color-text-shadow-inverse:                rgba(0, 0, 0, .125);
@@ -122,8 +126,7 @@
 // Component: text
 
 @base-font-size:                                14/@px;
-
-@base-line-height:                              20/@px;
+@base-line-height:                              20/14;
 
 // Component: border
 

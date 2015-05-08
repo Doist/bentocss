@@ -68,11 +68,12 @@
 @button-small-height:                           @base-height-small;
 @button-large-height:                           @base-height-large;
 
-@button-line-height:                            30/16;
-@button-mini-line-height:                       20/11;
-@button-small-line-height:                      25/12;
-@button-large-line-height:                      40/16;
+@button-line-height:                            @base-height;
+@button-mini-line-height:                       @base-height-mini;
+@button-small-line-height:                      @base-height-small;
+@button-large-line-height:                      @base-height-large;
 
+@button-font-size:                              @base-font-size;
 @button-mini-font-size:                         11/@px;
 @button-small-font-size:                        12/@px;
 @button-large-font-size:                        16/@px;
@@ -82,8 +83,11 @@
 @button-small-padding-horizontal:               10/@px;
 @button-large-padding-horizontal:               15/@px;
 
-@button-font-size:                              16/@px;
 @button-font-weight:                            @base-normal-font-weight;
+@button-text-transform:                         none;
+@button-white-space:                            normal;
+@button-border-radius:                          0;
+
 @button-background:                             @base-color-background-normal;
 @button-color:                                  @base-color-text;
 @button-hover-background:                       @base-color-background-normal-hover;
@@ -160,17 +164,20 @@
     /* 4 */
     overflow: visible;
     /* 5 */
+    -webkit-font-smoothing: inherit;
     font: inherit;
     color: @button-color;
     /* 6 */
-    text-transform: none;
+    text-transform: @button-text-transform;
     /* 7 */
     display: inline-block;
     box-sizing: border-box;
+    border-radius: @button-border-radius;
     padding: 0 @button-padding-horizontal;
     background: @button-background;
     font-weight: @button-font-weight;
     vertical-align: middle;
+    white-space: @button-white-space;
     /* 8 */
     line-height: @button-line-height;
     /* 9 */

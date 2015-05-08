@@ -14,6 +14,7 @@
 // https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/base.less
 // https://github.com/twbs/bootstrap/blob/v3.3.2/less/scaffolding.less
 // https://github.com/h5bp/html5-boilerplate/blob/v5.0.0/src/css/main.css
+// https://github.com/inuitcss/generic.shared/blob/0.1.5/_generic.shared.scss
 // https://github.com/inuitcss/generic.box-sizing/blob/0.2.0/_generic.box-sizing.scss
 // https://github.com/inuitcss/base.page/blob/0.2.1/_base.page.scss
 // https://github.com/inuitcss/base.lists/blob/0.1.0/_base.lists.scss
@@ -33,9 +34,9 @@
 
 @base-body-background:                          @base-color-background-canvas;
 @base-body-font-family:                         @base-sans-font-family;
-@base-body-font-weight:                         normal;
-@base-body-font-size:                           14/@px;
-@base-body-line-height:                         20/14;
+@base-body-font-weight:                         @base-normal-font-weight;
+@base-body-font-size:                           @base-font-size;
+@base-body-line-height:                         @base-line-height;
 @base-body-color:                               @base-color-text;
 @base-body-font-antialiased:                    true;
 
@@ -58,7 +59,7 @@
 
 @base-margin-vertical:                          15/@px;
 
-@base-heading-font-family:                      @base-sans-font-family;
+@base-heading-font-family:                      @base-body-font-family;
 @base-heading-font-weight:                      @base-normal-font-weight;
 @base-heading-color:                            @base-color-text;
 @base-heading-text-transform:                   none;
@@ -94,8 +95,8 @@
 @base-pre-line-height:                          18/12;
 @base-pre-font-family:                          @base-code-font-family;
 
-@base-selection-background:                     @base-color-background-primary;
-@base-selection-color:                          @base-color-text-inverse;
+@base-selection-background:                     @base-color-background-highlight;
+@base-selection-color:                          @base-color-text;
 
 
 /* ========================================================================
@@ -372,6 +373,28 @@ svg:not(:root) { overflow: hidden; }
 /* Block elements
  ========================================================================== */
 
+.baseline-margin-bottom(@margin-bottom; @reset-top: 0; @reset-last: 1) {
+    h1, h2, h3, h4, h5, h6,
+    ul, ol, dl,
+    p,
+    pre,
+    address,
+    blockquote,
+    hr,
+    table,
+    form,
+    figure,
+    iframe {
+        margin-bottom: @margin-bottom;
+        & when (@reset-top = 1) {
+            margin-top: 0;
+        }
+        & when (@reset-last = 1) {
+            &:last-child { margin-bottom: 0; }
+        }
+    }
+}
+
 /*
  * Reset margin
  */
@@ -511,8 +534,10 @@ blockquote {
 pre {
     padding: @base-pre-padding;
     background: @base-pre-background;
-    font: (@base-pre-font-size) e("/") (@base-pre-line-height) @base-pre-font-family;
     color: @base-pre-color;
+    font-family: @base-pre-font-family;
+    font-size: @base-pre-font-size;
+    line-height: @base-pre-line-height;
     -moz-tab-size: 4;
     tab-size: 4;
     /* 1 */
