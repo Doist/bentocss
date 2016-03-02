@@ -1,0 +1,213 @@
+// Name:            Overlay
+// Description:     Defines styles for content overlays
+//
+// Namespace:       `overlay`
+//
+// Sub-objects:     `overlay__cover`
+//
+// Modifier:        `overlay--hover`
+//
+// Sub-modifiers:   `overlay__cover--background`
+//                  `overlay__cover--top`
+//                  `overlay__cover--bottom`
+//                  `overlay__cover--left`
+//                  `overlay__cover--right`
+//                  `overlay__cover--fade`
+//                  `overlay__cover--slide-*`
+//
+// States:          `is-hover`
+//
+// Dependencies:    vars-base
+//
+// Markup:
+//
+// <!-- overlay -->
+// <figure class="overlay" href="">
+//     <img src="" alt="">
+//     <figcaption class="overlay__cover"></figcaption>
+// </figure>
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.21.0/src/less/core/overlay.less
+//
+// ========================================================================
+
+// ========================================================================
+// Variables
+// ========================================================================
+
+@overlay-ns:                                    @ns;
+
+@overlay-enable-modifier-transitions:           false;
+
+@overlay-cover-padding:                         @base-space-4;
+
+@overlay-cover-background:                      @base-color-darken-4;
+
+@overlay-fade-in-opacity:                       1;
+@overlay-fade-out-opacity:                      0.7;
+
+@overlay-transition-duration:                   0.3s;
+@overlay-transition-easing:                     ease-out;
+
+
+// ========================================================================
+// Component: Overlay
+// ========================================================================
+
+// 1. Create position context
+// 2. Needed for transitions and to fix wrong scaling calculation for images in Chrome
+// 3. Fix `overflow: hidden` to be ignored with border-radius and CSS transforms in Webkit
+
+.@{overlay-ns}overlay {
+    // 1
+    position: relative;
+    // 2
+    overflow: hidden;
+    // 3
+    -webkit-transform: translateZ(0);
+}
+
+
+// Modifier `overlay--fit`
+// ========================================================================
+
+// 1. Container width fits its content
+// 2. Set max-width for responsive images to prevent `inline-block` consequences
+// 3. Remove the gap between the container and its child element
+
+.@{overlay-ns}overlay--fit {
+    // 1
+    display: inline-block;
+    // 2
+    max-width: 100%;
+    // 3
+    vertical-align: middle;
+}
+
+
+// Modifier `overlay--hover`
+// ========================================================================
+
+.@{overlay-ns}overlay--hover:not(:hover):not(.is-hover) .@{overlay-ns}overlay__cover {
+    opacity: 0;
+}
+
+
+// Sub-object `overlay__cover`
+// ========================================================================
+
+// 1. Position cover
+// 2. Style
+
+.@{overlay-ns}overlay__cover {
+    // 1
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // 2
+    padding: @overlay-cover-padding;
+    .hook-overlay-cover;
+}
+
+// Remove margin from the last-child
+
+.@{overlay-ns}overlay__cover > :last-child { margin-bottom: 0; }
+
+
+// Sub-modifier `overlay__cover--background`
+// ========================================================================
+
+.@{overlay-ns}overlay__cover--background {
+    background: @overlay-cover-background;
+}
+
+
+// Position
+// ========================================================================
+
+.@{overlay-ns}overlay__cover--top { bottom: auto; }
+.@{overlay-ns}overlay__cover--bottom { top: auto; }
+.@{overlay-ns}overlay__cover--start { @{end}: auto; }
+.@{overlay-ns}overlay__cover--end { @{start}: auto; }
+
+
+// Transitions
+// ========================================================================
+
+& when (@overlay-enable-modifier-transitions = true) {
+
+    .@{overlay-ns}overlay__cover--fade,
+    [class^='@{overlay-ns}overlay__cover--slide-'],
+    [class*=' @{overlay-ns}overlay__cover--slide-'] {
+        transition-duration: @overlay-transition-duration;
+        transition-timing-function: @overlay-transition-easing;
+        transition-property: opacity, transform;
+    }
+
+    // Fade
+
+    .@{overlay-ns}overlay__cover--fade { opacity: @overlay-fade-out-opacity; }
+
+    .@{overlay-ns}overlay--hover:hover .@{overlay-ns}overlay__cover--fade { opacity: @overlay-fade-in-opacity; }
+
+    // Slide
+
+    [class^='@{overlay-ns}overlay__cover--slide-'],
+    [class*=' @{overlay-ns}overlay__cover--slide-'] { opacity: 0; }
+
+    // Top
+
+    .@{overlay-ns}overlay__cover--slide-top {
+        transform: translateY(-100%);
+    }
+
+    // Bottom
+
+    .@{overlay-ns}overlay__cover--slide-bottom {
+        transform: translateY(100%);
+    }
+
+    // Left
+
+    .@{overlay-ns}overlay__cover--slide-start {
+        & when (@base-text-direction = ltr) {
+            transform: translateX(-100%);
+        }
+        & when (@base-text-direction = rtl) {
+            transform: translateX(100%);
+        }
+    }
+
+    // Right
+
+    .@{overlay-ns}overlay__cover--slide-end {
+        & when (@base-text-direction = ltr) {
+            transform: translateX(100%);
+        }
+        & when (@base-text-direction = rtl) {
+            transform: translateX(-100%);
+        }
+    }
+
+    // Hover
+    
+    .@{overlay-ns}overlay--hover:hover [class^='@{overlay-ns}overlay__cover--slide-'],
+    .@{overlay-ns}overlay--hover:hover [class*=' @{overlay-ns}overlay__cover--slide-'] {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-overlay-misc;
+
+.hook-overlay-cover() {}
+.hook-overlay-misc() {}

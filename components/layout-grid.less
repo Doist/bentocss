@@ -8,9 +8,9 @@
 //
 // Sub-objects:     `grid__cell`
 //
-// Modifiers:       `grid--collapse`
-//                  `grid--small`
-//                  `grid--medium`
+// Modifiers:       `grid--gutter-0`
+//                  `grid--gutter-sm`
+//                  `grid--gutter-md`
 //                  `grid--align-center`
 //                  `grid--align-end`
 //                  `grid--align-middle`
@@ -60,7 +60,7 @@
 // could be by replaced by less convenient per-child selectors (direct)
 // `.grid__cell--block` and `.grid__cell--inline-block`.
 //
-// Parent modifiers (indirect) such as `.grid--collapse > .grid__cell`
+// Parent modifiers (indirect) such as `.grid--gutter-0 > .grid__cell`
 // could be replaced by less convenient per-child modifiers (direct)
 // `.grid__cell--collapse`, while `.grid--width-1-2 > .grid__cell` by
 // per-child size utilities `.width-1-2`.
@@ -71,8 +71,17 @@
 // Variables
 // ========================================================================
 
+@grid-ns:                                       @ns;
+
+@grid-enable-modifier-divider:                  false;
+@grid-enable-modifier-match:                    false;
+@grid-enable-modifier-inline:                   false;
+@grid-enable-container:                         false;
+
 @grid-gutter-horizontal:                        @base-gutter;
 @grid-gutter-vertical:                          @base-gutter;
+
+@grid-gutter-modifiers-breakpoints:             false;
 
 @grid-gutter-large-horizontal:                  @base-gutter-large;
 @grid-gutter-large-vertical:                    @base-gutter-large;
@@ -80,8 +89,12 @@
 @grid-gutter-small-horizontal:                  @base-gutter-small;
 @grid-gutter-small-vertical:                    @base-gutter-small;
 
+@grid-divider-breakpoint:                       @breakpoint-xlarge;
+
 @grid-divider-border:                           @base-color-border;
 @grid-divider-border-width:                     @base-border-width;
+
+@grid-container-breakpoint:                     @breakpoint-xlarge;
 
 @grid-container-max-width:                      980/@px;
 @grid-container-padding-horizontal:             @base-gutter;
@@ -89,443 +102,350 @@
 @grid-container-large-max-width:                1200/@px;
 @grid-container-large-padding-horizontal:       @base-gutter-large;
 
-@grid-inline-block-font-size:                   1rem;
+@grid-inline-block-font-size:                   @base-font-size;
+
+@grid-even-breakpoints:                         false;
 
 
-/* ========================================================================
-   Component: Grid
- ========================================================================== */
+// ========================================================================
+// Component: Grid
+// ========================================================================
 
-/* Float based grids
- ========================================================================== */
+// Float based grids
+// ========================================================================
 
-/*
- * 1. Makes grid more robust so that it can be used with other block elements like lists
- */
+// 1. Makes grid more robust so that it can be used with other block elements like lists
 
-.grid {
-    display: -ms-flexbox;
-    display: -webkit-flex;
+.@{grid-ns}grid {
     display: flex;
-    -ms-flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    /* 1 */
+    // 1
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/*
- * DEPRECATED
- * Micro clearfix
- * Can't use `table` because it creates a 1px gap when it becomes a flex item, only in Webkit
- */
+// DEPRECATED
+// Micro clearfix
+// Can't use `table` because it creates a 1px gap when it becomes a flex item, only in Webkit
 
-.grid:before,
-.grid:after {
+.@{grid-ns}grid:before,
+.@{grid-ns}grid:after {
     content: "";
     display: block;
     overflow: hidden;
 }
 
-.grid:after { clear: both; }
+.@{grid-ns}grid:after { clear: both; }
 
-/*
- * Grid cell
- * 1. Space is allocated solely based on content dimensions
- * 2. Makes grid more robust so that it can be used with other block elements
- * 3. DEPRECATED Using `float` to support IE9
- */
+// Grid cell
+// 1. Makes grid more robust so that it can be used with other block elements
+// 2. Space is allocated solely based on content dimensions
+// 3. DEPRECATED Using `float` to support IE9
 
-.grid > .grid__cell {
-    /* 1 */
-    -ms-flex: none;
-    -webkit-flex: none;
-    flex: none;
-    /* 2 */
+.@{grid-ns}grid__cell {
+    box-sizing: border-box;
+    // 1
     margin: 0;
-    /* 3 */
+    padding: 0;
+}
+
+.@{grid-ns}grid > .@{grid-ns}grid__cell {
+    // 2
+    flex: none;
+    // 3
     float: @start;
 }
 
-/*
- * Remove margin from the last-child
- */
-
-.grid__cell > :last-child { margin-bottom: 0; }
+// Remove margin from the last-child
+ 
+.@{grid-ns}grid__cell > :last-child { margin-bottom: 0; }
 
 
-/* Inline-block based grids
- ========================================================================== */
+// Inline-block based grids
+// ========================================================================
 
-/*
- * All content must be contained within child `grid__cell` elements.
- *
- * 1. Account for browser defaults of elements that might be the root node of
- *    the component.
- * 2. Remove inter-cell whitespace that appears between `inline-block` child
- *    elements.
- * 3. Ensure consistent default alignment.
- */
+// All content must be contained within child `grid__cell` elements.
+//
+// 1. Account for browser defaults of elements that might be the root node of
+//    the component.
+// 2. Remove inter-cell whitespace that appears between `inline-block` child
+//    elements.
+// 3. Ensure consistent default alignment.
 
-.grid-inline-block {
-    /* 1 */
+.@{grid-ns}grid-inline-block {
+    // 1
     display: block;
     list-style: none;
     margin: 0;
     padding: 0;
-    /* 2 */
+    // 2
     font-size: 0;
-    /* 3 */
+    // 3
     text-align: @start;
 }
 
-/*
- * Grid cell
- *
- * 1. Fundamentals of the non-float grid layout.
- * 2. Reset font size change made in `grid--inline--block`.
- * 3. Keeps content correctly aligned with the grid direction.
- * 4. Controls vertical positioning of units.
- * 5. Make cells full-width by default.
- */
+// Grid cell
+//
+// 1. Fundamentals of the non-float grid layout.
+// 2. Reset font size change made in `grid-inline-block`.
+// 3. Keeps content correctly aligned with the grid direction.
+// 4. Controls vertical positioning of units.
+// 5. Make cells full-width by default.
 
-.grid-inline-block > .grid__cell {
-    box-sizing: border-box;
-    /* 1 */
+.@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell {
+    // 1
     display: inline-block;
-    /* 2 */
+    // 2
     font-size: @grid-inline-block-font-size;
-    margin: 0;
-    padding: 0;
-    /* 3 */
+    // 3
     text-align: @start;
-    /* 4 */
+    // 4
     vertical-align: top;
-    /* 5 */
+    // 5
     width: 100%;
 }
 
 
-/* Grid gutter
- ========================================================================== */
+// Grid gutter
+// ========================================================================
 
-/*
- * Default gutter
- */
+// Default gutter
 
-/* Horizontal */
-.grid, .grid-inline-block { margin-@{start}: -@grid-gutter-horizontal; }
+// Horizontal
+.@{grid-ns}grid, .@{grid-ns}grid-inline-block { margin-@{start}: -@grid-gutter-horizontal; }
 
-.grid > .grid__cell,
-.grid-inline-block > .grid__cell { padding-@{start}: @grid-gutter-horizontal; }
+.@{grid-ns}grid > .@{grid-ns}grid__cell,
+.@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-horizontal; }
 
-/* Vertical */
-.grid > .grid__cell,
-.grid-inline-block > .grid__cell { margin-bottom: @grid-gutter-vertical; }
+// Vertical
+.@{grid-ns}grid > .@{grid-ns}grid__cell,
+.@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-vertical; }
 
-/* Large screen and bigger */
-@media (min-width: @breakpoint-xlarge) {
+.@{grid-ns}grid.@{grid-ns}grid--m-b-0,
+.@{grid-ns}grid-inline-block.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-vertical; }    
 
-    /* Horizontal */
-    .grid, .grid-inline-block { margin-@{start}: -@grid-gutter-large-horizontal; }
+// Collapse gutter
 
-    .grid > .grid__cell,
-    .grid-inline-block > .grid__cell { padding-@{start}: @grid-gutter-large-horizontal; }
+// Horizontal
+.@{grid-ns}grid--gutter-0 { margin-@{start}: 0; }
+.@{grid-ns}grid--gutter-0 > .@{grid-ns}grid__cell { padding-@{start}: 0; }
 
-    /* Vertical */
-    .grid > .grid__cell,
-    .grid-inline-block > .grid__cell { margin-bottom: @grid-gutter-large-vertical; }
+// Vertical
+.@{grid-ns}grid--gutter-0 > .@{grid-ns}grid__cell { margin-bottom: 0; }
 
+
+// Gutter modifiers
+
+.mixin(grid-gutter-modifiers) {    
+
+    // Small gutter
+
+    // Horizontal
+    .@{grid-ns}grid--gutter-sm@{breakpoint} { margin-@{start}: -@grid-gutter-small-horizontal; }
+    .@{grid-ns}grid--gutter-sm@{breakpoint} > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-small-horizontal; }
+
+    // Vertical
+    .@{grid-ns}grid--gutter-sm@{breakpoint} > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-small-vertical; }                
+    .@{grid-ns}grid--gutter-sm@{breakpoint}.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-small-vertical; }
+
+    // Medium gutter
+
+    // Horizontal
+    .@{grid-ns}grid--gutter-md@{breakpoint} { margin-@{start}: -@grid-gutter-horizontal; }
+    .@{grid-ns}grid--gutter-md@{breakpoint} > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-horizontal; }
+
+    // Vertical
+    .@{grid-ns}grid--gutter-md@{breakpoint} > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-vertical; }
+    .@{grid-ns}grid--gutter-md@{breakpoint}.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-vertical; }          
 }
 
-/*
- * Collapse gutter
- */
+& when not (@grid-gutter-modifiers-breakpoints = false) {
 
-/* Horizontal */
-.grid--collapse { margin-@{start}: 0; }
-.grid--collapse > .grid__cell { padding-@{start}: 0; }
-
-/* Vertical */
-.grid--collapse > .grid__cell { margin-bottom: 0; }
-
-/*
- * Small gutter
- */
-
-/* Horizontal */
-.grid--small { margin-@{start}: -@grid-gutter-small-horizontal; }
-.grid--small > .grid__cell { padding-@{start}: @grid-gutter-small-horizontal; }
-
-/* Vertical */
-.grid--small > .grid__cell { margin-bottom: @grid-gutter-small-vertical; }
-
-/*
- * Medium gutter
- */
-
-/* Horizontal */
-.grid--medium { margin-@{start}: -@grid-gutter-horizontal; }
-.grid--medium > .grid__cell { padding-@{start}: @grid-gutter-horizontal; }
-
-/* Vertical */
-.grid--medium > .grid__cell { margin-bottom: @grid-gutter-vertical; }
-
-
-/* Modifier: `grid--divider`
- ========================================================================== */
-
-/*
- * Cell divider
- * Only works with the default gutter. Does not work with gutter collapse, small or large.
- * Does not work with `push-*`, `pull-*` and not if the columns float into the next row.
- */
-
-.grid--divider {
-    margin-@{start}: -@grid-gutter-horizontal;
-    margin-@{end}: -@grid-gutter-horizontal;
+    .render-responsive-rulesets(@grid-gutter-modifiers-breakpoints; grid-gutter-modifiers);
 }
 
-.grid--divider > .grid__cell {
-    padding-@{start}: @grid-gutter-horizontal;
-    padding-@{end}: @grid-gutter-horizontal;
-}
 
-.grid--divider > .grid__cell:not(:first-child) { border-@{start}: @grid-divider-border-width solid @grid-divider-border; }
+// Modifier: `grid--divider`
+// ========================================================================
 
-.grid--divider > .width-1-1 { border-@{start}: 0; }
+& when (@grid-enable-modifier-divider = true) {
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+    // Cell divider
+    // Only works with the default gutter. Does not work with gutter collapse, small or large.
+    // Does not work with `push-*`, `pull-*` and not if the columns float into the next row.
 
-    .grid--divider > .width-medium-1-1 { border-@{start}: 0; }
-
-}
-
-/* Desktop and bigger */
-@media (min-width: @breakpoint-large) {
-
-    .grid--divider > .width-large-1-1 { border-@{start}: 0; }
-
-}
-
-/* Large screen and bigger */
-@media (min-width: @breakpoint-xlarge) {
-
-    /*
-     * Large gutter
-     */
-
-    .grid--divider {
-        margin-@{start}: -@grid-gutter-large-horizontal;
-        margin-@{end}: -@grid-gutter-large-horizontal;
+    .@{grid-ns}grid--divider {
+        margin-@{start}: -@grid-gutter-horizontal;
+        margin-@{end}: -@grid-gutter-horizontal;
     }
 
-    .grid--divider > .grid__cell {
-        padding-@{start}: @grid-gutter-large-horizontal;
-        padding-@{end}: @grid-gutter-large-horizontal;
+    .@{grid-ns}grid--divider > .@{grid-ns}grid__cell {
+        padding-@{start}: @grid-gutter-horizontal;
+        padding-@{end}: @grid-gutter-horizontal;
     }
 
-}
+    .@{grid-ns}grid--divider > .@{grid-ns}grid__cell:not(:first-child) { border-@{start}: @grid-divider-border-width solid @grid-divider-border; }
 
-/*
- * Row divider
- */
+    // Large screen and bigger
+    @media (min-width: @grid-divider-breakpoint) {
 
-.grid-divider {
-    margin-top: @grid-gutter-vertical;
-    margin-bottom: @grid-gutter-vertical;
-    border-top: @grid-divider-border-width solid @grid-divider-border;
-}
+        // Large gutter    
 
-/* Large screen and bigger */
-@media (min-width: @breakpoint-xlarge) {
+        .@{grid-ns}grid--divider {
+            margin-@{start}: -@grid-gutter-large-horizontal;
+            margin-@{end}: -@grid-gutter-large-horizontal;
+        }
 
-    .grid-divider {
-        margin-top: @grid-gutter-large-vertical;
-        margin-bottom: @grid-gutter-large-vertical;
+        .@{grid-ns}grid--divider > .@{grid-ns}grid__cell {
+            padding-@{start}: @grid-gutter-large-horizontal;
+            padding-@{end}: @grid-gutter-large-horizontal;
+        }
+
     }
 
+    // Row divider
+
+    .@{grid-ns}grid-divider {
+        margin-top: @grid-gutter-vertical;
+        margin-bottom: @grid-gutter-vertical;
+        border-top: @grid-divider-border-width solid @grid-divider-border;
+    }
+
+    // Large screen and bigger
+    @media (min-width: @grid-divider-breakpoint) {
+
+        .@{grid-ns}grid-divider {
+            margin-top: @grid-gutter-large-vertical;
+            margin-bottom: @grid-gutter-large-vertical;
+        }
+
+    }
 }
 
 
-/* Match panels in grids
- ========================================================================== */
+// Match cell inner containers
+// ========================================================================
 
-.grid--match > .grid__cell {
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-}
+& when (@grid-enable-modifier-match = true) {
 
-/*
- * 1. Behave like a block element
- */
+    .@{grid-ns}grid--match > .@{grid-ns}grid__cell {
+        display: flex;
+    }
 
-.grid--match > .grid__cell > * {
-    -ms-flex: none;
-    -webkit-flex: none;
-    flex: none;
-    /* 1 */
-    box-sizing: border-box;
-    width: 100%;
+    // 1. Behave like a block element
+
+    .@{grid-ns}grid--match > .@{grid-ns}grid__cell > * {
+        flex: none;
+        // 1
+        box-sizing: border-box;
+        width: 100%;
+    }
 }
 
 
-/*
- * `grid-inline-block` modifiers
- *
- * Modifiers: `grid--align-center`, `grid--align-end`, `grid--align-middle`,
- * `grid--align-bottom`
- ========================================================================== */
+// `grid-inline-block` modifiers
+//
+// Modifiers: `grid--align-center`, `grid--align-end`, `grid--align-middle`,
+// `grid--align-bottom`
+// ========================================================================
 
-.grid--align-center {
-    text-align: center;
+& when (@grid-enable-modifier-inline = true) {
+
+    .@{grid-ns}grid--align-center {
+        text-align: center;
+    }
+
+    .@{grid-ns}grid--align-end {
+        text-align: @end;
+    }
+
+    .@{grid-ns}grid--align-middle > .@{grid-ns}grid__cell {
+        vertical-align: middle;
+    }
+
+    .@{grid-ns}grid--align-bottom > .@{grid-ns}grid__cell {
+        vertical-align: bottom;
+    }
+
+    // Modifier: horizontally center one unit
+    // Set a specific unit to be horizontally centered. Doesn't affect
+    // any other units. Can still contain a child `Grid` object.
+
+    .@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell--center {
+        display: block;
+        margin: 0 auto;
+    }
 }
 
-.grid--align-end {
-    text-align: @end;
-}
 
-.grid--align-middle > .grid__cell {
-    vertical-align: middle;
-}
+// Even grid cell widths
+// ========================================================================
 
-.grid--align-bottom > .grid__cell {
-    vertical-align: bottom;
-}
-
-/*
- * Modifier: horizontally center one unit
- * Set a specific unit to be horizontally centered. Doesn't affect
- * any other units. Can still contain a child `Grid` object.
- */
-
-.grid-inline-block > .grid__cell--center {
-    display: block;
-    margin: 0 auto;
-}
-
-
-/* Even grid cell widths
- ========================================================================== */
-
-/*
- * Supports: 2, 3, 4, 5, 6, 8, 10, 12 part
- */
+// Supports: 2, 3, 4, 5, 6, 8, 10, 12 part
 
 .grid-width-clear(@per-row) {
     &:nth-child(1n) { clear: none; }
     &:nth-child(@{per-row}n+1) { clear: both; }
 }
 
-[class^="grid--width-"] > .grid__cell,
-[class*=" grid--width-"] > .grid__cell {
-    box-sizing: border-box;
-    width: 100%;
+.mixin(grid-even) {    
+
+    .@{grid-ns}grid--width-1-2@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/2); .grid-width-clear(2); }
+    .@{grid-ns}grid--width-1-3@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/3); .grid-width-clear(3); }
+    .@{grid-ns}grid--width-1-4@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/4); .grid-width-clear(4); }
+    .@{grid-ns}grid--width-1-5@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/5); .grid-width-clear(5); }
+    .@{grid-ns}grid--width-1-6@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/6); .grid-width-clear(6); }
+    .@{grid-ns}grid--width-1-8@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/8); .grid-width-clear(8); }
+    .@{grid-ns}grid--width-1-10@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/10); .grid-width-clear(10); }
+    .@{grid-ns}grid--width-1-12@{breakpoint} > .@{grid-ns}grid__cell { width: percentage(1/12); .grid-width-clear(12); }
 }
 
-.grid--width-1-2 > .grid__cell { width: 50%; .grid-width-clear(2); }
-.grid--width-1-3 > .grid__cell { width: 33.333%; .grid-width-clear(3); }
-.grid--width-1-4 > .grid__cell { width: 25%; .grid-width-clear(4); }
-.grid--width-1-5 > .grid__cell { width: 20%; .grid-width-clear(5); }
-.grid--width-1-6 > .grid__cell { width: 16.666%; .grid-width-clear(6); }
-.grid--width-1-8 > .grid__cell { width: 12.5%; .grid-width-clear(8); }
-.grid--width-1-10 > .grid__cell { width: 10%; .grid-width-clear(10); }
-.grid--width-1-12 > .grid__cell { width: 8.333%; .grid-width-clear(12); }
+& when not (@grid-even-breakpoints = false) {
 
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .grid--width-small-1-2 > .grid__cell { width: 50%; .grid-width-clear(2); }
-    .grid--width-small-1-3 > .grid__cell { width: 33.333%; .grid-width-clear(3); }
-    .grid--width-small-1-4 > .grid__cell { width: 25%; .grid-width-clear(4); }
-    .grid--width-small-1-5 > .grid__cell { width: 20%; .grid-width-clear(5); }
-    .grid--width-small-1-6 > .grid__cell { width: 16.666%; .grid-width-clear(6); }
-    .grid--width-small-1-8 > .grid__cell { width: 12.5%; .grid-width-clear(8); }
-    .grid--width-small-1-10 > .grid__cell { width: 10%; .grid-width-clear(10); }
-    .grid--width-small-1-12 > .grid__cell { width: 8.333%; .grid-width-clear(12); }
-
-}
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .grid--width-medium-1-2 > .grid__cell { width: 50%; .grid-width-clear(2); }
-    .grid--width-medium-1-3 > .grid__cell { width: 33.333%; .grid-width-clear(3); }
-    .grid--width-medium-1-4 > .grid__cell { width: 25%; .grid-width-clear(4); }
-    .grid--width-medium-1-5 > .grid__cell { width: 20%; .grid-width-clear(5); }
-    .grid--width-medium-1-6 > .grid__cell { width: 16.666%; .grid-width-clear(6); }
-    .grid--width-medium-1-8 > .grid__cell { width: 12.5%; .grid-width-clear(8); }
-    .grid--width-medium-1-10 > .grid__cell { width: 10%; .grid-width-clear(10); }
-    .grid--width-medium-1-12 > .grid__cell { width: 8.333%; .grid-width-clear(12); }
-
-}
-
-/* Desktop and bigger */
-@media (min-width: @breakpoint-large) {
-
-    .grid--width-large-1-2 > .grid__cell { width: 50%; .grid-width-clear(2); }
-    .grid--width-large-1-3 > .grid__cell { width: 33.333%; .grid-width-clear(3); }
-    .grid--width-large-1-4 > .grid__cell { width: 25%; .grid-width-clear(4); }
-    .grid--width-large-1-5 > .grid__cell { width: 20%; .grid-width-clear(5); }
-    .grid--width-large-1-6 > .grid__cell { width: 16.666%; .grid-width-clear(6); }
-    .grid--width-large-1-8 > .grid__cell { width: 12.5%; .grid-width-clear(8); }
-    .grid--width-large-1-10 > .grid__cell { width: 10%; .grid-width-clear(10); }
-    .grid--width-large-1-12 > .grid__cell { width: 8.333%; .grid-width-clear(12); }
-
-}
-
-/* Large screen and bigger */
-@media (min-width: @breakpoint-xlarge) {
-
-    .grid--width-xlarge-1-2 > .grid__cell { width: 50%; .grid-width-clear(2); }
-    .grid--width-xlarge-1-3 > .grid__cell { width: 33.333%; .grid-width-clear(3); }
-    .grid--width-xlarge-1-4 > .grid__cell { width: 25%; .grid-width-clear(4); }
-    .grid--width-xlarge-1-5 > .grid__cell { width: 20%; .grid-width-clear(5); }
-    .grid--width-xlarge-1-6 > .grid__cell { width: 16.666%; .grid-width-clear(6); }
-    .grid--width-xlarge-1-8 > .grid__cell { width: 12.5%; .grid-width-clear(8); }
-    .grid--width-xlarge-1-10 > .grid__cell { width: 10%; .grid-width-clear(10); }
-    .grid--width-xlarge-1-12 > .grid__cell { width: 8.333%; .grid-width-clear(12); }
-
-}
-
-
-/* Object: `container`
- ========================================================================== */
-
-.container {
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: @grid-container-max-width;
-    padding: 0 @grid-container-padding-horizontal;
-}
-
-/* Large screen and bigger */
-@media (min-width: @breakpoint-xlarge) {
-
-    .container {
-        max-width: @grid-container-large-max-width;
-        padding: 0 @grid-container-large-padding-horizontal;
+    [class^="@{grid-ns}grid--width-"] > .@{grid-ns}grid__cell,
+    [class*=" @{grid-ns}grid--width-"] > .@{grid-ns}grid__cell {
+        box-sizing: border-box;
+        width: 100%;
     }
 
+    .render-responsive-rulesets(@grid-even-breakpoints; grid-even);
 }
 
-/*
- * Micro clearfix
- */
 
-.container:before,
-.container:after {
-    content: "";
-    display: table;
+// Object: `container`
+// ========================================================================
+
+& when (@grid-enable-container = true) {
+
+    .@{grid-ns}container {
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: @grid-container-max-width;
+        padding: 0 @grid-container-padding-horizontal;
+    }
+
+    // Large screen and bigger
+    @media (min-width: @grid-container-breakpoint) {
+
+        .@{grid-ns}container {
+            max-width: @grid-container-large-max-width;
+            padding: 0 @grid-container-large-padding-horizontal;
+        }
+
+    }
+
+    // Micro clearfix
+
+    .@{grid-ns}container:before,
+    .@{grid-ns}container:after {
+        content: "";
+        display: table;
+    }
+
+    .@{grid-ns}container:after { clear: both; }
 }
-
-.container:after { clear: both; }
-
 
 // Hooks
 // ========================================================================

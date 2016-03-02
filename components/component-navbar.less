@@ -43,7 +43,9 @@
 // Variables
 // ========================================================================
 
-@navbar-enable-base:                            true;
+@navbar-ns:                                     @ns;
+
+@navbar-enable-base:                            false;
 @navbar-base-breakpoint:                        @breakpoint-medium;
 
 @navbar-background:                             @base-color-background-normal;
@@ -86,7 +88,7 @@
     // Sub-object: `navbar__nav`
     // ==========================================================================
 
-    .navbar__nav {
+    .@{navbar-ns}navbar__nav {
         margin: 0;
         padding: 0;
         list-style: none;
@@ -94,13 +96,13 @@
 
     // 1. Create position context for dropdowns
 
-    .navbar__nav-item {
+    .@{navbar-ns}navbar__nav-item {
         // 1
         position: relative;
         @media (min-width: @navbar-breakpoint) { float: @start; }
     }
 
-    .navbar__nav-link {
+    .@{navbar-ns}navbar__nav-link {
         box-sizing: border-box;
         display: block;
         text-decoration: none;
@@ -108,13 +110,13 @@
 
     // Remove default focus style
 
-    .navbar__nav-link:focus { outline: none; }
+    .@{navbar-ns}navbar__nav-link:focus { outline: none; }
 
 
     // Sub-object: `navbar__content`
     // ==========================================================================
 
-    .navbar__content {
+    .@{navbar-ns}navbar__content {
         box-sizing: border-box;
         display: table;
         table-layout: auto;
@@ -124,7 +126,7 @@
 
     // Wrapper to center all child elements vertically
 
-    .navbar__content-inner {
+    .@{navbar-ns}navbar__content-inner {
         display: table-cell;
         vertical-align: middle;
     }
@@ -135,7 +137,7 @@
 
     // The element with this class needs to be last child in the navbar
 
-    .navbar__center {
+    .@{navbar-ns}navbar__center {
 
         @media (min-width: @navbar-breakpoint) {
             display: table;
@@ -148,14 +150,14 @@
 
     // Sub-object: `navbar__start`
     // ==========================================================================
-    .navbar__start {
+    .@{navbar-ns}navbar__start {
         @media (min-width: @navbar-breakpoint) { float: @start; }
     }
 
 
     // Sub-object: `navbar__end`
     // ==========================================================================
-    .navbar__end {
+    .@{navbar-ns}navbar__end {
         @media (min-width: @navbar-breakpoint) { float: @end; }
     }
 
@@ -165,7 +167,7 @@
 // Style modifier: optional base `navbar`
 // ==========================================================================
 
-.navbar-base when (@navbar-enable-base = true) {
+.@{navbar-ns}navbar-base when (@navbar-enable-base = true) {
 
     .navbar-structure(@navbar-base-breakpoint);
 
@@ -178,7 +180,7 @@
     // 1. Dimensions
     // 2. Style
 
-    .navbar__nav-link {
+    .@{navbar-ns}navbar__nav-link {
         // 1
         min-height: @navbar-nav-height;
         line-height: @navbar-nav-line-height;
@@ -194,21 +196,21 @@
      // 1. Apply hover style also to focus state
      // 2. Also apply if dropdown is opened
 
-    .navbar__nav-link:hover,
-    .navbar__nav-link:focus, // 1
-    .navbar__nav-item.is-open .navbar__nav-link { // 2
+    .@{navbar-ns}navbar__nav-link:hover,
+    .@{navbar-ns}navbar__nav-link:focus, // 1
+    .@{navbar-ns}navbar__nav-item.is-open .@{navbar-ns}navbar__nav-link { // 2
         background-color: @navbar-nav-hover-background;
         color: @navbar-nav-hover-color;
     }
 
     // OnClick
-    .navbar__nav-link:active {
+    .@{navbar-ns}navbar__nav-link:active {
         background-color: @navbar-nav-onclick-background;
         color: @navbar-nav-onclick-color;
     }
 
     // Active
-    .navbar__nav-item.is-active .navbar__nav-link {
+    .@{navbar-ns}navbar__nav-item.is-active .@{navbar-ns}navbar__nav-link {
         background-color: @navbar-nav-active-background;
         color: @navbar-nav-active-color;
     }
@@ -216,23 +218,23 @@
     // Sub-object: `navbar__content`
     // ==========================================================================
 
-    .navbar__content {
+    .@{navbar-ns}navbar__content {
         min-height: @navbar-nav-height;
         padding: 0 @navbar-nav-padding-horizontal;
     }
 
     // Better sibling spacing
 
-    .navbar__content + .navbar__content:not(.navbar-center) {
+    .@{navbar-ns}navbar__content + .@{navbar-ns}navbar__content:not(.@{navbar-ns}navbar-center) {
         @media (min-width: @navbar-base-breakpoint) { padding-@{start}: 0; }
     }
 
     // Link colors
 
-    .navbar__content-link {
+    .@{navbar-ns}navbar__content-link {
         color: @navbar-link-color;
     }
-    .navbar__content-link:hover {
+    .@{navbar-ns}navbar__content-link:hover {
         color: @navbar-link-hover-color;
     }
 

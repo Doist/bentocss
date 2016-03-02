@@ -1,9 +1,8 @@
 // Name:            Box
 // Description:     Collection of atomic box classes
 //
-// Namespace:       `border-*`
-//                  `bg-*`
-//                  `fg-*`
+// Namespace:       `bg-*`
+//                  `border-*`
 //                  `opacity-*`
 //
 // Dependencies:    vars-base
@@ -21,149 +20,179 @@
 // Variables
 // ========================================================================
 
+@box-ns:                                        @ns;
+
+@box-enable-background-color:                   false;
+@box-enable-background-images:                  false;
+@box-enable-border-color:                       false;
+@box-enable-border-display:                     false;
+@box-enable-border-radius:                      false;
+@box-enable-opacity:                            false;
+
 // Color
 
-@component-color-darken-1:                      @base-color-darken-1;
-@component-color-darken-2:                      @base-color-darken-2;
-@component-color-darken-3:                      @base-color-darken-3;
-@component-color-darken-4:                      @base-color-darken-4;
+@box-color-darken-1:                            @base-color-darken-1;
+@box-color-darken-2:                            @base-color-darken-2;
+@box-color-darken-3:                            @base-color-darken-3;
+@box-color-darken-4:                            @base-color-darken-4;
+
+// Opacity
+
+@box-opacity-lower-1:                           @base-opacity-lower-1;
+@box-opacity-lower-2:                           @base-opacity-lower-2;
+@box-opacity-lower-3:                           @base-opacity-lower-3;
+@box-opacity-lower-4:                           @base-opacity-lower-4;
 
 // Border
 
-@component-base-border-width:                   @base-border-width;
+@box-base-border-width:                         @base-border-width;
 
-@component-base-border-rounded:                 @base-border-radius;
-@component-mini-border-rounded:                 @base-border-radius-mini;
-@component-small-border-rounded:                @base-border-radius-small;
-@component-large-border-rounded:                @base-border-radius-large;
+@box-border-rounded-base:                       @base-border-radius;
+@box-border-rounded-xsmall:                     @base-border-radius-xsmall;
+@box-border-rounded-small:                      @base-border-radius-small;
+@box-border-rounded-large:                      @base-border-radius-large;
 
-@component-border-circle:                       @base-border-radius-circle;
-
-
-/* ========================================================================
-   Util: Box
- ========================================================================== */
-
-/* Background
- ========================================================================== */
-
-/*
- * Background Color
- */
-
-.bg-darken-1 { background-color: @component-color-darken-1; }
-.bg-darken-2 { background-color: @component-color-darken-2; }
-.bg-darken-3 { background-color: @component-color-darken-3; }
-.bg-darken-4 { background-color: @component-color-darken-4; }
-
-/*
- * Background Images
- */
-
-.bg-cover        { background-size: cover; }
-.bg-contain      { background-size: contain; }
-
-.bg-center       { background-position: center; }
-.bg-left         { background-position: left; }
-.bg-right        { background-position: right; }
-.bg-start        { background-position: @start; }
-.bg-end          { background-position: @end; }
-
-.bg-top          { background-position: top; }
-.bg-top-left     { background-position: top left; }
-.bg-top-right    { background-position: top right; }
-.bg-top-start    { background-position: top @start; }
-.bg-top-end      { background-position: top @end; }
-
-.bg-bottom       { background-position: bottom; }
-.bg-bottom-left  { background-position: bottom left; }
-.bg-bottom-right { background-position: bottom right; }
-.bg-bottom-start { background-position: bottom @start; }
-.bg-bottom-end   { background-position: bottom @end; }
+@box-border-circular:                           @base-border-radius-circle;
 
 
-/* Border
- ========================================================================== */
+// ========================================================================
+// Util: Box
+// ========================================================================
 
-.border {
-  border-style: solid;
-  border-width: @component-base-border-width;
+// Background
+// ========================================================================
+
+// Background Color
+
+& when (@box-enable-background-color = true) {
+
+    .@{box-ns}bg-darken-1 { background-color: @box-color-darken-1; }
+    .@{box-ns}bg-darken-2 { background-color: @box-color-darken-2; }
+    .@{box-ns}bg-darken-3 { background-color: @box-color-darken-3; }
+    .@{box-ns}bg-darken-4 { background-color: @box-color-darken-4; }
 }
 
-.border-top {
-  border-top-style: solid;
-  border-top-width: @component-base-border-width;
+// Background Images
+
+& when (@box-enable-background-images = true) {
+
+    .@{box-ns}bg-cover        { background-size: cover; }
+    .@{box-ns}bg-contain      { background-size: contain; }
+
+    .@{box-ns}bg-center       { background-position: center; }
+    .@{box-ns}bg-left         { background-position: left; }
+    .@{box-ns}bg-right        { background-position: right; }
+    .@{box-ns}bg-start        { background-position: @start; }
+    .@{box-ns}bg-end          { background-position: @end; }
+
+    .@{box-ns}bg-top          { background-position: top; }
+    .@{box-ns}bg-top-left     { background-position: top left; }
+    .@{box-ns}bg-top-right    { background-position: top right; }
+    .@{box-ns}bg-top-start    { background-position: top @start; }
+    .@{box-ns}bg-top-end      { background-position: top @end; }
+
+    .@{box-ns}bg-bottom       { background-position: bottom; }
+    .@{box-ns}bg-bottom-left  { background-position: bottom left; }
+    .@{box-ns}bg-bottom-right { background-position: bottom right; }
+    .@{box-ns}bg-bottom-start { background-position: bottom @start; }
+    .@{box-ns}bg-bottom-end   { background-position: bottom @end; }
+
 }
 
-.border-right {
-  border-right-style: solid;
-  border-right-width: @component-base-border-width;
-}
 
-.border-bottom {
-  border-bottom-style: solid;
-  border-bottom-width: @component-base-border-width;
-}
+// Border
+// ========================================================================
 
-.border-left {
-  border-left-style: solid;
-  border-left-width: @component-base-border-width;
-}
+& when (@box-enable-border-display = true) {
 
-.border-start {
-  border-@{start}-style: solid;
-  border-@{start}-width: @component-base-border-width;
-}
-
-.border-end {
-  border-@{end}-style: solid;
-  border-@{end}-width: @component-base-border-width;
-}
-
-/*
- * Border Color
- */
-
-.border-darken-1 { border-color: @component-color-darken-1; }
-.border-darken-2 { border-color: @component-color-darken-2; }
-.border-darken-3 { border-color: @component-color-darken-3; }
-.border-darken-4 { border-color: @component-color-darken-4; }
-
-/*
- * Border Radius
- */
-
-.border-circle { border-radius: @component-border-circle; }
-.border-rounded { border-radius: @component-base-border-rounded; }
-
-.border-rounded-top    { border-radius: @component-base-border-rounded @component-base-border-rounded 0 0; }
-.border-rounded-right  { border-radius: 0 @component-base-border-rounded @component-base-border-rounded 0; }
-.border-rounded-bottom { border-radius: 0 0 @component-base-border-rounded @component-base-border-rounded; }
-.border-rounded-left   { border-radius: @component-base-border-rounded 0 0 @component-base-border-rounded; }
-
-.border-rounded-start {
-    & when (@base-text-direction = ltr) {
-        border-radius: @component-base-border-rounded 0 0 @component-base-border-rounded;
+    .@{box-ns}border {
+      border-style: solid;
+      border-width: @box-base-border-width;
     }
-    & when (@base-text-direction = rtl) {
-        border-radius: 0 @component-base-border-rounded @component-base-border-rounded 0;
+
+    .@{box-ns}border-top {
+      border-top-style: solid;
+      border-top-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-right {
+      border-right-style: solid;
+      border-right-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-bottom {
+      border-bottom-style: solid;
+      border-bottom-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-left {
+      border-left-style: solid;
+      border-left-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-start {
+      border-@{start}-style: solid;
+      border-@{start}-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-end {
+      border-@{end}-style: solid;
+      border-@{end}-width: @box-base-border-width;
     }
 }
 
-.border-rounded-end {
-    & when (@base-text-direction = ltr) {
-        border-radius: 0 @component-base-border-rounded @component-base-border-rounded 0;
-    }
-    & when (@base-text-direction = rtl) {
-        border-radius: @component-base-border-rounded 0 0 @component-base-border-rounded;
-    }
+// Border Color
+
+& when (@box-enable-border-color = true) {
+
+    .@{box-ns}border-darken-1 { border-color: @box-color-darken-1; }
+    .@{box-ns}border-darken-2 { border-color: @box-color-darken-2; }
+    .@{box-ns}border-darken-3 { border-color: @box-color-darken-3; }
+    .@{box-ns}border-darken-4 { border-color: @box-color-darken-4; }
 }
 
+// Border Radius
 
-/* Opacity
- ========================================================================== */
+& when (@box-enable-border-radius = true) {
 
-.opacity-muted { opacity: .5 }
+    .@{box-ns}border-circular { border-radius: @box-border-circular; }
+    .@{box-ns}border-rounded { border-radius: @box-border-rounded-base; }
+
+    .@{box-ns}border-rounded-top    { border-radius: @box-border-rounded-base @box-border-rounded-base 0 0; }
+    .@{box-ns}border-rounded-right  { border-radius: 0 @box-border-rounded-base @box-border-rounded-base 0; }
+    .@{box-ns}border-rounded-bottom { border-radius: 0 0 @box-border-rounded-base @box-border-rounded-base; }
+    .@{box-ns}border-rounded-left   { border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base; }
+
+    .@{box-ns}border-rounded-start {
+        & when (@base-text-direction = ltr) {
+            border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base;
+        }
+        & when (@base-text-direction = rtl) {
+            border-radius: 0 @box-border-rounded-base @box-border-rounded-base 0;
+        }
+    }
+
+    .@{box-ns}border-rounded-end {
+        & when (@base-text-direction = ltr) {
+            border-radius: 0 @box-border-rounded-base @box-border-rounded-base 0;
+        }
+        & when (@base-text-direction = rtl) {
+            border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base;
+        }
+    }
+
+}
+
+// Opacity
+// ========================================================================
+
+& when (@box-enable-opacity = true) {
+
+    .@{box-ns}opacity-lower-1 { opacity: @box-opacity-lower-1 }
+    .@{box-ns}opacity-lower-2 { opacity: @box-opacity-lower-2 }
+    .@{box-ns}opacity-lower-3 { opacity: @box-opacity-lower-3 }
+    .@{box-ns}opacity-lower-4 { opacity: @box-opacity-lower-4 }
+}
 
 
 // Hooks

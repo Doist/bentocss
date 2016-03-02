@@ -1,0 +1,71 @@
+// Name:            Responsive
+// Description:     Generates responsive rulesets
+//
+// Namespace:       (none)
+//
+// Dependencies:    vars-base
+//
+// ========================================================================
+
+// @breakpoints     A breakpoint name list, can be comma or space separated.
+//                  @breakpoints: base, small, large
+//                  @breakpoints: base small large
+//
+// @mixin-name      The name of the mixin that generates the rulesets.
+//                  @mixin-name: intrinsic-width-rulesets
+
+// Scoping
+//
+// Avoid leaking local variables to global namespace when calling this mixin
+// https://github.com/less/less-docs/issues/21
+//
+// & {
+//    .render-responsive-rulesets(@example-breakpoints; example-mixin-name);
+// }
+// 
+// The matching .mixin() will be called subsequently, which will gain access
+// to the local @breakpoint variable.
+//
+// .mixin(example-mixin-name) {
+//     .example-class-name@breakpoint {}
+// }
+
+.render-responsive-rulesets(@breakpoints; @mixin-name) when not (@breakpoints = false) {
+  
+    // Generate breakpoint rulesets
+    // http://stackoverflow.com/questions/16506146/how-can-i-call-a-mixin-by-reference-in-less/16506448#16506448
+
+    // Wrap rulesets with @media
+    .generate-breakpoint-rulesets(@breakpoint-name) when not (@breakpoint-name = base) {
+
+        @media-query: "breakpoint-media-@{breakpoint-name}";
+
+        // CSS selector name suffix
+        @breakpoint: ~"-\@@{breakpoint-shorthand-@{breakpoint-name}}";
+
+        @media @@media-query {
+            .mixin(@mixin-name);
+        }    
+    }
+
+    // Do not wrap rulesets with @media
+    .generate-breakpoint-rulesets(@breakpoint-name) when (default()) {
+
+        @breakpoint: ~"";
+
+        .mixin(@mixin-name);
+    }  
+
+    // Loop through the different breakpoints
+
+    .loop-breakpoints(@i: length(@breakpoints)) when (@i > 0) {
+
+        .loop-breakpoints(@i - 1);
+
+        @breakpoint-name: extract(@breakpoints, @i);    
+
+        .generate-breakpoint-rulesets(@breakpoint-name);      
+    }
+
+    .loop-breakpoints();
+}

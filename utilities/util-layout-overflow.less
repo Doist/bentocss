@@ -1,8 +1,8 @@
 // Name:            Overflow
 // Description:     Collection of overflow utility classes
 //
-// Namespace:       `position-*`
-//                  `z-*`
+// Namespace:       `scrollable-*`
+//                  `overflow-*`
 //
 // Dependencies:    vars-base
 //
@@ -17,66 +17,71 @@
 // Variables
 // ========================================================================
 
-@layout-scrollable-text-height:                 300/@px;
+@overflow-ns:                                 @ns;
 
-@layout-scrollable-box-height:                  170/@px;
-@layout-scrollable-box-padding:                 10/@px;
-@layout-scrollable-box-border:                  @base-color-border;
-@layout-scrollable-box-border-width:            @base-border-width;
+@overflow-enable-scrollable:                  false;
+@overflow-enable-overflow:                    false;
+
+@overflow-scrollable-text-height:             300/@px;
+
+@overflow-scrollable-box-height:              170/@px;
+@overflow-scrollable-box-padding:             10/@px;
+@overflow-scrollable-box-border:              @base-color-border;
+@overflow-scrollable-box-border-width:        @base-border-width;
 
 
-/* ========================================================================
-   Util: Overflow
- ========================================================================== */
+// ========================================================================
+// Util: Overflow
+// ========================================================================
 
-/* Scrollable
- ========================================================================== */
+// Scrollable
+// ========================================================================
 
-/*
- * Enable scrolling for preformatted text
- */
+& when (@overflow-enable-scrollable = true) {
 
-.scrollable-text {
-    height: @layout-scrollable-text-height;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    resize: both;
+    // Enable scrolling for preformatted text
+
+    .@{overflow-ns}scrollable-text {
+        height: @overflow-scrollable-text-height;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        resize: both;
+    }
+
+    // Box with scrolling enabled
+
+    .@{overflow-ns}scrollable-box {
+        box-sizing: border-box;
+        height: @overflow-scrollable-box-height;
+        padding: @overflow-scrollable-box-padding;
+        border: @overflow-scrollable-box-border-width solid @overflow-scrollable-box-border;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        resize: both;
+    }
+
+    .@{overflow-ns}scrollable-box > :last-child { margin-bottom: 0; }
 }
 
-/*
- * Box with scrolling enabled
- */
 
-.scrollable-box {
-    box-sizing: border-box;
-    height: @layout-scrollable-box-height;
-    padding: @layout-scrollable-box-padding;
-    border: @layout-scrollable-box-border-width solid @layout-scrollable-box-border;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    resize: both;
+// Overflow
+// ========================================================================
+
+& when (@overflow-enable-overflow = true) {
+
+    // Enable scrollbars if content is clipped
+
+    .@{overflow-ns}overflow-container {
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .@{overflow-ns}overflow-container > :last-child { margin-bottom: 0; }
+
+    .@{overflow-ns}overflow-hidden { overflow: hidden }
+    .@{overflow-ns}overflow-scroll { overflow: scroll }
+    .@{overflow-ns}overflow-auto   { overflow: auto }
 }
-
-.scrollable-box > :last-child { margin-bottom: 0; }
-
-
-/* Overflow
- ========================================================================== */
-
-/*
- * Enable scrollbars if content is clipped
- */
-
-.overflow-container {
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.overflow-container > :last-child { margin-bottom: 0; }
-
-.overflow-hidden { overflow: hidden }
-.overflow-scroll { overflow: scroll }
-.overflow-auto   { overflow: auto }
 
 
 // Hooks

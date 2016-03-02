@@ -28,6 +28,9 @@
 // Variables
 // ========================================================================
 
+@base-elements-ns:                              @ns;
+@base-heading-ns:                               @base-elements-ns;
+
 @base-reset-box-sizing:                         true;
 
 @base-html-font-size:                           100%;
@@ -99,14 +102,12 @@
 @base-selection-color:                          @base-color-text;
 
 
-/* ========================================================================
-   Component: Base
- ========================================================================== */
+// ========================================================================
+// Component: Base
+// ========================================================================
 
-/*
- * Reset box-sizing. May cause conflicts with some third-party widgets.
- * http://getbootstrap.com/getting-started/#third-box-sizing
- */
+// Reset box-sizing. May cause conflicts with some third-party widgets.
+// http://getbootstrap.com/getting-started/#third-box-sizing
 
 & when (@base-reset-box-sizing = true) {
 
@@ -122,172 +123,150 @@
 
 }
 
-/*
- * 1. Base font size
- * 2. Style
- * 3. Ensure the page always fills at least the entire height of the viewport
- * 4. Force scrollbars to always be visible to prevent awkward ‘jumps’ when
- *    navigating between pages that do/do not have enough content to produce
- *    scrollbars naturally
- */
+// 1. Base font size
+// 2. Style
+// 3. Ensure the page always fills at least the entire height of the viewport
+// 4. Force scrollbars to always be visible to prevent awkward ‘jumps’ when
+//    navigating between pages that do/do not have enough content to produce
+//    scrollbars naturally
 
 html {
-    /* 1 */
+    // 1
     font-size: @base-html-font-size;
-    /* 2 */
+    // 2
     background: @base-body-background;
-    /* 3 */
+    // 3
     min-height: 100%;
-    /* 4 */
+    // 4
     overflow-y: scroll;
     .hook-base-html;
 }
 
-/*
- * 1. Optionally set RTL text direction
- * 2. Normalizes default `font-family` and sets `font-size` here to support `rem` units
- * 3. Optionally disable font sub-pixel anti-aliasing
- *    This only applies to webkit-based desktop browsers and Firefox 25 (and later) on the Mac
- * 4. Prevents iOS text size adjust after orientation change, without disabling user zoom
- * 5. Remove WebKit tap highlight color
- * 6. Removes default margin.
- * 7. Style
- */
+// 1. Optionally set RTL text direction
+// 2. Normalizes default `font-family` and sets `font-size` here to support `rem` units
+// 3. Optionally disable font sub-pixel anti-aliasing
+//    This only applies to webkit-based desktop browsers and Firefox 25 (and later) on the Mac
+// 4. Prevents iOS text size adjust after orientation change, without disabling user zoom
+// 5. Remove WebKit tap highlight color
+// 6. Removes default margin.
+// 7. Style
 
 body {
-    /* 1 */
+    // 1
     & when (@base-text-direction = rtl) {
         direction: rtl;
         unicode-bidi: embed;
     }
-    /* 2 */
+    // 2
     font-family: @base-body-font-family;
     font-size: @base-body-font-size;
     font-weight: @base-body-font-weight;
     line-height: @base-body-line-height;
-    /* 3 */
+    // 3
     & when (@base-body-font-antialiased = true) {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
-    /* 4 */
+    // 4
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-    /* 5 */
+    // 5
     -webkit-tap-highlight-color: rgba(0,0,0,0);
-    /* 6 */
+    // 6
     margin: 0;
-    /* 7 */
+    // 7
     color: @base-body-color;
     .hook-base-body;
 }
 
 
-/* Links
- ========================================================================== */
+// Links
+// ========================================================================
 
-/*
- * Remove the gray background color from active links in IE 10.
- */
+// Remove the gray background color from active links in IE 10.
 
 a { background: transparent; }
 
-/*
- * Improves readability when focused and also mouse hovered in all browsers.
- */
+// Improves readability when focused and also mouse hovered in all browsers.
 
 a:active,
 a:hover { outline: 0; }
 
-/*
- * Style
- */
+// Style
 
 a,
-.link {
+.@{base-elements-ns}link {
     color: @base-link-color;
     text-decoration: @base-link-text-decoration;
     cursor: pointer;
 }
 
 a:hover,
-.link:hover {
+.@{base-elements-ns}link:hover {
     color: @base-link-hover-color;
     text-decoration: @base-link-hover-text-decoration;
 }
 
 
-/* Text-level semantics
- ========================================================================== */
+// Text-level semantics
+// ========================================================================
 
-/*
- * Text direction
- */
+// Text direction
 
 [dir="ltr"],
-.dir-ltr {
+.@{base-elements-ns}dir-ltr {
     direction: ltr;
     unicode-bidi: embed;
 }
 
 [dir="rtl"],
-.dir-rtl {
+.@{base-elements-ns}dir-rtl {
     direction: rtl;
     unicode-bidi: embed;
 }
 
 bdo[dir="ltr"],
-.dir-ltr-bdo {
+.@{base-elements-ns}dir-ltr-bdo {
     direction: ltr;
     unicode-bidi: bidi-override;
 }
 
 bdo[dir="rtl"],
-.dir-rtl-bdo {
+.@{base-elements-ns}dir-rtl-bdo {
     direction: rtl;
     unicode-bidi: bidi-override;
 }
 
-/*
- * Addresses styling not present in Chrome, Safari, Opera and IE 8/9/10.
- */
+// Addresses styling not present in Chrome, Safari, Opera and IE 8/9/10.
 
 abbr[title] { border-bottom: 1px dotted; }
 
-/*
- * Addresses style set to `bolder` in Firefox
- */
+// Addresses style set to `bolder` in Firefox
 
 b,
 strong { font-weight: @base-bold-font-weight; }
 
-/*
- * 1. Address odd `em`-unit font size rendering in all browsers.
- * 2. Consolas has a better baseline in running text compared to `Courier`
- */
+// 1. Address odd `em`-unit font size rendering in all browsers.
+// 2. Consolas has a better baseline in running text compared to `Courier`
 
 :not(pre) > code,
 :not(pre) > kbd,
 :not(pre) > samp {
-    /* 1 */
+    // 1
     font-size: @base-code-font-size;
-    /* 2 */
+    // 2
     font-family: @base-code-font-family;
-    /* 3 */
+    // 3
     color: @base-code-color;
     white-space: nowrap;
     .hook-base-code;
 }
 
-/*
- * Emphasize
- */
+// Emphasize
 
 em { color: @base-em-color; }
 
-/*
- * Insert
- */
+// Insert
 
 ins {
     background: @base-ins-background;
@@ -295,31 +274,23 @@ ins {
     text-decoration: none;
 }
 
-/*
- * Mark
- * Note: Addresses styling not present in IE 8/9.
- */
+// Mark
+// Note: Addresses styling not present in IE 8/9.
 
 mark {
     background: @base-mark-background;
     color: @base-mark-color;
 }
 
-/*
- * Quote
- */
+// Quote
 
 q { font-style: @base-quote-font-style; }
 
-/*
- * Addresses inconsistent and variable font size in all browsers.
- */
+// Addresses inconsistent and variable font size in all browsers.
 
 small { font-size: 80%; }
 
-/*
- * Prevents `sub` and `sup` affecting `line-height` in all browsers.
- */
+// Prevents `sub` and `sup` affecting `line-height` in all browsers.
 
 sub,
 sup {
@@ -333,47 +304,42 @@ sup { top: -0.5em; }
 sub { bottom: -0.25em; }
 
 
-/* Images
- ========================================================================== */
+// Images
+// ========================================================================
 
-/*
- * 1. Responsiveness: Sets a maximum width relative to the parent and auto scales the height
- * 2. Corrects `max-width` behavior if padding and border are used
- * 3. Remove border when inside `a` element in IE 8/9/10.
- * 4. Remove the gap between images and the bottom of their containers
- */
+// 1. Responsiveness: Sets a maximum width relative to the parent and auto scales the height
+// 2. Corrects `max-width` behavior if padding and border are used
+// 3. Remove border when inside `a` element in IE 8/9/10.
+// 4. Remove the gap between images and the bottom of their containers
 
 img {
     & when (@base-img-responsive = true) {
-        /* 1 */
+        // 1
         max-width: 100%;
         height: auto;
-        /* 2 */
+        // 2
         box-sizing: border-box;
     }
-    /* 3 */
+    // 3
     border: 0;
-    /* 4 */
+    // 4
     vertical-align: middle;
 }
 
-/*
- * Preserve original image dimensions
- */
+// Preserve original image dimensions
 
-.img-preserve { max-width: none; }
+.@{base-elements-ns}img-preserve { max-width: none; }
 
-/*
- * Correct overflow not hidden in IE 9/10/11.
- */
+// Correct overflow not hidden in IE 9/10/11.
 
 svg:not(:root) { overflow: hidden; }
 
 
-/* Block elements
- ========================================================================== */
+// Block elements
+// ========================================================================
 
 .baseline-margin-bottom(@margin-bottom; @reset-top: 0; @reset-last: 1) {
+
     h1, h2, h3, h4, h5, h6,
     ul, ol, dl,
     p,
@@ -395,16 +361,41 @@ svg:not(:root) { overflow: hidden; }
     }
 }
 
-/*
- * Reset margin
- */
+.baseline-margin-top(@margin-top) {
+
+    * + ul, * + ol, * + dl,
+    * + p,
+    * + pre,
+    * + address,
+    * + blockquote,
+    * + hr,
+    * + table,
+    * + form,
+    * + figure,
+    * + iframe {
+        margin-top: @margin-top;
+    }
+}
+
+.baseline-margin-top-headings(@margin-top) {
+
+    * + h1, * + .@{base-heading-ns}h1,
+    * + h2, * + .@{base-heading-ns}h2,
+    * + h3, * + .@{base-heading-ns}h3,
+    * + h4, * + .@{base-heading-ns}h4,
+    * + h5, * + .@{base-heading-ns}h5,
+    * + h6, * + .@{base-heading-ns}h6 {
+        margin-top: @margin-top;
+    }
+}
+
+
+// Reset margin
 
 blockquote,
 figure { margin: 0; }
 
-/*
- * Margins
- */
+// Margins
 
 p,
 ul,
@@ -416,21 +407,22 @@ address,
 fieldset,
 figure { margin: 0 0 @base-margin-vertical 0; }
 
-* + p,
-* + ul,
-* + ol,
-* + dl,
-* + blockquote,
-* + pre,
-* + address,
-* + fieldset,
-* + figure { margin-top: @base-margin-vertical; }
+& when (@base-enable-margin-top = true) {
+
+    .baseline-margin-top(@base-margin-vertical);
+
+}
 
 
-/* Headings
- ========================================================================== */
+// Headings
+// ========================================================================
 
-h1, h2, h3, h4, h5, h6 {
+h1, .@{base-heading-ns}h1,
+h2, .@{base-heading-ns}h2,
+h3, .@{base-heading-ns}h3,
+h4, .@{base-heading-ns}h4,
+h5, .@{base-heading-ns}h5,
+h6, .@{base-heading-ns}h6 {
     margin: 0 0 @base-margin-vertical 0;
     font-family:  @base-heading-font-family;
     font-weight: @base-heading-font-weight;
@@ -438,82 +430,79 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: @base-heading-text-transform;
 }
 
-/*
- * Margins
- */
+// Margins
 
-* + h1,
-* + h2,
-* + h3,
-* + h4,
-* + h5,
-* + h6 { margin-top: @base-heading-margin-top; }
+& when (@base-enable-margin-top = true) {
 
-/*
- * Sizes
- */
+    .baseline-margin-top-headings(@base-heading-margin-top);
 
-h1, .h1 {
+}
+
+
+// Sizes
+
+h1, .@{base-heading-ns}h1 {
     font-size: @base-h1-font-size;
     line-height: @base-h1-line-height;
+    .hook-base-h1-size;
 }
 
-h2, .h2 {
+h2, .@{base-heading-ns}h2 {
     font-size: @base-h2-font-size;
     line-height: @base-h2-line-height;
+    .hook-base-h2-size;
 }
 
-h3, .h3 {
+h3, .@{base-heading-ns}h3 {
     font-size: @base-h3-font-size;
     line-height: @base-h3-line-height;
+    .hook-base-h3-size;
 }
 
-h4, .h4 {
+h4, .@{base-heading-ns}h4 {
     font-size: @base-h4-font-size;
     line-height: @base-h4-line-height;
+    .hook-base-h4-size;
 }
 
-h5, .h5 {
+h5, .@{base-heading-ns}h5 {
     font-size: @base-h5-font-size;
     line-height: @base-h5-line-height;
+    .hook-base-h5-size;
 }
 
-h6, .h6 {
+h6, .@{base-heading-ns}h6 {
     font-size: @base-h6-font-size;
     line-height: @base-h6-line-height;
+    .hook-base-h6-size;
 }
 
 
+// Horizontal rules
+// ========================================================================
 
-
-
-/* Horizontal rules
- ========================================================================== */
-
-/*
- * 1. Address differences between Firefox and other browsers.
- * 2. Style
- */
+// 1. Address differences between Firefox and other browsers.
+// 2. Style
 
 hr {
-    /* 1 */
+    // 1
     box-sizing: content-box;
     height: 0;
-    /* 2 */
+    // 2
     margin: @base-hr-margin-vertical 0;
     border: 0;
     border-top: @base-hr-border-width solid @base-hr-border;
 }
 
 
-/* Address
- ========================================================================== */
+// Address
+// ========================================================================
 
 address { font-style: normal; }
 
 
-/* Blockquotes
- ========================================================================== */
+// Blockquotes
+// ========================================================================
 
 blockquote {
     padding-@{start}: @base-blockquote-padding-start;
@@ -524,12 +513,10 @@ blockquote {
 }
 
 
-/* Preformatted text
- ========================================================================== */
+// Preformatted text
+// ========================================================================
 
-/*
- * 1. Contain overflow in all browsers.
- */
+// 1. Contain overflow in all browsers.
 
 pre {
     padding: @base-pre-padding;
@@ -540,14 +527,14 @@ pre {
     line-height: @base-pre-line-height;
     -moz-tab-size: 4;
     tab-size: 4;
-    /* 1 */
+    // 1
     overflow: auto;
     .hook-base-pre;
 }
 
 
-/* Selection pseudo-element
- ========================================================================== */
+// Selection pseudo-element
+// ========================================================================
 
 ::-moz-selection {
     background: @base-selection-background;
@@ -562,12 +549,10 @@ pre {
 }
 
 
-/* HTML5 elements
- ========================================================================== */
+// HTML5 elements
+// ========================================================================
 
-/*
- * Corrects `block` display not defined in IE 8/9.
- */
+// Corrects `block` display not defined in IE 8/9.
 
 article,
 aside,
@@ -581,15 +566,11 @@ nav,
 section,
 summary { display: block; }
 
-/*
- * Addresses inconsistent vertical alignment of `progress` in Chrome, Firefox and Opera.
- */
+// Addresses inconsistent vertical alignment of `progress` in Chrome, Firefox and Opera.
 
 progress { vertical-align: baseline; }
 
-/*
- * Prevent displaying `audio` without controls in Chrome, Safari and Opera
- */
+// Prevent displaying `audio` without controls in Chrome, Safari and Opera
 
 audio:not([controls]) { display: none; }
 
@@ -601,17 +582,15 @@ video {
     vertical-align: middle;
 }
 
-/*
- * Address `[hidden]` styling not present in IE 8/9.
- * Hide the `template` element in IE and Safari
- */
+// Address `[hidden]` styling not present in IE 8/9.
+// Hide the `template` element in IE and Safari
 
 [hidden],
 template { display: none; }
 
 
-/* Iframe
- ========================================================================== */
+// Iframe
+// ========================================================================
 
 iframe {
     border: 0;
@@ -619,8 +598,8 @@ iframe {
 }
 
 
-/* Fix viewport for IE10 snap mode
- ========================================================================== */
+// Fix viewport for IE10 snap mode
+// ========================================================================
 
 @media screen and (max-width: 400px) {
     @-ms-viewport{
@@ -637,5 +616,11 @@ iframe {
 .hook-base-html() {}
 .hook-base-body() {}
 .hook-base-code() {}
+.hook-base-h1-size() {}
+.hook-base-h2-size() {}
+.hook-base-h3-size() {}
+.hook-base-h4-size() {}
+.hook-base-h5-size() {}
+.hook-base-h6-size() {}
 .hook-base-pre() {}
 .hook-base-misc() {}

@@ -23,6 +23,14 @@
 // Variables
 // ========================================================================
 
+@list-ns:                                       @ns;
+
+@list-enable-modifier-line:                     false;
+@list-enable-modifier-striped:                  false;
+@list-enable-modifier-space:                    false;
+@list-enable-modifier-dl:                       false;
+@list-enable-modifier-dl-line:                  false;
+
 @list-line-margin-top:                          5/@px;
 @list-line-border:                              @base-color-border;
 @list-line-border-width:                        @base-border-width;
@@ -35,6 +43,7 @@
 
 @list-description-term-font-weight:             @base-bold-font-weight;
 
+@list-description-horizontal-breakpoint:        @breakpoint-medium;
 @list-description-horizontal-width:             160/@px;
 @list-description-horizontal-margin-start:      180/@px;
 
@@ -44,101 +53,111 @@
 @list-description-line-color:                   @base-color-text-muted;
 
 
-/* ========================================================================
-   Component: List
- ========================================================================== */
+// ========================================================================
+// Component: List
+// ========================================================================
 
-/* Normalize
- ========================================================================== */
+// Normalize
+// ========================================================================
 
 dt { font-weight: @list-description-term-font-weight; }
 dd { margin-@{start}: 0; }
 
 
-/* Lists
- ========================================================================== */
+// Lists
+// ========================================================================
 
-.list {
+.@{list-ns}list {
     padding: 0;
     list-style: none;
 }
 
-/*
- * Micro clearfix to make list more robust
- */
+// Micro clearfix to make list more robust
 
-.list > li:before,
-.list > li:after {
+.@{list-ns}list > li:before,
+.@{list-ns}list > li:after {
     content: "";
     display: table;
 }
 
-.list > li:after { clear: both; }
+.@{list-ns}list > li:after { clear: both; }
 
 
-/* Modifier: `list--line`
- ========================================================================== */
+// Modifier: `list--line`
+// ========================================================================
 
-.list--line > li:nth-child(n+2) {
-    margin-top: @list-line-margin-top;
-    padding-top: @list-line-margin-top;
-    border-top: @list-line-border-width solid @list-line-border;
+& when (@list-enable-modifier-line = true) {
+
+    .@{list-ns}list--line > li:nth-child(n+2) {
+        margin-top: @list-line-margin-top;
+        padding-top: @list-line-margin-top;
+        border-top: @list-line-border-width solid @list-line-border;
+    }
 }
 
+// Modifier: `list--striped`
+// ========================================================================
 
-/* Modifier: `list--striped`
- ========================================================================== */
+& when (@list-enable-modifier-striped = true) {
 
-.list--striped > li {
-    padding: @list-striped-padding-vertical @list-striped-padding-horizontal;
-}
-
-.list--striped > li:nth-of-type(odd) { background: @list-striped-background; }
-
-
-/* Modifier: `list--space`
- ========================================================================== */
-
-.list--space > li:nth-child(n+2) { margin-top: @list-space-margin-top; }
-
-
-/* Description lists
- ========================================================================== */
-
-/* Modifier: `list-description--horizontal`
- ========================================================================== */
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .list-description--horizontal { overflow: hidden; }
-
-    .list-description--horizontal > dt {
-        width: @list-description-horizontal-width;
-        float: @start;
-        clear: both;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    .@{list-ns}list--striped > li {
+        padding: @list-striped-padding-vertical @list-striped-padding-horizontal;
     }
 
-    .list-description--horizontal > dd { margin-@{start}: @list-description-horizontal-margin-start; }
+    .@{list-ns}list--striped > li:nth-of-type(odd) { background: @list-striped-background; }
+}
 
+// Modifier: `list--space`
+// ========================================================================
+
+& when (@list-enable-modifier-space = true) {
+
+    .@{list-ns}list--space > li:nth-child(n+2) { margin-top: @list-space-margin-top; }
+}
+
+// Description lists
+// ========================================================================
+
+// Modifier: `list-description--horizontal`
+// ========================================================================
+
+& when (@list-enable-modifier-dl = true) {
+
+    // Tablet and bigger
+    @media (min-width: @list-description-horizontal-breakpoint) {
+
+        .@{list-ns}list-description--horizontal { overflow: hidden; }
+
+        .@{list-ns}list-description--horizontal > dt {
+            width: @list-description-horizontal-width;
+            float: @start;
+            clear: both;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .@{list-ns}list-description--horizontal > dd { margin-@{start}: @list-description-horizontal-margin-start; }
+
+    }
 }
 
 
-/* Modifier: `list-description--line`
- ========================================================================== */
+// Modifier: `list-description--line`
+// ========================================================================
 
-.list-description--line > dt { font-weight: normal; }
+& when (@list-enable-modifier-dl-line = true) {
 
-.list-description--line > dt:nth-child(n+2) {
-    margin-top: @list-description-line-margin-top;
-    padding-top: @list-description-line-margin-top;
-    border-top: @list-description-line-border-width solid @list-description-line-border;
+    .@{list-ns}list-description--line > dt { font-weight: normal; }
+
+    .@{list-ns}list-description--line > dt:nth-child(n+2) {
+        margin-top: @list-description-line-margin-top;
+        padding-top: @list-description-line-margin-top;
+        border-top: @list-description-line-border-width solid @list-description-line-border;
+    }
+
+    .@{list-ns}list-description--line > dd { color: @list-description-line-color; }
 }
-
-.list-description--line > dd { color: @list-description-line-color; }
 
 
 // Hooks

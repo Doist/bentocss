@@ -11,12 +11,13 @@
 // Modifiers:       `nav--center`
 //                  `nav--end`
 //                  `nav--start`
-//                  `nav--gutter-collapse`
-//                  `nav--gutter-small`
+//                  `nav--gutter-0`
+//                  `nav--gutter-sm`
 //                  `nav--divider-*`
 //                  `nav--pills`
 //                  `nav--pills-equalize`
 //                  `nav--tabs`
+//                  `nav--tabs-top`
 //                  `nav--tabs-bottom`
 //                  `nav--justify`
 //
@@ -64,7 +65,14 @@
 // Variables
 // ========================================================================
 
-@nav-font-size:                              1rem;
+@nav-ns:                                     @ns;
+
+@nav-enable-modifier-divider:                false;
+@nav-enable-modifier-pills:                  false;
+@nav-enable-modifier-tabs:                   false;
+@nav-enable-modifier-justify:                false;
+
+@nav-font-size:                              @base-font-size;
 
 @nav-color:                                  @base-color-text;
 @nav-text-decoration:                        none;
@@ -73,27 +81,28 @@
 @nav-active-color:                           @base-color-text-link;
 @nav-disabled-color:                         @base-color-text-muted;
 @nav-disabled-background:                    @base-color-background-light;
+@nav-static-color:                           @base-color-text;
 @nav-static-active-color:                    @base-color-text-inverse;
 @nav-static-active-background:               @base-color-background-primary;
 
 @nav-gutter:                                 @base-gutter-small;
-@nav-gutter-small:                           @base-gutter-tiny;
+@nav-gutter-small:                           @base-gutter-xsmall;
 
 @nav-divider-breadcrumb:                     "/";
 @nav-divider-bar-height:                     10/@px;
 @nav-divider-bar-color:                      @base-color-border;
 @nav-divider-bar-width:                      @base-border-width;
 
-@nav-pills-color:                             @base-color-text;
-@nav-pills-background:                        @base-color-background-canvas;
-@nav-pills-padding-vertical:                  3/@px;
-@nav-pills-padding-horizontal:                9/@px;
-@nav-pills-hover-color:                       @base-color-text;
-@nav-pills-hover-background:                  @base-color-background-normal;
-@nav-pills-onclick-color:                     @base-color-text;
-@nav-pills-onclick-background:                @base-color-background-normal-active;
-@nav-pills-active-color:                      @base-color-text-inverse;
-@nav-pills-active-background:                 @base-color-background-primary;
+@nav-pills-color:                            @base-color-text;
+@nav-pills-background:                       @base-color-background-canvas;
+@nav-pills-padding-vertical:                 5/@px;
+@nav-pills-padding-horizontal:               10/@px;
+@nav-pills-hover-color:                      @base-color-text;
+@nav-pills-hover-background:                 @base-color-background-normal;
+@nav-pills-onclick-color:                    @base-color-text;
+@nav-pills-onclick-background:               @base-color-background-normal-active;
+@nav-pills-active-color:                     @base-color-text-inverse;
+@nav-pills-active-background:                @base-color-background-primary;
 
 @nav-tab-border-color:                       @base-color-border;
 @nav-tab-border-width:                       @base-border-width;
@@ -101,8 +110,8 @@
 @nav-tab-padding-horizontal:                 12/@px;
 @nav-tab-padding-top:                        @nav-tab-padding-vertical;
 @nav-tab-padding-bottom:                     @nav-tab-padding-vertical;
-@nav-tab-margin-horizontal:                  @base-gutter-tiny;
-@nav-tab-margin-vertical:                    @base-gutter-tiny;
+@nav-tab-margin-horizontal:                  @base-gutter-xsmall;
+@nav-tab-margin-vertical:                    @base-gutter-xsmall;
 @nav-tab-color:                              @base-color-text-link;
 @nav-tab-hover-border:                       @base-color-background-normal-hover;
 @nav-tab-hover-background:                   @base-color-background-normal-hover;
@@ -113,363 +122,328 @@
 @nav-tab-disabled-color:                     @base-color-text-muted;
 
 
-/* ========================================================================
-   Component: Nav
- ========================================================================== */
+// ========================================================================
+// Component: Nav
+// ========================================================================
 
-/*
- * 1. Remove default list style
- * 2. Remove whitespace between child elements when using `inline-block`
- */
+// 1. Remove default list style
+// 2. Remove whitespace between child elements when using `inline-block`
 
-.nav {
-    /* 1 */
+.@{nav-ns}nav {
+    // 1
     padding: 0;
     list-style: none;
-    /* 2 */
+    // 2
     font-size: 0.001px;
 }
 
 
-/* Items
- ========================================================================== */
+// Items
+// ========================================================================
 
-/*
- * 1. Remove vertical gap with its container
- */
+// 1. Remove vertical gap with its container
 
-.nav__item,
-.nav__item:before,
-.nav__action,
-.nav__static {
+.@{nav-ns}nav__item,
+.@{nav-ns}nav__item:before,
+.@{nav-ns}nav__action,
+.@{nav-ns}nav__static {
     display: inline-block;
-    /* 1 */
+    // 1
     vertical-align: middle;
 }
 
-/*
- * 1. Reset whitespace hack
- * 2. Create position context for dropdown menus
- */
+// 1. Reset whitespace hack
+// 2. Create position context for dropdown menus
 
-.nav__item {
+.@{nav-ns}nav__item {
     white-space: nowrap;
-    /* 1 */
+    // 1
     font-size: @nav-font-size;
-    /* 2 */
+    // 2
     position: relative;
 }
 
-/* Default gutter */
-.nav__item:nth-last-child(n+2) {
+// Default gutter
+.@{nav-ns}nav__item:nth-last-child(n+2) {
     margin-@{end}: @nav-gutter;
 }
 
-.nav__action,
-.nav__static {
+.@{nav-ns}nav__action,
+.@{nav-ns}nav__static {
     text-decoration: @nav-text-decoration;
     white-space: normal;
 }
 
-.nav__action {
+.@{nav-ns}nav__action {
     color: @nav-color;
 }
 
-/*
- * Hover
- * 1. Apply hover style also to focus state
- */
+.@{nav-ns}nav__static {
+    color: @nav-static-color;
+}
 
-.nav__action:hover,
-.nav__action:focus { // 1
+// Hover
+// 1. Apply hover style also to focus state
+
+.@{nav-ns}nav__action:hover,
+.@{nav-ns}nav__action:focus { // 1
     color: @nav-hover-color;
     text-decoration: @nav-hover-text-decoration;
     .hook-nav-action-hover;
 }
 
-/*
- * Active
- */
+// Active
 
-.nav__item.is-active .nav__action {
+.@{nav-ns}nav__item.is-active .@{nav-ns}nav__action {
     color: @nav-active-color;
     .hook-nav-action-active;
 }
 
-.nav__item.is-active .nav__static {
+.@{nav-ns}nav__item.is-active .@{nav-ns}nav__static {
     background: @nav-static-active-background;
     color: @nav-static-active-color;
     .hook-nav-static-active;
 }
 
 
-/* Alignment modifiers
- ========================================================================== */
+// Alignment modifiers
+// ========================================================================
 
-.nav--start { text-align: @start; }
-.nav--end { text-align: @end; }
-.nav--center { text-align: center; }
+.@{nav-ns}nav--start { text-align: @start; }
+.@{nav-ns}nav--end { text-align: @end; }
+.@{nav-ns}nav--center { text-align: center; }
 
 
-/* Gutter modifiers
- ========================================================================== */
+// Gutter modifiers
+// ========================================================================
 
-.nav--gutter-collapse .nav__item:nth-last-child(n+2) {
+.@{nav-ns}nav--gutter-0 .@{nav-ns}nav__item:nth-last-child(n+2) {
     margin-@{end}: 0;
 }
 
-.nav--gutter-small .nav__item:nth-last-child(n+2) {
+.@{nav-ns}nav--gutter-sm .@{nav-ns}nav__item:nth-last-child(n+2) {
     margin-@{end}: @nav-gutter-small;
 }
 
 
-/* Modifier: 'nav--divider'
- ========================================================================== */
+// Modifier: 'nav--divider'
+// ========================================================================
 
-[class^='nav--divider-'] .nav__item:before,
-[class*=' nav--divider-'] .nav__item:before {
-    margin-@{end}: @nav-gutter;
-}
+& when (@nav-enable-modifier-divider = true) {
 
-/*
- * Shape dividers
- */
+    [class^='@{nav-ns}nav--divider-'] .@{nav-ns}nav__item:before,
+    [class*=' @{nav-ns}nav--divider-'] .@{nav-ns}nav__item:before {
+        margin-@{end}: @nav-gutter;
+    }
 
-.nav--divider-bar .nav__item:nth-child(n+2):before {
-    content: "";
-    height: @nav-divider-bar-height;
-    border-@{start}: @nav-divider-bar-width solid @nav-divider-bar-color;
-}
+    // Shape dividers
 
-/*
- * Text dividers
- */
+    .@{nav-ns}nav--divider-bar .@{nav-ns}nav__item:nth-child(n+2):before {
+        content: "";
+        height: @nav-divider-bar-height;
+        border-@{start}: @nav-divider-bar-width solid @nav-divider-bar-color;
+    }
 
-.nav--divider-breadcrumb .nav__item:nth-child(n+2):before {
-    content: @nav-divider-breadcrumb;
-}
+    // Text dividers
 
-/* Text divider local override */
-.nav__item[data-nav-divider]:before {
-    content: attr(data-nav-divider) !important;
-}
+    .@{nav-ns}nav--divider-breadcrumb .@{nav-ns}nav__item:nth-child(n+2):before {
+        content: @nav-divider-breadcrumb;
+    }
 
+    // Text divider local override
+    .@{nav-ns}nav__item[data-nav-divider]:before {
+        content: attr(data-nav-divider) !important;
+    }
 
-/* Modifier: 'nav--pills'
- ========================================================================== */
-
-.nav--pills .nav__action,
-.nav--pills .nav__static {
-    padding: @nav-pills-padding-vertical @nav-pills-padding-horizontal;
-}
-
-.nav--pills .nav__action {
-    background: @nav-pills-background;
-    color: @nav-pills-color;
-}
-
-/*
- * Hover
- * 1. Apply hover style also to focus state
- * 2. Remove default focus style
- */
-
-.nav--pills .nav__action:hover,
-.nav--pills .nav__action:focus { // 1
-    background: @nav-pills-hover-background;
-    color: @nav-pills-hover-color;
-    /* 2 */
-    outline: none;
-}
-
-/* OnClick */
-.nav--pills .nav__action:active {
-    background: @nav-pills-onclick-background;
-    color: @nav-pills-onclick-color;
-}
-
-/*
- * Active
- */
-
-.nav--pills .nav__item.is-active .nav__action {
-    background: @nav-pills-active-background;
-    color: @nav-pills-active-color;
-}
-
-/* Second level modifier */
-
-/*
- * 2. Reset text-align to center if alignment modifier is used
- */
-
-.nav--pills-equalize .nav__action,
-.nav--pills-equalize .nav__static {
-    box-sizing: content-box;
-    min-width: @nav-pills-padding-horizontal;
-    /* 2 */
-    text-align: center;
 }
 
 
-/* Modifier: 'nav--tabs'
- ========================================================================== */
+// Modifier: 'nav--pills'
+// ========================================================================
 
-.nav--tabs {
-    border-bottom: @nav-tab-border-width solid @nav-tab-border-color;
-}
+& when (@nav-enable-modifier-pills = true) {
 
-/*
- * 1. Collapse default gutter
- */
+    .@{nav-ns}nav--pills .@{nav-ns}nav__action,
+    .@{nav-ns}nav--pills .@{nav-ns}nav__static {
+        padding: @nav-pills-padding-vertical @nav-pills-padding-horizontal;
+    }
 
-.nav--tabs .nav__item {
-    margin-bottom: -@nav-tab-border-width;
-    /* 1 */
-    margin-@{end}: 0;
-}
+    .@{nav-ns}nav--pills .@{nav-ns}nav__action {
+        background: @nav-pills-background;
+        color: @nav-pills-color;
+    }
 
-/* Add gutter to action */
-.nav--tabs .nav__item:nth-last-child(n+2) .nav__action {
-    margin-@{end}: @nav-tab-margin-horizontal;
-}
+    // Hover
+    // 1. Apply hover style also to focus state
+    // 2. Remove default focus style
 
-.nav--tabs .nav__action {
-    border: @nav-tab-border-width solid transparent;
-    border-bottom-width: 0;
-    color: @nav-tab-color;
-    padding: @nav-tab-padding-top @nav-tab-padding-horizontal @nav-tab-padding-bottom;
-}
+    .@{nav-ns}nav--pills .@{nav-ns}nav__action:hover,
+    .@{nav-ns}nav--pills .@{nav-ns}nav__action:focus { // 1
+        background: @nav-pills-hover-background;
+        color: @nav-pills-hover-color;
+        // 2
+        outline: none;
+    }
 
-/*
- * Hover
- * 1. Apply hover style also to focus state
- * 2. Also apply if dropdown is opened
- * 3. Remove default focus style
- */
+    // OnClick
+    .@{nav-ns}nav--pills .@{nav-ns}nav__action:active {
+        background: @nav-pills-onclick-background;
+        color: @nav-pills-onclick-color;
+    }
 
-.nav--tabs .nav__action:hover,
-.nav--tabs .nav__action:focus, // 1
-.nav--tabs .nav__item.is-open .nav__action { // 2
-    background: @nav-tab-hover-background;
-    border-color: @nav-tab-hover-border;
-    color: @nav-tab-hover-color;
-    /* 3 */
-    outline: none;
-}
+    // Active
 
-.nav--tabs .nav__item:not(.is-active) .nav__action:hover,
-.nav--tabs .nav__item:not(.is-active) .nav__action:focus,
-.nav--tabs .nav__item.is-open:not(.is-active) .nav__action {
-    margin-bottom: @nav-tab-border-width;
-    padding-bottom: @nav-tab-padding-bottom - @nav-tab-border-width;
-}
+    .@{nav-ns}nav--pills .@{nav-ns}nav__item.is-active .@{nav-ns}nav__action {
+        background: @nav-pills-active-background;
+        color: @nav-pills-active-color;
+    }
 
-/* Active */
-.nav--tabs .nav__item.is-active .nav__action {
-    background: @nav-tab-active-background;
-    border-color: @nav-tab-active-border;
-    border-bottom-color: transparent;
-    color: @nav-tab-active-color;
-}
+    // Second level modifier
 
-/* Disabled */
-.nav--tabs .nav__item.is-disabled .nav__action {
-    color: @nav-tab-disabled-color;
-    cursor: text;
-}
+    // 2. Reset text-align to center if alignment modifier is used
 
-.nav--tabs .nav__item.is-disabled .nav__action:hover,
-.nav--tabs .nav__item.is-disabled .nav__action:focus {
-    background: none;
-    border-color: transparent;
-}
+    .@{nav-ns}nav--pills-equalize .@{nav-ns}nav__action,
+    .@{nav-ns}nav--pills-equalize .@{nav-ns}nav__static {
+        box-sizing: content-box;
+        min-width: ((@base-font-size * @base-line-height) + (@nav-pills-padding-vertical * 2)) - (@nav-pills-padding-horizontal * 2);
+        // 2
+        text-align: center;
+    }
 
-/* Second level modifier */
-
-/*
- * Reset and invert default top tabs styles
- */
-
-.nav--tabs-bottom {
-    border-bottom: none;
-    border-top: @nav-tab-border-width solid @nav-tab-border-color;
-}
-
-.nav--tabs-bottom .nav__item {
-    margin-bottom: 0;
-    margin-top: -@nav-tab-border-width;
-}
-
-.nav--tabs-bottom .nav__action {
-    border-top-width: 0;
-    border-bottom-width: @nav-tab-border-width;
-    padding-top: @nav-tab-padding-bottom;
-    padding-bottom: @nav-tab-padding-top;
-}
-
-.nav--tabs-bottom .nav__item:not(.is-active) .nav__action:hover,
-.nav--tabs-bottom .nav__item:not(.is-active) .nav__action:focus,
-.nav--tabs-bottom .nav__item.is-open:not(.is-active) .nav__action {
-    margin-bottom: 0;
-    margin-top: @nav-tab-border-width;
-    padding-top: @nav-tab-padding-bottom - @nav-tab-border-width;
-    padding-bottom: @nav-tab-padding-top;
-}
-
-.nav--tabs-bottom .nav__item.is-active .nav__action {
-    border-top-color: transparent;
-    border-bottom-color: @nav-tab-active-border;
 }
 
 
-/* Modifier: 'nav--justify'
- * For: 'nav--pills' and 'nav--tabs'
- ========================================================================== */
+// Modifier: 'nav--tabs'
+// ========================================================================
 
-.nav--justify {
-    box-sizing: border-box;
-    display: table;
-    table-layout: fixed;
-    text-align: center;
-    width: 100%;
+& when (@nav-enable-modifier-tabs = true) {
+
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__action {
+        border: @nav-tab-border-width solid transparent;
+        color: @nav-tab-color;
+        padding-right: @nav-tab-padding-horizontal;
+        padding-left: @nav-tab-padding-horizontal;
+    }
+
+    // Hover
+    // 1. Apply hover style also to focus state
+    // 2. Also apply if dropdown is opened
+    // 3. Remove default focus style
+
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__action:hover,
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__action:focus, // 1
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__item.is-open .@{nav-ns}nav__action { // 2
+        background: @nav-tab-hover-background;
+        border-color: @nav-tab-hover-border;
+        color: @nav-tab-hover-color;
+        // 3
+        outline: none;
+    }
+
+    // Active
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__item.is-active .@{nav-ns}nav__action {
+        background: @nav-tab-active-background;
+        border-color: @nav-tab-active-border;
+        color: @nav-tab-active-color;
+    }
+
+    // Disabled
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__action {
+        color: @nav-tab-disabled-color;
+        cursor: text;
+    }
+
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__action:hover,
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__action:focus {
+        background: none;
+        border-color: transparent;
+    }
+
+    // Second level modifiers
+
+    .@{nav-ns}nav--tabs-top .@{nav-ns}nav__item:nth-last-child(n+2),
+    .@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__item:nth-last-child(n+2) {
+        margin-@{end}: @nav-tab-margin-horizontal;
+    }
+
+    // Top
+    .@{nav-ns}nav--tabs-top {
+        border-bottom: @nav-tab-border-width solid @nav-tab-border-color;
+    }
+
+    .@{nav-ns}nav--tabs-top .@{nav-ns}nav__action {
+        border-bottom-width: 0;
+        padding-top: @nav-tab-padding-top;
+        padding-bottom: @nav-tab-padding-bottom;
+    }
+
+    .@{nav-ns}nav--tabs-top .@{nav-ns}nav__item.is-active .@{nav-ns}nav__action {
+        margin-bottom: -@nav-tab-border-width;
+        padding-bottom: @nav-tab-padding-bottom + (@nav-tab-border-width/@px);
+    }
+
+    // Bottom
+    .@{nav-ns}nav--tabs-bottom {
+        border-top: @nav-tab-border-width solid @nav-tab-border-color;
+    }
+
+    .@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__action {
+        border-top-width: 0;
+        padding-top: @nav-tab-padding-bottom;
+        padding-bottom: @nav-tab-padding-top;
+    }
+
+    .@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__item.is-active .@{nav-ns}nav__action {
+        margin-top: -@nav-tab-border-width;
+        padding-top: @nav-tab-padding-bottom + (@nav-tab-border-width/@px);
+    }
+
 }
 
-.nav--justify .nav__item {
-    display: table-cell;
-    margin: 0;
-    width: 1%;
+
+// Modifier: 'nav--justify'
+// For: 'nav--pills' and 'nav--tabs'
+// ========================================================================
+
+& when (@nav-enable-modifier-justify = true) {
+
+    .@{nav-ns}nav--justify {
+        box-sizing: border-box;
+        display: table;
+        table-layout: fixed;
+        text-align: center;
+        width: 100%;
+    }
+
+    .@{nav-ns}nav--justify .@{nav-ns}nav__item {
+        display: table-cell;
+        margin: 0;
+        width: 1%;
+    }
+
+    .@{nav-ns}nav--justify .@{nav-ns}nav__action {
+        display: block;
+    }
+
+    // Move gutter from nav__item (table-cell) to nav__action (block)
+
+    .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-top .@{nav-ns}nav__item,
+    .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__item {
+        margin-@{end}: 0;
+    }
+
+    .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-top .@{nav-ns}nav__item:nth-last-child(n+2) .@{nav-ns}nav__action,
+    .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__item:nth-last-child(n+2) .@{nav-ns}nav__action {
+        margin-@{end}: @nav-tab-margin-horizontal;
+    }
+
 }
 
-.nav--justify .nav__action {
-    display: block;
-}
 
-.nav--justify.nav--tabs {
-    border-top: none;
-    border-bottom: none;
-}
+// Disabled state
+// ========================================================================
 
-.nav--justify.nav--tabs .nav__item:not(.is-active) .nav__action:hover,
-.nav--justify.nav--tabs .nav__item:not(.is-active) .nav__action:focus,
-.nav--justify.nav--tabs .nav__item.is-open:not(.is-active) .nav__action {
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-.nav--justify.nav--tabs:not(.nav--tabs-bottom) .nav__item.is-active .nav__action {
-    border-bottom-color: transparent;
-}
-
-.nav--justify.nav--tabs-bottom .nav__item.is-active .nav__action {
-    border-top-color: transparent;
-}
-
-
-/* Disabled state
- ========================================================================== */
-
-.nav .nav__item.is-disabled .nav__action {
+.@{nav-ns}nav .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__action {
     background: none;
     color: @nav-disabled-color;
     cursor: text;
@@ -477,7 +451,7 @@
     .hook-nav-action-disabled;
 }
 
-.nav .nav__item.is-disabled .nav__static {
+.@{nav-ns}nav .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__static {
     background-color: @nav-disabled-background;
     color: @nav-disabled-color;
     .hook-nav-static-disabled;

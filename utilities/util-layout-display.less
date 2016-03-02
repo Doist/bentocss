@@ -21,136 +21,167 @@
 // ========================================================================
 
 
-/* ========================================================================
-   Util: Display
- ========================================================================== */
+// Variables
+// ========================================================================
 
-/*
- * Display
- */
+@display-ns:                                    @ns;
 
-.display-block { display: block; }
-.display-inline { display: inline; }
+@display-enable-mode:                           false;
+@display-enable-visibility:                     false;
+@display-enable-screen-readers:                 false;
+@display-enable-touch:                          false;
 
-/**
- * 1. Fix for Firefox bug: an image styled `max-width: 100%` within an
- * inline-block will display at its default size, and not limit its width to
- * 100% of an ancestral container.
- */
-.display-inline-block {
-    display: inline-block;
-    /* 1 */
-    max-width: 100%;
+@display-visibility-breakpoints:                false;
+
+
+// ========================================================================
+// Util: Display
+// ========================================================================
+
+// Display
+
+& when (@display-enable-mode = true) {
+
+    .@{display-ns}display-block { display: block; }
+    .@{display-ns}display-inline { display: inline; }
+
+    // 1. Fix for Firefox bug: an image styled `max-width: 100%` within an
+    // inline-block will display at its default size, and not limit its width to
+    // 100% of an ancestral container.
+
+    .@{display-ns}display-inline-block {
+        display: inline-block;
+        // 1
+        max-width: 100%;
+    }
+
+    .@{display-ns}display-table { display: table; }
+    .@{display-ns}display-table-cell { display: table-cell; }
+    .@{display-ns}display-table-row { display: table-row; }
 }
 
-.display-table { display: table; }
-.display-table-cell { display: table-cell; }
-.display-table-row { display: table-row; }
+// Visibility
+// Avoids setting display to `block` so it works also with `inline-block` and `table`
 
-/*
- * Visibility
- * Avoids setting display to `block` so it works also with `inline-block` and `table`
- */
+& when (@display-enable-visibility = true) {
 
-/* Desktop and bigger */
-@media (min-width: @breakpoint-large) {
+    // Binary
 
-    .visible-small { display: none !important; }
-    .visible-medium { display: none !important; }
-    .hidden-large { display: none !important; }
-    .visible-mini { display: none !important; }
+    // Remove from the flow and screen readers on any device
+    .@{display-ns}hidden {
+        display: none !important;
+        visibility: hidden !important;
+    }
 
+    // It's hidden, but still affects layout
+    .@{display-ns}invisible { visibility: hidden !important; }
+
+    // Show on hover
+    .@{display-ns}visible-hover:hover .@{display-ns}hidden,
+    .@{display-ns}visible-hover:hover .@{display-ns}invisible {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    .@{display-ns}visible-hover-inline:hover .@{display-ns}hidden,
+    .@{display-ns}visible-hover-inline:hover .@{display-ns}invisible {
+        display: inline-block !important;
+        visibility: visible !important;
+    }
+
+    // Range
+
+    // Desktop and bigger
+    @media @breakpoint-media-large-up {
+
+        .@{display-ns}visible-\@sm { display: none !important; }
+        .@{display-ns}visible-\@md { display: none !important; }
+        .@{display-ns}hidden-\@lg { display: none !important; }
+        .@{display-ns}visible-\@xs { display: none !important; }
+
+    }
+
+    // Tablet portrait
+    @media @breakpoint-media-medium-range {
+
+        .@{display-ns}visible-\@sm { display: none !important; }
+        .@{display-ns}visible-\@lg { display: none !important ; }
+        .@{display-ns}hidden-\@md { display: none !important; }
+        .@{display-ns}visible-\@xs { display: none !important; }
+
+    }
+
+    // Phone landscape
+    @media @breakpoint-media-small-range {
+
+        .@{display-ns}visible-\@md { display: none !important; }
+        .@{display-ns}visible-\@lg { display: none !important; }
+        .@{display-ns}hidden-\@sm { display: none !important; }
+        .@{display-ns}visible-\@xs { display: none !important; }
+
+    }
+
+    // Phone portrait and smaller
+    @media @breakpoint-media-xsmall-down {
+
+        .@{display-ns}visible-\@md { display: none !important; }
+        .@{display-ns}visible-\@lg { display: none !important; }
+        .@{display-ns}visible-\@sm { display: none !important; }
+        .@{display-ns}hidden-\@xs { display: none !important; }
+
+    }
+
+    // Up and Down
+
+    .mixin(visibility-rulesets) {
+
+        .@{display-ns}hidden@{breakpoint} { display: none !important; }            
+    }
+
+    & when not (@display-visibility-breakpoints = false) {
+        .render-responsive-rulesets(@display-visibility-breakpoints; visibility-rulesets);
+    }
 }
 
-/* Tablet portrait */
-@media (min-width: @breakpoint-medium) and (max-width: @breakpoint-medium-max) {
+& when (@display-enable-screen-readers = true) {
 
-    .visible-small { display: none !important; }
-    .visible-large { display: none !important ; }
-    .hidden-medium { display: none !important; }
-    .visible-mini { display: none !important; }
+    // Only display content to screen readers
+    // Completely remove from the flow but leave available to screen readers
+    // http://a11yproject.com/posts/how-to-hide-content/
 
+    .@{display-ns}sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      border: 0;
+    }
+
+    // Use in conjunction with .sr-only to only display content when it's focused.
+    // Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
+
+    .@{display-ns}sr-only--focusable {
+      &:active,
+      &:focus {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+      }
+    }
 }
 
-/* Phone landscape */
-@media (min-width: @breakpoint-small) and (max-width: @breakpoint-small-max) {
+& when (@display-enable-touch = true) {
 
-    .visible-medium { display: none !important; }
-    .visible-large { display: none !important; }
-    .hidden-small { display: none !important; }
-    .visible-mini { display: none !important; }
-
+    // Hide on touch
+    .@{display-ns}touch .@{display-ns}hidden-touch,
+    .@{display-ns}notouch .@{display-ns}hidden-notouch { display: none !important; }
 }
-
-/* Phone portrait and smaller */
-@media (max-width: @breakpoint-mini-max) {
-
-    .visible-medium { display: none !important; }
-    .visible-large { display: none !important; }
-    .visible-small { display: none !important; }
-    .hidden-mini { display: none !important; }
-
-}
-
-/* Remove from the flow and screen readers on any device */
-.hidden {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* It's hidden, but still affects layout */
-.invisible { visibility: hidden !important; }
-
-/* Show on hover */
-.visible-hover:hover .hidden,
-.visible-hover:hover .invisible {
-    display: block !important;
-    visibility: visible !important;
-}
-
-.visible-hover-inline:hover .hidden,
-.visible-hover-inline:hover .invisible {
-    display: inline-block !important;
-    visibility: visible !important;
-}
-
-/*
- * Only display content to screen readers
- * Completely remove from the flow but leave available to screen readers
- * http://a11yproject.com/posts/how-to-hide-content/
- */
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  border: 0;
-}
-
-/*
- * Use in conjunction with .sr-only to only display content when it's focused.
- * Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
- */
-
-.sr-only--focusable {
-  &:active,
-  &:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-  }
-}
-
-/* Hide on touch */
-.touch .hidden-touch,
-.notouch .hidden-notouch { display: none !important; }
 
 
 // Hooks

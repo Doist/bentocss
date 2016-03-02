@@ -2,37 +2,46 @@
 // https://gist.github.com/janogarcia/8c140ff9294a285830a0
 
 
+// Paths
+// ========================================================================
+
+@libs-path: "/Users/usernanme/doist_bentocss/";
+
+
 // Base
 // ========================================================================
 
+// Theme
+// @import "theme/fonts-theme-exa.less";
+// where exa is the 3 letter theme namspace
+
 // Base styles
-@import "base/element-base.less";
+// @import "@{libs-path}base/element-base.less";
 
 
 // Components
 // ========================================================================
 
 // Layout (arranges content and every other component)
-@import "components/layout-arrange.less";
-@import "components/layout-grid.less";
+// @import "@{libs-path}components/layout-grid.less";
 
 // Elements (base HTML elements)
-@import "components/element-button.less";
-@import "components/element-form.less";
+// @import "@{libs-path}components/element-button.less";
 
 // Common (reusable UI patterns)
-@import "components/component-navbar.less";
+// @import "@{libs-path}components/component-nav.less";
 
 // Theme (app specific theme and UI patterns)
-@import "theme/component-theme.less";
+// @import "theme/component-theme-exa.less";
+// where exa is the 3 letter theme namspace
 
 
 // Utilities
 // ========================================================================
 
-@import "utilities/util-layout.less";
-@import "utilities/util-component.less";
-@import "utilities/util-polyfill.less";
+// @import "@{libs-path}utilities/util-layout-size.less";
+
+// @import "@{libs-path}utilities/util-component.less";
 
 
 // Vars
@@ -40,7 +49,8 @@
 // ========================================================================
 
 // Base
-@import "base/vars-base.less";
+@import "@{libs-path}base/vars-base.less";
 
 // Theme
-@import "theme/vars-theme.less";
+// @import "theme/vars-theme-exa.less";
+// where exa is the 3 letter theme namspace

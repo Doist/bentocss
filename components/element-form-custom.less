@@ -1,0 +1,127 @@
+// Name:            Form custom
+// Description:     Extends `form` with custom form controls
+//
+// Namespace:       `form`
+//
+// Sub-objects:     `form__control-file`
+//
+// Dependencies:    vars-base
+//
+// Markup:
+//
+// <!-- form__control-file -->
+// <div class="form__control-file">
+//     <button class="button"></button>
+//     <input type="file">
+// </div>
+//
+// <!-- form__control-select -->
+// <select class="form__control form__control--select">
+//     <option selected>Open this select menu</option>
+//     <option value="1">One</option>
+//     <option value="2">Two</option>
+// </select>
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/components/form-file.less
+// http://wtfforms.com/
+// https://github.com/twbs/bootstrap/blob/v4.0.0-alpha/scss/_custom-forms.scss
+// https://github.com/zurb/foundation/blob/v5.5.2/scss/foundation/components/_forms.scss
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@form-ns:                                                   @ns;
+
+@form-enable-control-file:                                  false;
+@form-enable-control-select:                                false;
+
+@form-control-select-background:                            #fff;
+// base64 encoded
+@form-control-select-caret-color:                           '%23444444';
+@form-control-select-caret-size:                            10/@px;
+@form-control-select-caret-padding:                         28/@px;
+@form-control-select-caret-offset:                          12/@px;
+
+
+// ========================================================================
+// Component: Form custom
+// ========================================================================
+
+// File
+// ========================================================================
+
+& when (@form-enable-control-file = true) {
+
+    // 1. Behave like form elements
+    // 2. Create position context
+    // 3. Clip content
+
+    .@{form-ns}form__control-file {
+        // 1
+        display: inline-block;
+        vertical-align: middle;
+        // 2
+        position: relative;
+        // 3
+        overflow: hidden;
+    }
+
+    // 1. Required for Firefox
+    // 2. Expand height and required for the cursor
+
+    .@{form-ns}form__control-file input[type="file"] {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        width: 100%;
+        opacity: 0;
+        cursor: pointer;
+        // 1
+        left: 0;
+        // 2
+        font-size: 500px;
+    }
+}
+
+
+// Select
+// ========================================================================
+
+& when (@form-enable-control-select = true) {
+
+    .@{form-ns}form__control--select {
+        appearance: none;
+        user-select: none;            
+        padding-@{end}: @form-control-select-caret-padding;
+        background-color: @form-control-select-background;
+        // 1. Paths http://jxnblk.com/paths/?d=M8%2016%20L56%2016%20L32%2048%20Z
+        // 2. Optimizer https://jakearchibald.github.io/svgomg/
+        // 3. Encoder http://www.grumpicon.com/
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22@{form-control-select-caret-color}%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M8%2016h48L32%2048z%22/%3E%3C/svg%3E');
+        background-repeat: no-repeat;
+        background-position: @end @form-control-select-caret-offset center;
+        background-size: @form-control-select-caret-size;
+
+        // IE9 hacks to hide the background-image and reduce padding
+        padding-@{end}: .75rem \9;
+        background-image: none \9;
+
+        // Hides the default caret in IE11
+        &::-ms-expand {
+            opacity: 0;
+        }
+    }
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-form-custom-misc;
+
+.hook-form-custom-misc() {}

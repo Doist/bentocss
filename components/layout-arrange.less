@@ -15,8 +15,8 @@
 //                  `arrange--bottom`
 //                  `arrange--middle`
 //                  `arrange--equal`
-//                  `arrange--gutter-medium`
-//                  `arrange--gutter-small`
+//                  `arrange--gutter-md`
+//                  `arrange--gutter-sm`
 //
 // Sub-modifiers:   `arrange__item--fill`
 //
@@ -25,7 +25,7 @@
 // Markup:
 //
 // <!-- arrange -->
-// <div class="arrange arrange--middle [arrange--gutter-medium]">
+// <div class="arrange-default arrange--middle [arrange--gutter-md]">
 //     <div class="arrange__item">
 //         <img class="arrange__object-intrinsic-fit" src="img.png" alt="">
 //     </div>
@@ -35,7 +35,7 @@
 // </div>
 //
 // <!-- arrange--equal -->
-// <ul class="arrange arrange--equal">
+// <ul class="arrange-default arrange--equal">
 //     <li class="arrange__item">
 //         <button class="button width-full">Reply</button>
 //     </li>
@@ -69,6 +69,17 @@
 // Variables
 // ========================================================================
 
+@arrange-ns:                                    @ns;
+
+@arrange-breakpoints:                           false;
+@arrange-item-breakpoints:                      base;
+@arrange-object-intrinsic-breakpoints:          base;
+@arrange-object-align-breakpoints:              base;
+@arrange-width-breakpoints:                     base;
+@arrange-alignment-vertical-breakpoints:        false;
+@arrange-equal-breakpoints:                     false;
+@arrange-gutter-breakpoints:                    base;
+
 @arrange-gutter-horizontal:                     @base-gutter;
 @arrange-gutter-vertical:                       @base-gutter;
 
@@ -79,398 +90,254 @@
 @arrange-gutter-small-vertical:                 @base-gutter-small;
 
 
-/* ========================================================================
-   Component: Arrange
- ========================================================================== */
+// ========================================================================
+// Component: Arrange
+// ========================================================================
 
-/*
- * This component lets you lay out a row of cells in various ways. You can
- * specify whether a cell should be wide enough to fit its content, or take up
- * the remaining space in the row. It's also possible to give all cells an
- * equal width, and to control their vertical alignment.
- */
+// 1. Zero out any default spacing that might be on an element (e.g., `li`);
+//    Margin has no effect when coupled with `display: table-cell`.
 
-.arrange-small,
-.arrange-medium {
-    box-sizing: border-box;
-    display: block;
-    margin: 0;
+.@{arrange-ns}arrange__item {
+    // 1
     padding: 0;
 }
 
-.arrange-small > .arrange__item,
-.arrange-medium > .arrange__item {
-    display: block;
-    padding: 0;
-}
+// This component lets you lay out a row of cells in various ways. You can
+// specify whether a cell should be wide enough to fit its content, or take up
+// the remaining space in the row. It's also possible to give all cells an
+// equal width, and to control their vertical alignment.
 
-/* Any width */
+// Any width
 
-/*
- * 1. Protect against the component expanding beyond the confines of its
- *    container if properties affecting the box-model are applied to the
- *    component. Mainly necessary because of (5).
- * 2. Rely on table layout.
- * 3. Zero out the default spacing that might be on an element (e.g., `ul`).
- * 4. Make sure the component fills at least the full width of its parent.
- * 5. Reset the table-layout algorithm in case a component is nested.
- */
+// 1. Protect against the component expanding beyond the confines of its
+//    container if properties affecting the box-model are applied to the
+//    component. Mainly necessary because of (5).
+// 2. Rely on table layout.
+// 3. Zero out the default spacing that might be on an element (e.g., `ul`).
+// 4. Make sure the component fills at least the full width of its parent.
+// 5. Reset the table-layout algorithm in case a component is nested.
 
-.arrange-default {
-    /* 1 */
+.@{arrange-ns}arrange-default {
+    // 1
     box-sizing: border-box;
-    /* 2 */
+    // 2
     display: table;
-    /* 3 */
+    // 3
     margin: 0;
     padding: 0;
-    /* 4 */
+    // 4
     min-width: 100%;
-    /* 5 */
+    // 5
     table-layout: auto;
 }
 
-/*
- * There are two possible types of child. `arrange__item--fill` will expand to fill all
- * of the remaining space not filled by regular `arrange__item` elements.
- *
- * 1. Zero out any default spacing that might be on an element (e.g., `li`);
- *    Margin has no effect when coupled with `display: table-cell`.
- * 2. All cells are top-aligned by default
- */
+// There are two possible types of child. `arrange__item--fill` will expand to fill all
+// of the remaining space not filled by regular `arrange__item` elements.
+//
+// 1. All cells are top-aligned by default
 
-.arrange-default > .arrange__item {
+.@{arrange-ns}arrange-default > .@{arrange-ns}arrange__item {
     display: table-cell;
-    /* 1 */
-    padding: 0;
-    /* 2 */
+    // 1
     vertical-align: top;
 }
 
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
+.mixin(arrange-breakpoints) {
 
-    .arrange-small {
+    .@{arrange-ns}arrange@{breakpoint},
+    .@{arrange-ns}arrange@{breakpoint} {
+        box-sizing: border-box;
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+    .@{arrange-ns}arrange@{breakpoint} > .@{arrange-ns}arrange__item,
+    .@{arrange-ns}arrange@{breakpoint} > .@{arrange-ns}arrange__item {
+        display: block;
+    }
+
+    .@{arrange-ns}arrange@{breakpoint} {
         display: table;
         min-width: 100%;
         table-layout: auto;
     }
 
-    .arrange-small > .arrange__item {
-        display: table-cell;
-        vertical-align: top;
-    }
-
-}
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .arrange-medium {
-        display: table;
-        min-width: 100%;
-        table-layout: auto;
-    }
-
-    .arrange-medium > .arrange__item {
+    .@{arrange-ns}arrange@{breakpoint} > .@{arrange-ns}arrange__item {
         display: table-cell;
         vertical-align: top;
     }
 }
 
-/*
- * Make sure the main content block expands to fill the remaining space.
- */
+& when not (@arrange-breakpoints = false) {
 
-.arrange__item--fill { width: 100%; }
-
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .arrange-small__item--fill { width: 100%; }
-
+    .render-responsive-rulesets(@arrange-breakpoints; arrange-breakpoints);
 }
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+// Make sure the main content block expands to fill the remaining space.
 
-    .arrange-medium__item--fill { width: 100%; }
+.mixin(arrange-item) {
 
+    .@{arrange-ns}arrange__item--fill@{breakpoint} { width: 100%; }    
 }
 
-/*
- * Where possible, protect against large images breaking the layout. Prevent them from
- * exceeding the width of the main content block by making them fluid.
- *
- * Only work for all browsers with the `arrange--equal` variant. For Firefox
- * and IE to constrain image dimensions for other layouts, large images will
- * need their width set to `100%`.
- */
+& when not (@arrange-item-breakpoints = false) {
 
-.arrange__object-intrinsic-fill {
-    height: auto;
-    max-width: 100%;
+    .render-responsive-rulesets(@arrange-item-breakpoints; arrange-item);
 }
 
-.arrange__object-intrinsic-stretch {
-    height: auto;
-    width: 100%;
-}
+.mixin(arrange-object-intrinsic) {
 
-/*
- * Defend against a side-effect of this layout pattern: images in regular
- * 'arrange__item' cannot be fluid, otherwise they lose their ability to
- * provide size to a cell.
- */
+    // Where possible, protect against large images breaking the layout. Prevent them from
+    // exceeding the width of the main content block by making them fluid.
+    //
+    // Only work for all browsers with the `arrange--equal` variant. For Firefox
+    // and IE to constrain image dimensions for other layouts, large images will
+    // need their width set to `100%`.
 
-.arrange__object-intrinsic-fit {
-    max-width: none !important;
-    width: auto !important;
-}
-
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .arrange-small__object-intrinsic-fill {
+    .@{arrange-ns}arrange__object-intrinsic-fill@{breakpoint} {
         height: auto;
         max-width: 100%;
     }
 
-    .arrange-small__object-intrinsic-stretch {
+    .@{arrange-ns}arrange__object-intrinsic-stretch@{breakpoint} {
         height: auto;
         width: 100%;
     }
 
-    .arrange-small__object-intrinsic-fit {
-        max-width: none !important;
-        width: auto !important;
-    }
+    // Defend against a side-effect of this layout pattern: images in regular
+    // 'arrange__item' cannot be fluid, otherwise they lose their ability to
+    // provide size to a cell.
 
-}
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .arrange-medium__object-intrinsic-fill {
-        height: auto;
-        max-width: 100%;
-    }
-
-    .arrange-medium__object-intrinsic-stretch {
-        height: auto;
-        width: 100%;
-    }
-
-    .arrange-medium__object-intrinsic-fit {
+    .@{arrange-ns}arrange__object-intrinsic-fit@{breakpoint} {
         max-width: none !important;
         width: auto !important;
     }
 }
 
-/*
- * Object positioning.
- */
+& when not (@arrange-object-intrinsic-breakpoints = false) {
 
-.arrange__object-start { float: @start; }
-.arrange__object-end { float: @end; }
-
-.arrange__object-center {
-    display: table;
-    margin-right: auto;
-    margin-left: auto;
+    .render-responsive-rulesets(@arrange-object-intrinsic-breakpoints; arrange-object-intrinsic);
 }
 
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
 
-    .arrange-small__object-start { float: @start; }
-    .arrange-small__object-end { float: @end; }
+// Object positioning.
 
-    .arrange-small__object-center {
+.mixin(arrange-object-align) {
+
+    .@{arrange-ns}arrange__object-start@{breakpoint} { float: @start; }
+    .@{arrange-ns}arrange__object-end@{breakpoint} { float: @end; }
+
+    .@{arrange-ns}arrange__object-center@{breakpoint} {
         display: table;
         margin-right: auto;
         margin-left: auto;
-    }
-
+    }                
 }
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+& when not (@arrange-object-align-breakpoints = false) {
 
-    .arrange-medium__object-start { float: @start; }
-    .arrange-medium__object-end { float: @end; }
-
-    .arrange-medium__object-center {
-        display: table;
-        margin-right: auto;
-        margin-left: auto;
-    }
+    .render-responsive-rulesets(@arrange-object-align-breakpoints; arrange-object-align);
 }
 
 
-/* Width modifiers
- * Modifier: `arrange--fit`
- ============================================================================ */
+// Width modifiers
+// Modifier: `arrange--fit`
+// ========================================================================
 
-.arrange--fit { min-width: 0; }
+.mixin(arrange-width) {
 
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .arrange-small--fit { min-width: 0; }
-
+    .@{arrange-ns}arrange--fit@{breakpoint} { min-width: 0; }            
 }
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+& when not (@arrange-width-breakpoints = false) {
 
-    .arrange-medium--fit { min-width: 0; }
-
+    .render-responsive-rulesets(@arrange-width-breakpoints; arrange-width);
 }
 
 
-/* Vertical alignment modifiers
- * Modifier: `arrange--middle`, `arrange--bottom`
- ============================================================================ */
+// Vertical alignment modifiers
+// Modifier: `arrange--middle`, `arrange--bottom`
+// ========================================================================
 
-.arrange--baseline > .arrange__item { vertical-align: baseline; }
-.arrange--bottom > .arrange__item { vertical-align: bottom; }
-.arrange--middle > .arrange__item { vertical-align: middle; }
-.arrange--top > .arrange__item { vertical-align: top; }
+.mixin(arrange-alignment-vertical) {
 
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .arrange-small--baseline > .arrange__item { vertical-align: baseline; }
-    .arrange-small--bottom > .arrange__item { vertical-align: bottom; }
-    .arrange-small--middle > .arrange__item { vertical-align: middle; }
-    .arrange-small--top > .arrange__item { vertical-align: top; }
-
+    .@{arrange-ns}arrange--baseline@{breakpoint} > .@{arrange-ns}arrange__item { vertical-align: baseline; }
+    .@{arrange-ns}arrange--bottom@{breakpoint} > .@{arrange-ns}arrange__item { vertical-align: bottom; }
+    .@{arrange-ns}arrange--middle@{breakpoint} > .@{arrange-ns}arrange__item { vertical-align: middle; }
+    .@{arrange-ns}arrange--top@{breakpoint} > .@{arrange-ns}arrange__item { vertical-align: top; }        
 }
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+& when not (@arrange-alignment-vertical-breakpoints = false) {
 
-    .arrange-medium--baseline > .arrange__item { vertical-align: baseline; }
-    .arrange-medium--bottom > .arrange__item { vertical-align: bottom; }
-    .arrange-medium--middle > .arrange__item { vertical-align: middle; }
-    .arrange-medium--top > .arrange__item { vertical-align: top; }
-
+    .render-responsive-rulesets(@arrange-alignment-vertical-breakpoints; arrange-alignment-vertical);
 }
 
 
-/* Equal-width modifier
- * Modifier: `arrange--equal`
- ============================================================================ */
+// Equal-width modifier
+// Modifier: `arrange--equal`
+// ========================================================================
 
-/*
- * This layout algorithm will create equal-width table cells, irrespective of
- * the width of their content.
- *
- * 1. The layout algorithm requires a set width to correctly calculate table
- *    cell width.
- */
+.mixin(arrange-equal) {
 
-.arrange--equal {
-    table-layout: fixed;
-    /* 1 */
-    width: 100%;
-}
+    // This layout algorithm will create equal-width table cells, irrespective of
+    // the width of their content.
+    //
+    // 1. The layout algorithm requires a set width to correctly calculate table
+    //    cell width.
 
-/*
- * Give the cells an equal width. This value ensures that Arrange is still 100%
- * wide when gutters are used in conjunctions with equal-width cells.
- */
-
-.arrange--equal > .arrange__item {
-    width: 1%;
-}
-
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .arrange-small--equal {
+    .@{arrange-ns}arrange--equal@{breakpoint} {
         table-layout: fixed;
+        // 1
         width: 100%;
     }
 
-    .arrange-small--equal > .arrange__item {
+    // Give the cells an equal width. This value ensures that Arrange is still 100%
+    // wide when gutters are used in conjunctions with equal-width cells.
+
+    .@{arrange-ns}arrange--equal@{breakpoint} > .@{arrange-ns}arrange__item {
         width: 1%;
-    }
-
+    }    
 }
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+& when not (@arrange-equal-breakpoints = false) {
 
-    .arrange-medium--equal {
-        table-layout: fixed;
-        width: 100%;
-    }
-
-    .arrange-medium--equal > .arrange__item {
-        width: 1%;
-    }
-
+    .render-responsive-rulesets(@arrange-equal-breakpoints; arrange-equal);
 }
 
 
-/* Arrange gutter
- ============================================================================ */
+// Arrange gutter
+// ========================================================================
 
-/*
- * Add a gutter between cells
- *
- * NOTE: this can trigger a horizontal scrollbar if the component is as wide as
- * the viewport. Use padding on a container, or `overflow-x:hidden` to protect
- * against it.
- */
+// Add a gutter between cells
+//
+// NOTE: this can trigger a horizontal scrollbar if the component is as wide as
+// the viewport. Use padding on a container, or `overflow-x:hidden` to protect
+// against it.
 
-/* Modifiers: `arrange--gutter-small`, `arrange--gutter-medium`
- ============================================================================ */
+// Modifiers: `arrange--gutter-sm`, `arrange--gutter-md`
+// ========================================================================
 
-/*
- * Small gutter
- */
+.mixin(arrange-gutter) {    
 
-/* Horizontal */
-.arrange--gutter-small > .arrange__item:nth-child(n+2) {
-    padding-@{start}: @arrange-gutter-small-horizontal;
-}
+    // Small gutter
 
-/*
- * Medium gutter
- */
-
-/* Horizontal */
-.arrange--gutter-medium > .arrange__item:nth-child(n+2) {
-    padding-@{start}: @arrange-gutter-horizontal;
-}
-
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .arrange-small--gutter-small > .arrange__item:nth-child(n+2) {
+    // Horizontal
+    .@{arrange-ns}arrange--gutter-sm@{breakpoint} > .@{arrange-ns}arrange__item:nth-child(n+2) {
         padding-@{start}: @arrange-gutter-small-horizontal;
     }
 
-    .arrange-small--gutter-medium > .arrange__item:nth-child(n+2) {
-        padding-@{start}: @arrange-gutter-horizontal;
-    }
+    // Medium gutter
 
+    // Horizontal
+    .@{arrange-ns}arrange--gutter-md@{breakpoint} > .@{arrange-ns}arrange__item:nth-child(n+2) {
+        padding-@{start}: @arrange-gutter-horizontal;
+    }          
 }
 
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
+& when not (@arrange-gutter-breakpoints = false) {
 
-    .arrange-medium--gutter-small > .arrange__item:nth-child(n+2) {
-        padding-@{start}: @arrange-gutter-small-horizontal;
-    }
-
-    .arrange-medium--gutter-medium > .arrange__item:nth-child(n+2) {
-        padding-@{start}: @arrange-gutter-horizontal;
-    }
-
+    .render-responsive-rulesets(@arrange-gutter-breakpoints; arrange-gutter);
 }
 
 

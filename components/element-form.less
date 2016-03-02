@@ -8,6 +8,7 @@
 //                  `form__help-block`
 //                  `form__label`
 //                  `form__legend`
+//                  `form__control`
 //                  `form__controls`
 //                  `form__controls-condensed`
 //                  `form__icon`
@@ -17,13 +18,13 @@
 //
 // Sub-modifiers:   `form__control--danger`
 //                  `form__control--success`
-//                  `form__control--small`
-//                  `form__control--large`
+//                  `form__control--sm`
+//                  `form__control--lg`
 //                  `form__control--blank`
-//                  `form__control--width-mini`
-//                  `form__control--width-small`
-//                  `form__control--width-medium`
-//                  `form__control--width-large`
+//                  `form__control--width-xsm`
+//                  `form__control--width-sm`
+//                  `form__control--width-md`
+//                  `form__control--width-lg`
 //                  `form__controls--text`
 //
 // Dependencies:    vars-base
@@ -50,6 +51,12 @@
 // Variables
 // ========================================================================
 
+@form-ns:                                       @ns;
+
+@form-enable-modifier-size:                     false;
+@form-enable-modifier-width:                    false;
+@form-enable-sub-icon:                          false;
+
 @form-control-height:                           @base-height;
 @form-control-padding:                          4/@px 6/@px;
 @form-control-font-size:                        @base-font-size;
@@ -62,7 +69,7 @@
 @form-control-large-padding:                    8/@px 6/@px;
 @form-control-large-font-size:                  16/@px;
 
-@form-control-mini-width:                       40/@px;
+@form-control-xsmall-width:                     40/@px;
 @form-control-small-width:                      130/@px;
 @form-control-medium-width:                     200/@px;
 @form-control-large-width:                      500/@px;
@@ -72,7 +79,7 @@
 @form-control-border-radius:                    0;
 @form-control-background:                       @base-color-background-canvas;
 @form-control-color:                            @base-color-text;
-@form-control-transition:                       all linear 0.2s;
+@form-control-transition:                       background-color linear 0.2s, border-color linear 0.2s, box-shadow linear 0.2s;
 
 @form-control-focus-border-color:               @base-color-border-primary-box;
 @form-control-focus-background:                 @base-color-background-primary-box;
@@ -110,6 +117,8 @@
 
 @form-gutter:                                   15/@px;
 
+@form-horizontal-breakpoint-down:               @breakpoint-medium-max;
+@form-horizontal-breakpoint-up:                 @breakpoint-large;
 @form-horizontal-label-width:                   200/@px;
 @form-horizontal-label-margin-top:              5/@px;
 @form-horizontal-controls-margin-start:         215/@px;
@@ -120,84 +129,70 @@
 @form-icon-color:                               @base-color-text-muted;
 
 
-/* ========================================================================
-   Component: Form
- ========================================================================== */
+// ========================================================================
+// Component: Form
+// ========================================================================
 
-/* Normalize
- ========================================================================== */
+// Normalize
+// ========================================================================
 
-/*
- * 1. Define consistent box sizing.
- *    Default is `content-box` with following exceptions set to `border-box`
- *    `button`, `select`, `input[type="checkbox"]` and `input[type="radio"]`
- *    `input[type="search"]` in Chrome, Safari and Opera
- *    `input[type="color"]` in Firefox
- * 2. Address margins set differently in Firefox/IE and Chrome/Safari/Opera.
- * 3. Remove `border-radius` in iOS.
- * 4. Correct `font` properties and `color` not being inherited.
- */
+// 1. Define consistent box sizing.
+//    Default is `content-box` with following exceptions set to `border-box`
+//    `button`, `select`, `input[type="checkbox"]` and `input[type="radio"]`
+//    `input[type="search"]` in Chrome, Safari and Opera
+//    `input[type="color"]` in Firefox
+// 2. Address margins set differently in Firefox/IE and Chrome/Safari/Opera.
+// 3. Remove `border-radius` in iOS.
+// 4. Correct `font` properties and `color` not being inherited.
 
 input,
 select,
 textarea {
-    /* 1 */
+    // 1
     box-sizing: border-box;
-    /* 2 */
+    // 2
     margin: 0;
-    /* 3 */
+    // 3
     border-radius: 0;
-    /* 4 */
+    // 4
     -webkit-font-smoothing: inherit;
     font: inherit;
     color: inherit;
 }
 
-/*
- * Address inconsistent `text-transform` inheritance which is only inherit in Firefox
- */
+// Address inconsistent `text-transform` inheritance which is only inherit in Firefox
 
 select { text-transform: none; }
 
-/*
- * 1. Correct `font` properties not being inherited.
- * 2. Don't inherit the `font-weight` and use `bold` instead.
- * NOTE: Both declarations don't work in Chrome, Safari and Opera.
- */
+// 1. Correct `font` properties not being inherited.
+// 2. Don't inherit the `font-weight` and use `bold` instead.
+// NOTE: Both declarations don't work in Chrome, Safari and Opera.
 
 optgroup {
-    /* 1 */
+    // 1
     font: inherit;
-    /* 2 */
+    // 2
     font-weight: bold;
 }
 
-/*
- * Removes inner padding and border in Firefox 4+.
- */
+// Removes inner padding and border in Firefox 4+.
 
 input::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
 
-/*
- * Removes excess padding in IE 8/9/10.
- */
+// Removes excess padding in IE 8/9/10.
 
 input[type="checkbox"],
 input[type="radio"] { padding: 0; }
 
-/*
- * Improves consistency of cursor style for clickable elements
- */
+// Improves consistency of cursor style for clickable elements
 
 input[type="checkbox"]:not(:disabled),
 input[type="radio"]:not(:disabled) { cursor: pointer; }
 
-/*
- * Remove default style in iOS.
- */
+// Remove default style in iOS.
 
 textarea,
 input:not([type]),
@@ -210,25 +205,19 @@ input[type="tel"],
 input[type="number"],
 input[type="datetime"] { -webkit-appearance: none; }
 
-/*
- * Remove inner padding and search cancel button in Chrome, Safari and Opera on OS X.
- */
+// Remove inner padding and search cancel button in Chrome, Safari and Opera on OS X.
 
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
 
-/*
- * Fix the cursor style for Chrome's increment/decrement buttons. For certain
- * `font-size` values of the `input`, it causes the cursor style of the
- * decrement button to change from `default` to `text`.
- */
+// Fix the cursor style for Chrome's increment/decrement buttons. For certain
+// `font-size` values of the `input`, it causes the cursor style of the
+// decrement button to change from `default` to `text`.
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button { height: auto; }
 
-/*
- * Define consistent border, margin, and padding.
- */
+// Define consistent border, margin, and padding.
 
 fieldset {
     border: none;
@@ -236,70 +225,57 @@ fieldset {
     padding: 0;
 }
 
-/*
- * 1. Remove default vertical scrollbar in IE 8/9/10/11.
- * 2. Improve readability and alignment in all browsers.
- */
+// 1. Remove default vertical scrollbar in IE 8/9/10/11.
+// 2. Improve readability and alignment in all browsers.
 
 textarea {
-    /* 1 */
+    // 1
     overflow: auto;
-    /* 2 */
+    // 2
     vertical-align: top;
 }
 
-/*
- * Removes placeholder transparency in Firefox.
- */
+// Removes placeholder transparency in Firefox.
 
 ::-moz-placeholder { opacity: 1; }
 
-/*
- * Removes `box-shadow` for invalid controls in Firefox.
- */
+// Removes `box-shadow` for invalid controls in Firefox.
 
 :invalid { box-shadow: none; }
 
-/*
- * Vertical alignment
- */
-
+// Vertical alignment
+ 
 input:not([type="radio"]):not([type="checkbox"]),
 select { vertical-align: middle; }
 
 
-/* Style
- ========================================================================== */
+// Style
+// ========================================================================
 
-/*
- * Remove margin from the last-child
- */
+// Remove margin from the last-child
 
-.form > :last-child { margin-bottom: 0; }
+.@{form-ns}form > :last-child { margin-bottom: 0; }
 
-/*
- * Controls
- * Except for `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
- * 1. Must be `height` because `min-height` is not working in OSX
- * 2. Responsiveness: Sets a maximum width relative to the parent to scale on narrower viewports
- * 3. Vertical `padding` needed for `select` elements in Firefox
- * 4. Style
- */
+// Controls
+// Except for `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
+// 1. Must be `height` because `min-height` is not working in OSX
+// 2. Responsiveness: Sets a maximum width relative to the parent to scale on narrower viewports
+// 3. Vertical `padding` needed for `select` elements in Firefox
+// 4. Style
 
-.form__control {
-    /* 1 */
+.form__control-Template() {
+    // 1
     height: @form-control-height;
-    /* 2 */
+    // 2
     max-width: 100%;
-    /* 3 */
+    // 3
     padding: @form-control-padding;
-    /* 4 */
+    // 4
     border: @form-control-border-width solid @form-control-border-color;
     border-radius: @form-control-border-radius;
-    background: @form-control-background;
+    background-color: @form-control-background;
     color: @form-control-color;
     font-size: @form-control-font-size;
-    -webkit-transition: @form-control-transition;
     transition: @form-control-transition;
     .hook-form-control;
 
@@ -307,7 +283,7 @@ select { vertical-align: middle; }
     &:focus {
         border-color: @form-control-focus-border-color;
         outline: 0;
-        background: @form-control-focus-background;
+        background-color: @form-control-focus-background;
         color: @form-control-focus-color;
         .hook-form-control-focus;
     }
@@ -319,209 +295,197 @@ select { vertical-align: middle; }
         color: @form-control-disabled-color;
         .hook-form-control-disabled;
     }
+
+    // Placeholder
+    // Keep -moz and -webkit rules separated, -moz won't work when grouped with -webkit
+    
+    &:-ms-input-placeholder { color: @form-control-placeholder-color !important; }
+    &::-moz-placeholder { color: @form-control-placeholder-color; }
+    &::-webkit-input-placeholder { color: @form-control-placeholder-color; }
+
+    &:disabled:-ms-input-placeholder { color: @form-control-disabled-color !important; }
+    &:disabled::-moz-placeholder{ color: @form-control-disabled-color; }
+    &:disabled::-webkit-input-placeholder { color: @form-control-disabled-color; }
 }
 
-/*
- * Placeholder
- * Keep -moz and -webkit rules separated, -moz won't work when grouped with -webkit
- */
+.@{form-ns}form__control {
+    .form__control-Template;
+}
 
-.form__control:-ms-input-placeholder { color: @form-control-placeholder-color !important; }
-.form__control::-moz-placeholder { color: @form-control-placeholder-color; }
-.form__control::-webkit-input-placeholder { color: @form-control-placeholder-color; }
+// Legend
+// 1. Behave like block element
+// 2. Correct `color` not being inherited in IE 8/9/10/11.
+// 3. Remove padding
+// 4. `margin-bottom` is not working in Safari and Opera.
+//    Using `padding` and :after instead to create the border
+// 5. Style
 
-.form__control:disabled:-ms-input-placeholder { color: @form-control-disabled-color !important; }
-.form__control:disabled::-moz-placeholder{ color: @form-control-disabled-color; }
-.form__control:disabled::-webkit-input-placeholder { color: @form-control-disabled-color; }
-
-/*
- * Legend
- * 1. Behave like block element
- * 2. Correct `color` not being inherited in IE 8/9/10/11.
- * 3. Remove padding
- * 4. `margin-bottom` is not working in Safari and Opera.
- *    Using `padding` and :after instead to create the border
- * 5. Style
- */
-
-.form__legend {
-    /* 1 */
+.@{form-ns}form__legend {
+    // 1
     width: 100%;
-    /* 2 */
+    // 2
     border: 0;
-    /* 3 */
+    // 3
     padding: 0;
-    /* 4 */
+    // 4
     padding-bottom: @form-gutter;
-    /* 5 */
+    // 5
     font-size: @form-legend-font-size;
     line-height: @form-legend-line-height;
     .hook-form-legend;
 }
 
-/*
- * 1. Fixes IE9
- */
+// 1. Fixes IE9
 
-.form__legend:after {
+.@{form-ns}form__legend:after {
     content: "";
     display: block;
     border-bottom: @form-legend-border-width solid @form-legend-border-color;
-    /* 1 */
+    // 1
     width: 100%;
 }
 
 
-/* Size modifiers
- * Higher specificity needed to override defaults
- ========================================================================== */
+// Size modifiers
+// Higher specificity needed to override defaults
+// ========================================================================
 
-.form__control--small {
-    height: @form-control-small-height;
-    padding: @form-control-small-padding;
-    font-size: @form-control-small-font-size;
+& when (@form-enable-modifier-size = true) {
+
+    .@{form-ns}form__control--sm {
+        height: @form-control-small-height;
+        padding: @form-control-small-padding;
+        font-size: @form-control-small-font-size;
+    }
+
+    .@{form-ns}form__control--lg  {
+        height: @form-control-large-height;
+        padding: @form-control-large-padding;
+        font-size: @form-control-large-font-size;
+    }
 }
 
-.form__control--large  {
-    height: @form-control-large-height;
-    padding: @form-control-large-padding;
-    font-size: @form-control-large-font-size;
-}
+
+// Reset height
+// Must be after size modifiers
+// ========================================================================
+
+textarea.@{form-ns}form__control,
+select[multiple].@{form-ns}form__control,
+select[size].@{form-ns}form__control { height: auto; }
 
 
-/* Reset height
- * Must be after size modifiers
- ========================================================================== */
+// Validation states
+// Using !important to keep the selector simple
+// ========================================================================
 
-textarea.form__control,
-select[multiple].form__control,
-select[size].form__control { height: auto; }
+// Error state
 
-
-/* Validation states
- * Using !important to keep the selector simple
- ========================================================================== */
-
-/*
- * Error state
- */
-
-.form__control--danger {
+.@{form-ns}form__control--danger {
     border-color: @form-control-danger-border-color !important;
-    background: @form-control-danger-background !important;
+    background-color: @form-control-danger-background !important;
     color: @form-control-danger-color !important;
     .hook-form-control-danger;
 }
 
-/*
- * Success state
- */
+// Success state
 
-.form__control--success  {
+.@{form-ns}form__control--success  {
     border-color: @form-control-success-border-color !important;
-    background: @form-control-success-background !important;
+    background-color: @form-control-success-background !important;
     color: @form-control-success-color !important;
     .hook-form-control-success;
 }
 
 
-/* Style sub-modifiers
- ========================================================================== */
+// Style sub-modifiers
+// ========================================================================
 
-/*
- * Blank form control
- */
+// Blank form control
 
-.form__control--blank {
+.@{form-ns}form__control--blank {
     border-color: transparent;
     border-style: @form-control-blank-border-style;
-    background: none;
+    background-color: none;
     .hook-form-control-blank;
 }
 
-.form__control--blank:focus {
+.@{form-ns}form__control--blank:focus {
     border-color: @form-control-blank-border-color;
-    background: none;
+    background-color: none;
     .hook-form-control-blank-focus;
 }
 
 
-/* Size sub-modifiers
- ========================================================================== */
+// Size sub-modifiers
+// ========================================================================
 
-/*
- * Fixed widths
- * Different widths for mini sized `input` and `select` elements
- */
+& when (@form-enable-modifier-width = true) {
 
-input.form__control--width-mini { width: @form-control-mini-width; }
-select.form__control--width-mini { width: (@form-control-mini-width + 25/@px); }
+    // Fixed widths
+    // Different widths for xsmall sized `input` and `select` elements
 
-.form__control--width-small { width: @form-control-small-width; }
-.form__control--width-medium { width: @form-control-medium-width; }
-.form__control--width-large { width: @form-control-large-width; }
+    input.@{form-ns}form__control--width-xsm { width: @form-control-xsmall-width; }
+    select.@{form-ns}form__control--width-xsm { width: (@form-control-xsmall-width + 25/@px); }
+
+    .@{form-ns}form__control--width-sm { width: @form-control-small-width; }
+    .@{form-ns}form__control--width-md { width: @form-control-medium-width; }
+    .@{form-ns}form__control--width-lg { width: @form-control-large-width; }
+}
 
 
-/* Sub-objects: `form__row`
- * Groups labels and controls in rows
- ========================================================================== */
+// Sub-objects: `form__row`
+// Groups labels and controls in rows
+// ========================================================================
 
-/*
- * Micro clearfix
- * Needed for `form--horizontal` modifier
- */
+// Micro clearfix
+// Needed for `form--horizontal` modifier
 
-.form__row:before,
-.form__row:after {
+.@{form-ns}form__row:before,
+.@{form-ns}form__row:after {
     content: "";
     display: table;
 }
 
-.form__row:after { clear: both; }
+.@{form-ns}form__row:after { clear: both; }
 
-/*
- * Vertical gutter
- */
+// Vertical gutter
 
-.form__row + .form__row { margin-top: @form-gutter; }
+.@{form-ns}form__row + .@{form-ns}form__row { margin-top: @form-gutter; }
 
 
-/* Help text
- * Sub-object: `form__help-inline`, `form__help-block`
- ========================================================================== */
+// Help text
+// Sub-object: `form__help-inline`, `form__help-block`
+// ========================================================================
 
-.form__help-inline {
+.@{form-ns}form__help-inline {
     display: inline-block;
     margin: 0;
     margin-@{start}: @form-help-inline-margin-start;
 }
 
-.form__help-block { margin: @form-help-block-margin-top 0 0 0; }
+.@{form-ns}form__help-block { margin: @form-help-block-margin-top 0 0 0; }
 
 
-/* Controls content
- * Sub-object: `form__controls`, `form__controls-condensed`
- ========================================================================== */
+// Controls content
+// Sub-object: `form__controls`, `form__controls-condensed`
+// ========================================================================
 
-/*
- * Remove margins
- */
+// Remove margins
 
-.form__controls > :first-child { margin-top: 0; }
-.form__controls > :last-child { margin-bottom: 0; }
+.@{form-ns}form__controls > :first-child { margin-top: 0; }
+.@{form-ns}form__controls > :last-child { margin-bottom: 0; }
 
-/*
- * Group controls and text into blocks with a small spacing between blocks
- */
+// Group controls and text into blocks with a small spacing between blocks
 
-.form__controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
+.@{form-ns}form__controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
 
 
-/* Modifier: `form--stacked`
- * Requires sub-object: `form__label`
- ========================================================================== */
+// Modifier: `form--stacked`
+// Requires sub-object: `form__label`
+// ========================================================================
 
-.form--stacked .form__label {
+.@{form-ns}form--stacked .@{form-ns}form__label {
     display: block;
     margin-bottom: @form-label-margin-bottom;
     font-weight: @form-label-font-weight;
@@ -529,15 +493,15 @@ select.form__control--width-mini { width: (@form-control-mini-width + 25/@px); }
 }
 
 
-/* Modifier: `form--horizontal`
- * Requires sub-objects: `form__label`, `form__controls`
- ========================================================================== */
+// Modifier: `form--horizontal`
+// Requires sub-objects: `form__label`, `form__controls`
+// ========================================================================
 
-/* Tablet portrait and smaller */
-@media (max-width: @breakpoint-medium-max) {
+// Tablet portrait and smaller
+@media (max-width: @form-horizontal-breakpoint-down) {
 
-    /* Behave like `form-stacked` */
-    .form--horizontal .form__label {
+    // Behave like `form-stacked`
+    .@{form-ns}form--horizontal .@{form-ns}form__label {
         display: block;
         margin-bottom: @form-label-margin-bottom;
         font-weight: @form-label-font-weight;
@@ -546,68 +510,65 @@ select.form__control--width-mini { width: (@form-control-mini-width + 25/@px); }
 
 }
 
-/* Desktop and bigger */
-@media (min-width: @breakpoint-large) {
+// Desktop and bigger
+@media (min-width: @form-horizontal-breakpoint-up) {
 
-    .form--horizontal .form__label {
+    .@{form-ns}form--horizontal .@{form-ns}form__label {
         width: @form-horizontal-label-width;
         margin-top: @form-horizontal-label-margin-top;
         float: @start;
         .hook-form-horizontal-label;
     }
 
-    .form--horizontal .form__controls { margin-@{start}: @form-horizontal-controls-margin-start; }
+    .@{form-ns}form--horizontal .@{form-ns}form__controls { margin-@{start}: @form-horizontal-controls-margin-start; }
 
-    /* Better vertical alignment if controls are checkboxes and radio buttons with text */
-    .form--horizontal .form__controls--text { padding-top: @form-horizontal-controls-text-padding-top; }
+    // Better vertical alignment if controls are checkboxes and radio buttons with text
+    .@{form-ns}form--horizontal .@{form-ns}form__controls--text { padding-top: @form-horizontal-controls-text-padding-top; }
 
 }
 
 
-/* Sub-object: `form__icon`
- ========================================================================== */
+// Sub-object: `form__icon`
+// ========================================================================
 
-/*
- * 1. Container width fits its content
- * 2. Create position context
- * 3. Prevent `inline-block` consequences
- */
+& when (@form-enable-sub-icon = true) {
 
-.form__icon {
-    /* 1 */
-    display: inline-block;
-    /* 2 */
-    position: relative;
-    /* 3 */
-    max-width: 100%;
+    // 1. Container width fits its content
+    // 2. Create position context
+    // 3. Prevent `inline-block` consequences
+
+    .@{form-ns}form__icon {
+        // 1
+        display: inline-block;
+        // 2
+        position: relative;
+        // 3
+        max-width: 100%;
+    }
+
+    // 1. Make form element clickable through icon
+
+    .@{form-ns}form__icon > [class^='icon-'],
+    .@{form-ns}form__icon > [class*=' icon-'] {
+        position: absolute;
+        top: 50%;
+        width: @form-icon-width;
+        margin-top: round(@form-icon-font-size / -2);
+        font-size: @form-icon-font-size;
+        color: @form-icon-color;
+        text-align: center;
+        // 1
+        pointer-events: none;
+    }
+
+    .@{form-ns}form__icon > .@{form-ns}form__control { padding-@{start}: @form-icon-width; }
+
+    // Sub-modifier: `form__icon--flip`
+
+    .@{form-ns}form__icon--flip > [class^='icon-'],
+    .@{form-ns}form__icon--flip > [class*=' icon-'] { @{end}: 0; }
+    .@{form-ns}form__icon--flip > .@{form-ns}form__control { padding-@{end}: @form-icon-width; }
 }
-
-/*
- * 1. Make form element clickable through icon
- */
-
-.form__icon > [class^='icon-'],
-.form__icon > [class*=' icon-'] {
-    position: absolute;
-    top: 50%;
-    width: @form-icon-width;
-    margin-top: round(@form-icon-font-size / -2);
-    font-size: @form-icon-font-size;
-    color: @form-icon-color;
-    text-align: center;
-    /* 1 */
-    pointer-events: none;
-}
-
-.form__icon > .form__control { padding-@{start}: @form-icon-width; }
-
-/*
- * Sub-modifier: `form__icon--flip`
- */
-
-.form__icon--flip > [class^='icon-'],
-.form__icon--flip > [class*=' icon-'] { @{end}: 0; }
-.form__icon--flip > .form__control { padding-@{end}: @form-icon-width; }
 
 
 // Hooks

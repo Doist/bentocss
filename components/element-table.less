@@ -7,7 +7,7 @@
 //
 // Modifiers:       `table--hover`
 //                  `table--striped`
-//                  `table--small`
+//                  `table--sm`
 //                  `table__item--middle`
 //
 // Dependencies:    vars-base
@@ -23,6 +23,12 @@
 
 // Variables
 // ========================================================================
+
+@table-ns:                                      @ns;
+
+@table-enable-modifier-border:                  false;
+@table-enable-modifier-row:                     false;
+@table-enable-modifier-cell:                    false;
 
 @table-th-font-weight:                          @base-bold-font-weight;
 
@@ -45,16 +51,14 @@
 @table-hover-background:                        @base-color-background-light-hover;
 
 
-/* ========================================================================
-   Component: Table
- ========================================================================== */
+// ========================================================================
+// Component: Table
+// ========================================================================
 
-/* Normalize
- ========================================================================== */
+// Normalize
+// ========================================================================
 
-/*
- * Remove most spacing between table cells.
- */
+// Remove most spacing between table cells.
 
 table {
     border-collapse: collapse;
@@ -67,115 +71,120 @@ th {
 }
 
 
-/* Style
- ========================================================================== */
+// Style
+// ========================================================================
 
-/*
- * 1. Remove most spacing between table cells.
- * 2. Block element behavior
- * 3. Style
- */
+// 1. Remove most spacing between table cells.
+// 2. Block element behavior
+// 3. Style
 
-.table {
-	/* 1 */
+.@{table-ns}table {
+	// 1
     border-collapse: collapse;
     border-spacing: 0;
-    /* 2 */
+    // 2
     width: 100%;
-    /* 3 */
+    // 3
     margin-bottom: @table-margin-vertical;
 }
 
-/*
- * Add margin if adjacent element
- */
+// Add margin if adjacent element
 
-* + .table { margin-top: @table-margin-vertical; }
+& when (@base-enable-margin-top = true) {
 
-.table th,
-.table td {
+    * + .@{table-ns}table { margin-top: @table-margin-vertical; }
+
+}
+
+.@{table-ns}table th,
+.@{table-ns}table td {
     padding: @table-padding-vertical @table-padding-horizontal;
 }
 
-/*
- * Set alignment
- */
+// Set alignment
 
-.table th {
+.@{table-ns}table th {
     text-align: @start;
     font-weight: @table-th-font-weight;
 }
-.table td { vertical-align: top; }
+.@{table-ns}table td { vertical-align: top; }
 
-.table thead th { vertical-align: bottom; }
+.@{table-ns}table thead th { vertical-align: bottom; }
 
-/*
- * Caption and footer
- */
+// Caption and footer
 
-.table caption,
-.table tfoot {
+.@{table-ns}table caption,
+.@{table-ns}table tfoot {
     font-size: @table-caption-font-size;
     font-style: italic;
 }
 
-.table caption {
+.@{table-ns}table caption {
     text-align: @start;
     color: @table-caption-color;
 }
 
 
-/* Modifier: `table--fixed`
- ========================================================================== */
+// Modifier: `table--fixed`
+// ========================================================================
 
-.table--fixed { table-layout: fixed; }
+.@{table-ns}table--fixed { table-layout: fixed; }
 
 
-/* Border modifiers
- * Modifiers: `table--cells`, `table--columns`, `table--rows`
- ========================================================================== */
+// Border modifiers
+// Modifiers: `table--cells`, `table--columns`, `table--rows`
+// ========================================================================
 
-.table--cells th,
-.table--cells td {
-    border: @table-border-width @table-border-style @table-border-color;
+& when (@table-enable-modifier-border = true) {
+
+    .@{table-ns}table--cells th,
+    .@{table-ns}table--cells td {
+        border: @table-border-width @table-border-style @table-border-color;
+    }
+
+    .@{table-ns}table--columns th,
+    .@{table-ns}table--columns td {
+        border: 0 @table-border-style @table-border-color;
+        border-width: 0 @table-border-width;
+    }
+
+    .@{table-ns}table--rows th,
+    .@{table-ns}table--rows td {
+        border-bottom: @table-border-width @table-border-style @table-border-color;
+    }
 }
 
-.table--columns th,
-.table--columns td {
-    border: 0 @table-border-style @table-border-color;
-    border-width: 0 @table-border-width;
+
+& when (@table-enable-modifier-row = true) {
+
+    // Modifier: `table--striped`
+    // ========================================================================
+
+    .@{table-ns}table--striped tbody tr:nth-of-type(odd) { background: @table-striped-background; }
+
+
+    // Modifier: `table--hover`
+    // ========================================================================
+
+    .@{table-ns}table--hover tbody tr:hover { background: @table-hover-background; }
 }
 
-.table--rows th,
-.table--rows td {
-    border-bottom: @table-border-width @table-border-style @table-border-color;
+
+& when (@table-enable-modifier-cell = true) {
+
+    // Spacing modifiers
+    // Modifiers: `table--sm`
+    // ========================================================================
+
+    .@{table-ns}table--sm td { padding: @table-padding-small-vertical @table-padding-small-horizontal; }
 }
 
 
-/* Modifier: `table--striped`
- ========================================================================== */
+// Sub-modifier: `table__item--middle`
+// ========================================================================
 
-.table--striped tbody tr:nth-of-type(odd) { background: @table-striped-background; }
-
-
-/* Modifier: `table--hover`
- ========================================================================== */
-
-.table--hover tbody tr:hover { background: @table-hover-background; }
-
-
-/* Spacing modifiers
- * Modifiers: `table--small`
- ========================================================================== */
-
-.table--small td { padding: @table-padding-small-vertical @table-padding-small-horizontal; }
-
-
-/* Sub-modifier: `table__item--middle`
- ========================================================================== */
-
-.table__item--middle,
-.table__item--middle td { vertical-align: middle !important; }
+.@{table-ns}table__item--middle,
+.@{table-ns}table__item--middle td { vertical-align: middle !important; }
 
 
 // Hooks

@@ -2,7 +2,6 @@
 // Description:     Collection of atomic text classes
 //
 // Namespace:       `text-*`
-//                  `heading-*`
 //                  `link-*`
 //
 // Dependencies:    vars-base
@@ -12,6 +11,7 @@
 // https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
 // https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/text.less
 // https://github.com/suitcss/utils-text/blob/0.4.2/lib/text.css
+// https://github.com/twbs/bootstrap/blob/v4.0.0-alpha/scss/mixins/_hide-text.scss
 //
 // ========================================================================
 
@@ -19,261 +19,258 @@
 // Variables
 // ========================================================================
 
+@text-ns:                                       @ns;
+
+@text-enable-smoothing:                         false;
+@text-enable-replacement:                       false;
+@text-enable-size:                              false;
+@text-enable-weight:                            false;
+@text-enable-style:                             false;
+@text-enable-color:                             false;
+@text-enable-wrap:                              false;
+@text-enable-link:                              false;
+
+// Alignment
+
+@text-align-h-breakpoints:                      false;
+@text-align-v-breakpoints:                      false;
+
 // Color
 
-@component-color-text-muted:                    @base-color-text-muted;
-@component-color-text-primary:                  @base-color-text-primary;
-@component-color-text-success:                  @base-color-text-success;
-@component-color-text-warning:                  @base-color-text-warning;
-@component-color-text-danger:                   @base-color-text-danger;
-@component-color-text-contrast:                 @base-color-text-inverse;
+@text-color-muted:                              @base-color-text-muted;
+@text-color-primary:                            @base-color-text-primary;
+@text-color-success:                            @base-color-text-success;
+@text-color-warning:                            @base-color-text-warning;
+@text-color-danger:                             @base-color-text-danger;
+@text-color-contrast:                           @base-color-text-inverse;
 
-@component-color-link-muted:                    @base-color-text;
-@component-color-link-muted-hover:              @base-color-text;
+@text-color-link-muted:                         @base-color-text;
+@text-color-link-muted-hover:                   @base-color-text;
 
 // Text
 
-@component-text-bold-font-weight:               @base-bold-font-weight;
+@text-bold-font-weight:                         @base-bold-font-weight;
 
-@component-text-small-font-size:                11/@px;
-@component-text-small-line-height:              16/11;
-@component-text-large-font-size:                18/@px;
-@component-text-large-line-height:              24/18;
-@component-text-large-font-weight:              @base-normal-font-weight;
+@text-small-font-size:                          11/@px;
+@text-small-line-height:                        16/11;
+@text-large-font-size:                          18/@px;
+@text-large-line-height:                        24/18;
+@text-large-font-weight:                        @base-normal-font-weight;
 
-@component-heading-large-small-font-size:       36/@px;
-@component-heading-large-small-line-height:     42/36;
-@component-heading-large-font-size:             52/@px;
-@component-heading-large-line-height:           64/52;
+@text-super-font-size:                          60%;
 
 
-/* Text
- ========================================================================== */
+// Text
+// ========================================================================
 
-/*
- * Font smoothing
- *
- * Antialiased font smoothing works best for light text on a dark background
- * Note this only applies to webkit-based desktop browsers and Firefox 25 (and later) on the Mac
- * http://www.usabilitypost.com/2012/11/05/stop-fixing-font-smoothing/
- */
+& when (@text-enable-smoothing = true) {
 
-.text-antialiased {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    // Font smoothing
+    //
+    // Antialiased font smoothing works best for light text on a dark background
+    // Note this only applies to webkit-based desktop browsers and Firefox 25 (and later) on the Mac
+    // http://www.usabilitypost.com/2012/11/05/stop-fixing-font-smoothing/
+
+    .@{text-ns}text-antialiased {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 }
 
 
-/* Size modifiers
- ========================================================================== */
+// Image replacement
+// ========================================================================
 
-.text-small {
-    font-size: @component-text-small-font-size;
-    line-height: @component-text-small-line-height;
-}
+& when (@text-enable-replacement = true) {
 
-.text-large {
-    font-size: @component-text-large-font-size;
-    line-height: @component-text-large-line-height;
-    font-weight: @component-text-large-font-weight;
-}
-
-
-/* Weight modifiers
- ========================================================================== */
-
-.text-bold { font-weight: @component-text-bold-font-weight; }
-
-
-/* Style modifiers
- ========================================================================== */
-
-.text-italic { font-style: italic; }
-.text-regular { font-style: normal; }
-.text-uppercase { text-transform: uppercase; }
-
-/**
- * Enables font kerning in all browsers.
- * http://blog.typekit.com/2014/02/05/kerning-on-the-web/
- *
- * 1. Chrome (not Windows), Firefox, Safari 6+, iOS, Android
- * 2. Chrome (not Windows), Firefox, IE 10+
- * 3. Safari 7 and future browsers
- */
-
-.text-kern {
-    /* 1 */
-    text-rendering: optimizeLegibility;
-    /* 2 */
-    font-feature-settings: "kern" 1;
-    /* 3 */
-    font-kerning: normal;
+    .@{text-ns}text-hide {
+      font: "0/0" a;
+      color: transparent;
+      text-shadow: none;
+      background-color: transparent;
+      border: 0;
+    }
 }
 
 
-/* Color modifiers
- ========================================================================== */
+// Size modifiers
+// ========================================================================
 
-.text-muted { color: @component-color-text-muted; }
-.text-primary { color: @component-color-text-primary; }
-.text-success { color: @component-color-text-success; }
-.text-warning { color: @component-color-text-warning; }
-.text-danger { color: @component-color-text-danger; }
-.text-contrast { color: @component-color-text-contrast; }
+& when (@text-enable-size = true) {
 
-/**
- * Inherit the ancestor's text color.
- */
-
-.text-color-inherit {
-  color: inherit;
-}
-
-
-/* Alignment modifiers
- ========================================================================== */
-
-.text-start { text-align: @start; }
-.text-end { text-align: @end; }
-.text-center { text-align: center; }
-.text-justify { text-align: justify; }
-
-.text-top { vertical-align: top; }
-.text-middle { vertical-align: middle; }
-.text-bottom { vertical-align: bottom; }
-
-// Up
-
-/* Phone landscape and bigger */
-@media (min-width: @breakpoint-small) {
-
-    .text-start-small-up { text-align: @start; }
-    .text-end-small-up { text-align: @end; }
-    .text-center-small-up { text-align: center; }
-
-}
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .text-start-medium-up { text-align: @start; }
-    .text-end-medium-up { text-align: @end; }
-    .text-center-medium-up { text-align: center; }
-
-}
-
-// Down
-
-/* Phone portrait and smaller */
-@media (max-width: @breakpoint-mini-max) {
-
-    .text-start-mini-down { text-align: @start; }
-    .text-end-mini-down { text-align: @end; }
-    .text-center-mini-down { text-align: center; }
-
-}
-
-/* Phone landscape and smaller */
-@media (max-width: @breakpoint-small-max) {
-
-    .text-start-small-down { text-align: @start; }
-    .text-end-small-down { text-align: @end; }
-    .text-center-small-down { text-align: center; }
-
-}
-
-/* Tablets portrait and smaller */
-@media (max-width: @breakpoint-medium-max) {
-
-    .text-start-medium-down { text-align: @start; }
-    .text-end-medium-down { text-align: @end; }
-    .text-center-medium-down { text-align: center; }
-
-}
-
-
-/* Wrap modifiers
- ========================================================================== */
-
-/*
- * Prevent text from wrapping onto multiple lines
- */
-
-.text-nowrap { white-space: nowrap; }
-
-/**
- * Text truncation
- *
- * Prevent text from wrapping onto multiple lines, and truncate with an
- * ellipsis.
- *
- * 1. Ensure that the node has a maximum width after which truncation can
- *    occur.
- * 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
- *    nodes.
- */
-
-.text-truncate {
-    /* 1 */
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    /* 2 */
-    word-wrap: normal;
-}
-
-/*
- * Break strings if their length exceeds the width of their container
- */
-
-.text-break {
-    word-wrap: break-word;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
-}
-
-
-/* Headings
- ========================================================================== */
-
-.heading-large {
-    font-size: @component-heading-large-small-font-size;
-    line-height: @component-heading-large-small-line-height;
-}
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .heading-large {
-        font-size: @component-heading-large-font-size;
-        line-height: @component-heading-large-line-height;
+    .@{text-ns}text-sm {
+        font-size: @text-small-font-size;
+        line-height: @text-small-line-height;
     }
 
+    .@{text-ns}text-lg {
+        font-size: @text-large-font-size;
+        line-height: @text-large-line-height;
+        font-weight: @text-large-font-weight;
+    }
 }
 
 
-/* Link
- ========================================================================== */
+// Weight modifiers
+// ========================================================================
 
-/*
- * Let links appear in default text color
- */
+& when (@text-enable-weight = true) {
 
-.link-muted { color: @component-color-link-muted; }
+    .@{text-ns}text-bold { font-weight: @text-bold-font-weight; }
+}
 
-.link-muted:hover { color: @component-color-link-muted-hover; }
 
-/*
- * Reset link style
- */
+// Style modifiers
+// ========================================================================
 
-.link-reset,
-.link-reset:hover {
-    color: inherit;
-    text-decoration: none;
+& when (@text-enable-style = true) {
+
+    .@{text-ns}text-italic { font-style: italic; }
+    .@{text-ns}text-regular { font-style: normal; }
+    .@{text-ns}text-uppercase { text-transform: uppercase; }
+
+    .@{text-ns}text-super {
+        font-size: @text-super-font-size;
+        vertical-align: super;
+    }
+
+    // Enables font kerning in all browsers.
+    // http://blog.typekit.com/2014/02/05/kerning-on-the-web/
+    //
+    // 1. Chrome (not Windows), Firefox, Safari 6+, iOS, Android
+    // 2. Chrome (not Windows), Firefox, IE 10+
+    // 3. Safari 7 and future browsers
+
+    .@{text-ns}text-kern {
+        // 1 
+        text-rendering: optimizeLegibility;
+        // 2 
+        font-feature-settings: "kern" 1;
+        // 3 
+        font-kerning: normal;
+    }
+}
+
+
+// Color modifiers
+// ========================================================================
+
+& when (@text-enable-color = true) {
+
+    .@{text-ns}text-muted { color: @text-color-muted; }
+    .@{text-ns}text-primary { color: @text-color-primary; }
+    .@{text-ns}text-success { color: @text-color-success; }
+    .@{text-ns}text-warning { color: @text-color-warning; }
+    .@{text-ns}text-danger { color: @text-color-danger; }
+    .@{text-ns}text-contrast { color: @text-color-contrast; }
+
+    // Inherit the ancestor's text color.
+
+    .@{text-ns}text-color-inherit {
+      color: inherit;
+    }
+}
+
+
+// Alignment modifiers
+// ========================================================================
+
+// Horizontal
+
+.mixin(text-align-h-rulesets) {    
+
+    .@{text-ns}text-start@{breakpoint} { text-align: @start; }
+    .@{text-ns}text-end@{breakpoint} { text-align: @end; }
+    .@{text-ns}text-center@{breakpoint} { text-align: center; }
+    .@{text-ns}text-justify@{breakpoint} { text-align: justify; }   
+}
+
+// Vertical
+
+.mixin(text-align-v-rulesets) {    
+
+    .@{text-ns}text-top@{breakpoint} { vertical-align: top; }
+    .@{text-ns}text-middle@{breakpoint} { vertical-align: middle; }
+    .@{text-ns}text-bottom@{breakpoint} { vertical-align: bottom; }    
+}
+
+& when not (@text-align-h-breakpoints = false) {
+
+    .render-responsive-rulesets(@text-align-h-breakpoints; text-align-h-rulesets);
+}
+
+& when not (@text-align-v-breakpoints = false) {
+
+    .render-responsive-rulesets(@text-align-v-breakpoints; text-align-v-rulesets);
+}
+
+
+// Wrap modifiers
+// ========================================================================
+
+& when (@text-enable-wrap = true) {
+
+    // Prevent text from wrapping onto multiple lines
+
+    .@{text-ns}text-nowrap { white-space: nowrap; }
+
+    // Text truncation
+    //
+    // Prevent text from wrapping onto multiple lines, and truncate with an
+    // ellipsis.
+    //
+    // 1. Ensure that the node has a maximum width after which truncation can
+    //    occur.
+    // 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
+    //    nodes.
+
+    .@{text-ns}text-truncate,
+    .@{text-ns}text-truncate-nowrap {
+        // 1 
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        // 2 
+        word-wrap: normal;
+    }
+
+    .@{text-ns}text-truncate-wrap {
+        // 1 
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // 2 
+        word-wrap: normal;
+    }
+
+    // Break strings if their length exceeds the width of their container
+
+    .@{text-ns}text-break {
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+}
+
+
+// Link
+// ========================================================================
+
+& when (@text-enable-link = true) {
+
+    // Let links appear in default text color
+
+    .@{text-ns}link-muted { color: @text-color-link-muted; }
+
+    .@{text-ns}link-muted:hover { color: @text-color-link-muted-hover; }
+
+    // Reset link style
+
+    .@{text-ns}link-reset,
+    .@{text-ns}link-reset:hover {
+        color: inherit;
+        text-decoration: none;
+    }
 }
 
 

@@ -11,126 +11,146 @@
 // https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
 // https://github.com/suitcss/utils-position/blob/0.2.2/lib/position.css
 // https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_positions.scss
+// https://css-tricks.com/centering-css-complete-guide/
 //
 // ========================================================================
 
 
-/* ========================================================================
-   Util: Position
- ========================================================================== */
+// Variables
+// ========================================================================
 
-.position-absolute,
-[class^='position-top'],
-[class*=' position-top'],
-[class^='position-bottom'],
-[class*=' position-bottom'] { position: absolute; }
+@position-ns:                                 @ns;
 
-.position-top {
-    top: 0;
-    width: 100%;
+@position-enable-positioning:                 false;
+@position-enable-z:                           false;
+
+
+// ========================================================================
+// Util: Position
+// ========================================================================
+
+& when (@position-enable-positioning = true) {
+
+    .@{position-ns}position-absolute,
+    [class^='@{position-ns}position-top'],
+    [class*=' @{position-ns}position-top'],
+    [class^='@{position-ns}position-bottom'],
+    [class*=' @{position-ns}position-bottom'] { position: absolute; }
+
+    .@{position-ns}position-top {
+        top: 0;
+        width: 100%;
+    }
+
+    .@{position-ns}position-bottom {
+        bottom: 0;
+        width: 100%;
+    }
+
+    .@{position-ns}position-top-start {
+        top: 0;
+        @{start}: 0;
+    }
+
+    .@{position-ns}position-top-end {
+        top: 0;
+        @{end}: 0;
+    }
+
+    .@{position-ns}position-top-left {
+        top: 0;
+        left: 0;
+    }
+
+    .@{position-ns}position-top-right {
+        top: 0;
+        right: 0;
+    }
+
+    .@{position-ns}position-bottom-start {
+        bottom: 0;
+        @{start}: 0;
+    }
+
+    .@{position-ns}position-bottom-end {
+        bottom: 0;
+        @{end}: 0;
+    }
+
+    .@{position-ns}position-bottom-left {
+        bottom: 0;
+        left: 0;
+    }
+
+    .@{position-ns}position-bottom-right {
+        bottom: 0;
+        right: 0;
+    }
+
+    // Center
+     
+    // The element will be vertically and horizontally centered relative to its nearest
+    // positioned ancestor.
+
+    .@{position-ns}position-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    // Cover
+    //
+    // Pins to all corners by default. But when a width and/or height are
+    // provided, the element will be centered in its nearest relatively-positioned
+    // ancestor.
+
+    .@{position-ns}position-cover {
+        display: table;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    // Relative
+     
+    .@{position-ns}position-relative { position: relative; }
+
+    // Static
+
+    .@{position-ns}position-static { position: static; }
+
+    // Fixed
+    //
+    // 1. Make sure fixed elements are promoted into a new layer, for performance
+    //    reasons.
+
+    .@{position-ns}position-fixed {
+        position: fixed;
+        // 1
+        backface-visibility: hidden;
+    }
 }
 
-.position-bottom {
-    bottom: 0;
-    width: 100%;
+
+// z-index
+// ========================================================================
+
+& when (@position-enable-z = true) {
+
+    .@{position-ns}z-1 { z-index: @base-z-1; }
+    .@{position-ns}z-2 { z-index: @base-z-2; }
+    .@{position-ns}z-3 { z-index: @base-z-3; }
+    .@{position-ns}z-4 { z-index: @base-z-4; }
+    .@{position-ns}z-5 { z-index: @base-z-5; }
+    .@{position-ns}z-6 { z-index: @base-z-6; }
+    .@{position-ns}z-7 { z-index: @base-z-7; }
+    .@{position-ns}z-8 { z-index: @base-z-8; }
+    .@{position-ns}z-9 { z-index: @base-z-9; }
 }
-
-.position-top-start {
-    top: 0;
-    @{start}: 0;
-}
-
-.position-top-end {
-    top: 0;
-    @{end}: 0;
-}
-
-.position-top-left {
-    top: 0;
-    left: 0;
-}
-
-.position-top-right {
-    top: 0;
-    right: 0;
-}
-
-.position-bottom-start {
-    bottom: 0;
-    @{start}: 0;
-}
-
-.position-bottom-end {
-    bottom: 0;
-    @{end}: 0;
-}
-
-.position-bottom-left {
-    bottom: 0;
-    left: 0;
-}
-
-.position-bottom-right {
-    bottom: 0;
-    right: 0;
-}
-
-/**
- * Cover
- *
- * Pins to all corners by default. But when a width and/or height are
- * provided, the element will be centered in its nearest relatively-positioned
- * ancestor.
- */
-
-.position-cover {
-    display: table;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-/*
- * Relative
- */
-
-.position-relative { position: relative; }
-
-/*
- * Static
- */
-
-.position-static { position: static; }
-
-/**
- * Fixed
- *
- * 1. Make sure fixed elements are promoted into a new layer, for performance
- *    reasons.
- */
-
-.position-fixed {
-    position: fixed;
-    /* 1 */
-    backface-visibility: hidden;
-}
-
-
-/* z-index
- ========================================================================== */
-
-.z-1 { z-index: @base-z-1; }
-.z-2 { z-index: @base-z-2; }
-.z-3 { z-index: @base-z-3; }
-.z-4 { z-index: @base-z-4; }
-.z-5 { z-index: @base-z-5; }
-.z-6 { z-index: @base-z-6; }
-.z-7 { z-index: @base-z-7; }
-.z-8 { z-index: @base-z-8; }
-.z-9 { z-index: @base-z-9; }
 
 
 // Hooks

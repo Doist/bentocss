@@ -14,11 +14,45 @@
 // https://github.com/uikit/uikit/tree/v2.17.0/themes
 // https://github.com/inuitcss/settings.responsive/blob/0.1.5/_settings.responsive.scss
 //
+// Notes:
+//
+// Variable suffixes for size scales and breakpoints:
+// xxsmall, xsmall, small, medium, large, xlarge, xxlarge
+//
+// @base-border-radius-small            (size)
+// @breakpoint-small                    (breakpoint)
+// @base-border-radius-small-@-small    (size first, breakpoint second, separated by "at" for disambiguation)
+//
+// Class name suffixes for non breakpoint-related size scales:
+// xxs, xs, sm, md, lg, xl, xxl
+//
+// .button--sm { line-height: @button-small-line-height; }
+//
+// Class name suffixes for breakpoints:
+// @xxs, @xs, @sm, @md, @lg, @xl, @xxl
+//
+// Breakpoint suffixes are always appended to the end.
+//
+// .button--sm-@sm { line-height: @button-small-line-height; }
+//
+// Tablet and bigger
+// @media (min-width: @breakpoint-medium) { .text-start-\@md-up { text-align: @start; } }
+//
+// Tablet and smaller
+// @media (max-width: @breakpoint-medium-max) { .text-start-\@md-down { text-align: @start; } }
+//
+// Only tablet
+// @media (min-width: @breakpoint-medium) and (max-width: @breakpoint-medium-max) { .text-start-\@md-only { text-align: @start; } }
+//
 // ========================================================================
 
 
 // Variables
 // ========================================================================
+
+// Global: namespaces
+
+@ns:                                            ~"";
 
 // Global: text direction
 
@@ -52,12 +86,73 @@
 @breakpoint-large:                              (960 / @px-breakpoint);
 @breakpoint-xlarge:                             (1220 / @px-breakpoint);
 
-@breakpoint-mini-max:                           ((480 - 1) / @px-breakpoint);
+@breakpoint-xsmall-max:                         ((480 - 1) / @px-breakpoint);
 @breakpoint-small-max:                          ((768 - 1) / @px-breakpoint);
 @breakpoint-medium-max:                         ((960 - 1) / @px-breakpoint);
 @breakpoint-large-max:                          ((1220 - 1) / @px-breakpoint);
 
-@breakpoint-retina:                             "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)";
+@breakpoint-retina:                             ~"(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)";
+
+// Up
+
+// Phone landscape and bigger
+@breakpoint-media-small-up:                     ~"(min-width: @{breakpoint-small})";
+@breakpoint-media-small:                        @breakpoint-media-small-up;
+// Tablet and bigger
+@breakpoint-media-medium-up:                    ~"(min-width: @{breakpoint-medium})";
+@breakpoint-media-medium:                       @breakpoint-media-medium-up;
+// Desktop and bigger
+@breakpoint-media-large-up:                     ~"(min-width: @{breakpoint-large})";
+@breakpoint-media-large:                        @breakpoint-media-large-up;
+// Large desktop and bigger
+@breakpoint-media-xlarge-up:                    ~"(min-width: @{breakpoint-xlarge})";
+@breakpoint-media-xlarge:                       @breakpoint-media-xlarge-up;
+
+// Down
+
+// Phone portrait and smaller
+@breakpoint-media-xsmall-down:                  ~"(max-width: @{breakpoint-xsmall-max})";
+// Phone landscape and smaller
+@breakpoint-media-small-down:                   ~"(max-width: @{breakpoint-small-max})";
+// Tablet landscape and smaller
+@breakpoint-media-medium-down:                  ~"(max-width: @{breakpoint-medium-max})";
+// Desktop and smaller
+@breakpoint-media-large-down:                   ~"(max-width: @{breakpoint-large-max})";
+
+// Range
+
+// Phone
+@breakpoint-media-small-range:                  "(min-width: @{breakpoint-small}) and (max-width: @{breakpoint-small-max})";
+// Tablet
+@breakpoint-media-medium-range:                 ~"(min-width: @{breakpoint-medium}) and (max-width: @{breakpoint-medium-max})";
+
+// Shorthand
+
+@breakpoint-shorthand-base:                     ~"";
+
+@breakpoint-shorthand-xxsmall:                  xxs;
+@breakpoint-shorthand-xsmall:                   xs;
+@breakpoint-shorthand-small:                    sm;
+@breakpoint-shorthand-medium:                   md;
+@breakpoint-shorthand-large:                    lg;
+@breakpoint-shorthand-xlarge:                   xl;
+@breakpoint-shorthand-xxlarge:                  xxl;
+
+@breakpoint-shorthand-xxsmall-down:             xxs-down;
+@breakpoint-shorthand-xsmall-down:              xs-down;
+@breakpoint-shorthand-small-down:               sm-down;
+@breakpoint-shorthand-medium-down:              md-down;
+@breakpoint-shorthand-large-down:               lg-down;
+@breakpoint-shorthand-xlarge-down:              xl-down;
+@breakpoint-shorthand-xxlarge-down:             xxl-down;
+
+@breakpoint-shorthand-xxsmall-up:               xxs-up;
+@breakpoint-shorthand-xsmall-up:                xs-up;
+@breakpoint-shorthand-small-up:                 sm-up;
+@breakpoint-shorthand-medium-up:                md-up;
+@breakpoint-shorthand-large-up:                 lg-up;
+@breakpoint-shorthand-xlarge-up:                xl-up;
+@breakpoint-shorthand-xxlarge-up:               xxl-up;
 
 // Element: base
 
@@ -67,6 +162,15 @@
 
 @base-normal-font-weight:                       normal;
 @base-bold-font-weight:                         bold;
+
+@base-sans-normal-font-weight:                  @base-normal-font-weight;
+@base-sans-bold-font-weight:                    @base-bold-font-weight;
+@base-serif-normal-font-weight:                 @base-normal-font-weight;
+@base-serif-bold-font-weight:                   @base-bold-font-weight;
+@base-mono-normal-font-weight:                  @base-normal-font-weight;
+@base-mono-bold-font-weight:                    @base-bold-font-weight;
+
+@base-enable-margin-top:                        false;
 
 // Component: color
 
@@ -80,13 +184,13 @@
 @base-color-text-inverse:                       #fff;
 @base-color-text-link:                          #07d;
 @base-color-text-link-hover:                    #059;
-@base-color-text-primary:                       #2d7091;
+@base-color-text-primary:                       hsl(200, 75%, 35%);
 @base-color-text-primary-hover:                 saturate(darken(@base-color-text-primary, 5%), 10%);
-@base-color-text-success:                       #659f13;
+@base-color-text-success:                       hsl(90, 75%, 35%);
 @base-color-text-success-hover:                 saturate(darken(@base-color-text-success, 5%), 10%);
-@base-color-text-warning:                       #e28327;
+@base-color-text-warning:                       hsl(31, 50%, 50%);
 @base-color-text-warning-hover:                 saturate(darken(@base-color-text-warning, 5%), 10%);
-@base-color-text-danger:                        #d85030;
+@base-color-text-danger:                        hsl(351, 50%, 50%);
 @base-color-text-danger-hover:                  saturate(darken(@base-color-text-danger, 5%), 10%);
 @base-color-text-highlight:                     #d05;
 @base-color-text-shadow:                        #fff;
@@ -100,28 +204,43 @@
 @base-color-background-light-hover:             #fafafa;
 @base-color-background-light-active:            #eee;
 @base-color-background-highlight:               #ffa;
-@base-color-background-primary:                 #00a8e6;
+@base-color-background-primary:                 hsl(200, 70%, 52%);
 @base-color-background-primary-hover:           saturate(lighten(@base-color-background-primary, 5%), 10%);
 @base-color-background-primary-active:          saturate(darken(@base-color-background-primary, 5%), 10%);
-@base-color-background-primary-box:             #f5fbfe;
-@base-color-background-success:                 #8cc14c;
+@base-color-background-primary-box:             hsl(200, 80%, 98%);
+@base-color-background-success:                 hsl(90, 50%, 50%);
 @base-color-background-success-hover:           saturate(lighten(@base-color-background-success, 5%), 10%);
 @base-color-background-success-active:          saturate(darken(@base-color-background-success, 5%), 10%);
-@base-color-background-success-box:             #fafff2;
-@base-color-background-warning:                 #faa732;
+@base-color-background-success-box:             hsl(90, 80%, 98%);
+@base-color-background-warning:                 hsl(51, 70%, 52%);
 @base-color-background-warning-hover:           saturate(lighten(@base-color-background-warning, 5%), 10%);
 @base-color-background-warning-active:          saturate(darken(@base-color-background-warning, 5%), 10%);
-@base-color-background-warning-box:             #fffbf5;
-@base-color-background-danger:                  #da314b;
+@base-color-background-warning-box:             hsl(51, 80%, 98%);
+@base-color-background-danger:                  hsl(351, 70%, 52%);
 @base-color-background-danger-hover:            saturate(lighten(@base-color-background-danger, 5%), 10%);
 @base-color-background-danger-active:           saturate(darken(@base-color-background-danger, 5%), 10%);
-@base-color-background-danger-box:              #fff7f8;
+@base-color-background-danger-box:              hsl(351, 80%, 98%);
 
 @base-color-border:                             #ddd;
-@base-color-border-primary-box:                 #99baca;
-@base-color-border-success-box:                 #8ec73b;
-@base-color-border-warning-box:                 #edb25e;
-@base-color-border-danger-box:                  #dc8d99;
+@base-color-border-primary-box:                 fade(@base-color-text-primary, 55%);
+@base-color-border-primary-box-light:           fade(@base-color-text-primary, 15%);
+@base-color-border-success-box:                 fade(@base-color-text-success, 55%);
+@base-color-border-success-box-light:           fade(@base-color-text-success, 15%);
+@base-color-border-warning-box:                 fade(@base-color-text-warning, 55%);
+@base-color-border-warning-box-light:           fade(@base-color-text-warning, 15%);
+@base-color-border-danger-box:                  fade(@base-color-text-danger, 55%);
+@base-color-border-danger-box-light:            fade(@base-color-text-danger, 15%);
+
+// Component: opacity
+
+@base-opacity-lower-1:                          .75;
+@base-opacity-lower-2:                          .5;
+@base-opacity-lower-3:                          .25;
+@base-opacity-lower-4:                          .125;
+
+// Component: shadow
+
+@base-shadow-z-0:                               0px 1px 2px 0px rgba(0, 0, 0, .24);
 
 // Component: text
 
@@ -135,7 +254,7 @@
 @base-border-width-xlarge:                      5px;
 
 @base-border-radius:                            3px;
-@base-border-radius-mini:                       2px;
+@base-border-radius-xsmall:                     2px;
 @base-border-radius-small:                      2px;
 @base-border-radius-large:                      6px;
 
@@ -144,12 +263,13 @@
 // Layout: size
 
 @base-height:                                   30/@px;
-@base-height-mini:                              20/@px;
+@base-height-xsmall:                            20/@px;
 @base-height-small:                             25/@px;
 @base-height-large:                             40/@px;
 
 // Layout: spacing
 
+@base-space-0:                                  0;        
 @base-space-1:                                  8/@px;
 @base-space-2:                                  16/@px;
 @base-space-3:                                  24/@px;
@@ -162,11 +282,13 @@
 @base-space-10:                                 80/@px;
 
 @base-gutter:                                   25/@px;
-@base-gutter-tiny:                              5/@px;
-@base-gutter-small:                             10/@px;
+@base-gutter-xsmall:                            5/@px;
+@base-gutter-small:                             15/@px;
 @base-gutter-large:                             35/@px;
 
 // Layout: z-index scale
+// http://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+// http://bitsofco.de/2015/how-z-index-works/
 
 @base-z-1:                                      1;
 @base-z-2:                                      2;

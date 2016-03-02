@@ -17,97 +17,89 @@
 // Variables
 // ========================================================================
 
-@layout-align-horizontal:                       15/@px;
-@layout-align-vertical:                         15/@px;
+@align-ns:                                      @ns;
+
+@align-enable-vertical:                         false;
+
+@align-sides-breakpoints:                       false;
+
+@align-horizontal:                              15/@px;
+@align-vertical:                                15/@px;
 
 
-/* ========================================================================
-   Util: Align
- ========================================================================== */
+// ========================================================================
+// Util: Align
+// ========================================================================
 
-/* Alignment of images and objects
- ========================================================================== */
+// Alignment of images and objects
+// ========================================================================
 
-/*
- * Alignment
- */
+.mixin(align-rulesets) {
 
-[class^='align-'],
-[class*=' align-'] {
-    display: block;
-    margin-bottom: @layout-align-vertical;
-}
+    .@{align-ns}align-center@{breakpoint} {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-.align-start {
-    margin-@{end}: @layout-align-horizontal;
-    float: @start;
-}
-
-.align-end {
-    margin-@{start}: @layout-align-horizontal;
-    float: @end;
-}
-
-/* Tablet and bigger */
-@media (min-width: @breakpoint-medium) {
-
-    .align-medium-start {
-        margin-@{end}: @layout-align-horizontal;
-        margin-bottom: @layout-align-vertical;
+    .@{align-ns}align-start@{breakpoint} {
+        margin-@{end}: @align-horizontal;
+        margin-bottom: @align-vertical;
         float: @start;
     }
 
-    .align-medium-end {
-        margin-@{start}: @layout-align-horizontal;
-        margin-bottom: @layout-align-vertical;
+    .@{align-ns}align-end@{breakpoint} {
+        margin-@{start}: @align-horizontal;
+        margin-bottom: @align-vertical;
         float: @end;
     }
-
 }
 
-.align-center {
-    margin-left: auto;
-    margin-right: auto;
+& when not (@align-sides-breakpoints = false) {
+
+    [class^='@{align-ns}align-'],
+    [class*=' @{align-ns}align-'] {
+        display: block;
+        margin-bottom: @align-vertical;
+    }
+
+    .render-responsive-rulesets(@align-sides-breakpoints; align-rulesets);
 }
 
 
-/* Vertical alignment
- ========================================================================== */
+// Vertical alignment
+// ========================================================================
 
-/*
- * Remove whitespace between child elements when using `inline-block`
- */
+& when (@align-enable-vertical = true) {
 
-.vertical-align { font-size: 0.001px; }
+    // Remove whitespace between child elements when using `inline-block`
 
-/*
- *  The `vertical-align` container needs a specific height
- */
+    .@{align-ns}vertical-align { font-size: 0.001px; }
 
-.vertical-align:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
+    //  The `vertical-align` container needs a specific height
+
+    .@{align-ns}vertical-align:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    // Sub-object which can have any height
+    // 1. Reset whitespace hack
+
+    .@{align-ns}vertical-align__middle,
+    .@{align-ns}vertical-align__bottom {
+        display: inline-block;
+        max-width: 100%;
+        // 1
+        font-size: 1rem;
+    }
+
+    .@{align-ns}vertical-align__baseline { vertical-align: baseline; }
+    .@{align-ns}vertical-align__bottom { vertical-align: bottom; }
+    .@{align-ns}vertical-align__middle { vertical-align: middle; }
+    .@{align-ns}vertical-align__top { vertical-align: top; }
 }
-
-/*
- * Sub-object which can have any height
- * 1. Reset whitespace hack
- */
-
-.vertical-align__middle,
-.vertical-align__bottom {
-    display: inline-block;
-    max-width: 100%;
-    /* 1 */
-    font-size: 1rem;
-}
-
-.vertical-align__baseline { vertical-align: baseline; }
-.vertical-align__bottom { vertical-align: bottom; }
-.vertical-align__middle { vertical-align: middle; }
-.vertical-align__top { vertical-align: top; }
 
 
 // Hooks

@@ -9,9 +9,11 @@
 // https://github.com/twbs/bootstrap/blob/v3.3.2/less/mixins/gradients.less
 //
 // Notes:
+// 
+// Use browser prefixes mixins only when Autoprefixer is not available.
 //
 // Updated with latest vendor prefix data from caniuse.com as of 10-04-2015
-// Tested with Autoprefixer on codepen.io
+// Tested with Autoprefixer on https://autoprefixer.github.io/
 //
 // ========================================================================
 
@@ -24,7 +26,7 @@
 // - Placeholder text
 // - Transformations
 // - Transitions
-// - User Select
+// - Native: Appearance, User Select
 
 
 // Gradients
@@ -141,7 +143,7 @@
 
 
 // CSS3 Content Columns
-.content-columns(@column-count; @column-gap: @grid-gutter-horizontal) {
+.content-columns(@column-count; @column-gap) {
   -webkit-column-count: @column-count;
      -moz-column-count: @column-count;
           column-count: @column-count;
@@ -162,7 +164,7 @@
 
 
 // Placeholder text
-.placeholder(@color: @form-placeholder-color) {
+.placeholder(@color) {
   // Firefox
   &::-moz-placeholder {
     color: @color;
@@ -264,6 +266,16 @@
           transition: transform @transition;
 }
 
+// Native
+
+// Appearance
+// For OS/browser native widgets
+
+.appearance(@appearance) {
+  -webkit-appearance: @appearance;
+     -moz-appearance: @appearance;
+          appearance: @appearance;
+}
 
 // User select
 // For selecting text on the page
@@ -280,6 +292,6 @@
 
 // Fix Firefox aliased borders when using transparent border colors
 // http://stackoverflow.com/a/21039128
-.moz-border-smoothing {
+.moz-border-smoothing() {
     -moz-transform: scale(.9999);
 }
