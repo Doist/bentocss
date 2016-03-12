@@ -144,7 +144,7 @@
 // 1. Remove vertical gap with its container
 
 .@{nav-ns}nav__item,
-.@{nav-ns}nav__item:before,
+.@{nav-ns}nav__item::before,
 .@{nav-ns}nav__action,
 .@{nav-ns}nav__static {
     display: inline-block;
@@ -231,14 +231,14 @@
 
 & when (@nav-enable-modifier-divider = true) {
 
-    [class^='@{nav-ns}nav--divider-'] .@{nav-ns}nav__item:before,
-    [class*=' @{nav-ns}nav--divider-'] .@{nav-ns}nav__item:before {
+    [class^='@{nav-ns}nav--divider-'] .@{nav-ns}nav__item::before,
+    [class*=' @{nav-ns}nav--divider-'] .@{nav-ns}nav__item::before {
         margin-@{end}: @nav-gutter;
     }
 
     // Shape dividers
 
-    .@{nav-ns}nav--divider-bar .@{nav-ns}nav__item:nth-child(n+2):before {
+    .@{nav-ns}nav--divider-bar .@{nav-ns}nav__item:nth-child(n+2)::before {
         content: "";
         height: @nav-divider-bar-height;
         border-@{start}: @nav-divider-bar-width solid @nav-divider-bar-color;
@@ -246,12 +246,12 @@
 
     // Text dividers
 
-    .@{nav-ns}nav--divider-breadcrumb .@{nav-ns}nav__item:nth-child(n+2):before {
+    .@{nav-ns}nav--divider-breadcrumb .@{nav-ns}nav__item:nth-child(n+2)::before {
         content: @nav-divider-breadcrumb;
     }
 
     // Text divider local override
-    .@{nav-ns}nav__item[data-nav-divider]:before {
+    .@{nav-ns}nav__item[data-nav-divider]::before {
         content: attr(data-nav-divider) !important;
     }
 

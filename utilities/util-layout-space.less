@@ -201,8 +201,8 @@
     }
 
     // Stop negative margin bottom from collapsing
-    [class^='@{space-ns}m-gutter-']:after,
-    [class*=' @{space-ns}m-gutter-']:after {
+    [class^='@{space-ns}m-gutter-']::after,
+    [class*=' @{space-ns}m-gutter-']::after {
         content: '';
         display: table;
     }

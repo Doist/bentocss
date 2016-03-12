@@ -130,14 +130,14 @@
 // Micro clearfix
 // Can't use `table` because it creates a 1px gap when it becomes a flex item, only in Webkit
 
-.@{grid-ns}grid:before,
-.@{grid-ns}grid:after {
+.@{grid-ns}grid::before,
+.@{grid-ns}grid::after {
     content: "";
     display: block;
     overflow: hidden;
 }
 
-.@{grid-ns}grid:after { clear: both; }
+.@{grid-ns}grid::after { clear: both; }
 
 // Grid cell
 // 1. Makes grid more robust so that it can be used with other block elements
@@ -439,13 +439,13 @@
 
     // Micro clearfix
 
-    .@{grid-ns}container:before,
-    .@{grid-ns}container:after {
+    .@{grid-ns}container::before,
+    .@{grid-ns}container::after {
         content: "";
         display: table;
     }
 
-    .@{grid-ns}container:after { clear: both; }
+    .@{grid-ns}container::after { clear: both; }
 }
 
 // Hooks

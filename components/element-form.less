@@ -317,7 +317,7 @@ select { vertical-align: middle; }
 // 2. Correct `color` not being inherited in IE 8/9/10/11.
 // 3. Remove padding
 // 4. `margin-bottom` is not working in Safari and Opera.
-//    Using `padding` and :after instead to create the border
+//    Using `padding` and ::after instead to create the border
 // 5. Style
 
 .@{form-ns}form__legend {
@@ -337,7 +337,7 @@ select { vertical-align: middle; }
 
 // 1. Fixes IE9
 
-.@{form-ns}form__legend:after {
+.@{form-ns}form__legend::after {
     content: "";
     display: block;
     border-bottom: @form-legend-border-width solid @form-legend-border-color;
@@ -441,13 +441,13 @@ select[size].@{form-ns}form__control { height: auto; }
 // Micro clearfix
 // Needed for `form--horizontal` modifier
 
-.@{form-ns}form__row:before,
-.@{form-ns}form__row:after {
+.@{form-ns}form__row::before,
+.@{form-ns}form__row::after {
     content: "";
     display: table;
 }
 
-.@{form-ns}form__row:after { clear: both; }
+.@{form-ns}form__row::after { clear: both; }
 
 // Vertical gutter
 

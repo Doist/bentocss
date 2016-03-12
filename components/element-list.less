@@ -74,13 +74,13 @@ dd { margin-@{start}: 0; }
 
 // Micro clearfix to make list more robust
 
-.@{list-ns}list > li:before,
-.@{list-ns}list > li:after {
+.@{list-ns}list > li::before,
+.@{list-ns}list > li::after {
     content: "";
     display: table;
 }
 
-.@{list-ns}list > li:after { clear: both; }
+.@{list-ns}list > li::after { clear: both; }
 
 
 // Modifier: `list--line`
