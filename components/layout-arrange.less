@@ -26,7 +26,7 @@
 // Markup:
 //
 // <!-- arrange -->
-// <div class="arrange-default arrange--middle [arrange--gutter-md]">
+// <div class="arrange arrange--middle [arrange--gutter-md]">
 //     <div class="arrange__item">
 //         <img class="arrange__object-intrinsic-fit" src="img.png" alt="">
 //     </div>
@@ -36,7 +36,7 @@
 // </div>
 //
 // <!-- arrange--equal -->
-// <ul class="arrange-default arrange--equal">
+// <ul class="arrange arrange--equal">
 //     <li class="arrange__item">
 //         <button class="button width-full">Reply</button>
 //     </li>
@@ -95,77 +95,59 @@
 // Component: Arrange
 // ========================================================================
 
+[class^='@{arrange-ns}arrange-\@'],
+[class*=' @{arrange-ns}arrange-\@'] {
+    display: block;
+}
+
 // 1. Zero out any default spacing that might be on an element (e.g., `li`);
 //    Margin has no effect when coupled with `display: table-cell`.
 
 .@{arrange-ns}arrange__item {
     // 1
     padding: 0;
-}
-
-// This component lets you lay out a row of cells in various ways. You can
-// specify whether a cell should be wide enough to fit its content, or take up
-// the remaining space in the row. It's also possible to give all cells an
-// equal width, and to control their vertical alignment.
-
-// Any width
-
-// 1. Protect against the component expanding beyond the confines of its
-//    container if properties affecting the box-model are applied to the
-//    component. Mainly necessary because of (5).
-// 2. Rely on table layout.
-// 3. Zero out the default spacing that might be on an element (e.g., `ul`).
-// 4. Make sure the component fills at least the full width of its parent.
-// 5. Reset the table-layout algorithm in case a component is nested.
-
-.@{arrange-ns}arrange-default {
-    // 1
-    box-sizing: border-box;
-    // 2
-    display: table;
-    // 3
-    margin: 0;
-    padding: 0;
-    // 4
-    min-width: 100%;
-    // 5
-    table-layout: auto;
-}
-
-// There are two possible types of child. `arrange__item--fill` will expand to fill all
-// of the remaining space not filled by regular `arrange__item` elements.
-//
-// 1. All cells are top-aligned by default
-
-.@{arrange-ns}arrange-default > .@{arrange-ns}arrange__item {
-    display: table-cell;
-    // 1
-    vertical-align: top;
+    display: block;
 }
 
 .mixin(arrange-breakpoints) {
 
-    .@{arrange-ns}arrange@{breakpoint},
+    // This component lets you lay out a row of cells in various ways. You can
+    // specify whether a cell should be wide enough to fit its content, or take up
+    // the remaining space in the row. It's also possible to give all cells an
+    // equal width, and to control their vertical alignment.
+
+    // Any width
+
+    // 1. Protect against the component expanding beyond the confines of its
+    //    container if properties affecting the box-model are applied to the
+    //    component. Mainly necessary because of (5).
+    // 2. Rely on table layout.
+    // 3. Zero out the default spacing that might be on an element (e.g., `ul`).
+    // 4. Make sure the component fills at least the full width of its parent.
+    // 5. Reset the table-layout algorithm in case a component is nested.
+
     .@{arrange-ns}arrange@{breakpoint} {
+        // 1
         box-sizing: border-box;
-        display: block;
+        // 2
+        display: table;
+        // 3
         margin: 0;
         padding: 0;
-    }
-
-    .@{arrange-ns}arrange@{breakpoint} > .@{arrange-ns}arrange__item,
-    .@{arrange-ns}arrange@{breakpoint} > .@{arrange-ns}arrange__item {
-        display: block;
-    }
-
-    .@{arrange-ns}arrange@{breakpoint} {
-        display: table;
+        // 4
         min-width: 100%;
+        // 5
         table-layout: auto;
     }
 
+    // There are two possible types of child. `arrange__item--fill` will expand to fill all
+    // of the remaining space not filled by regular `arrange__item` elements.
+    //
+    // 1. All cells are top-aligned by default
+
     .@{arrange-ns}arrange@{breakpoint} > .@{arrange-ns}arrange__item {
         display: table-cell;
+        // 1
         vertical-align: top;
     }
 }
