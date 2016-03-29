@@ -33,7 +33,7 @@
 //
 // Breakpoint suffixes are always appended to the end.
 //
-// .button--sm-@sm { line-height: @button-small-line-height; }
+// .button--sm-\@sm { line-height: @button-small-line-height; }
 //
 // Tablet and bigger
 // @media (min-width: @breakpoint-medium) { .text-start-\@md-up { text-align: @start; } }
@@ -122,7 +122,7 @@
 // Range
 
 // Phone
-@breakpoint-media-small-range:                  "(min-width: @{breakpoint-small}) and (max-width: @{breakpoint-small-max})";
+@breakpoint-media-small-range:                  ~"(min-width: @{breakpoint-small}) and (max-width: @{breakpoint-small-max})";
 // Tablet
 @breakpoint-media-medium-range:                 ~"(min-width: @{breakpoint-medium}) and (max-width: @{breakpoint-medium-max})";
 
