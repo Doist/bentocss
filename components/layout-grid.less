@@ -3,7 +3,7 @@
 //
 // Namespace:       `grid`
 //                  `grid-divider`
-//                  `grid-inline-block`
+//                  `grid-ib`
 //                  `container`
 //
 // Sub-objects:     `grid__cell`
@@ -55,9 +55,9 @@
 //
 // Makes use of child combinator `>` to allow for component nesting,
 // as well as for sharing the same `.grid_cell` child name between the
-// `.grid` and `.grid-inline-block` parents.
+// `.grid` and `.grid-ib` parents.
 //
-// Parent selectors (indirect) `.grid > .grid__cell` and `.grid-inline-block > .grid__cell`
+// Parent selectors (indirect) `.grid > .grid__cell` and `.grid-ib > .grid__cell`
 // could be by replaced by less convenient per-child selectors (direct)
 // `.grid__cell--block` and `.grid__cell--inline-block`.
 //
@@ -74,9 +74,10 @@
 
 @grid-ns:                                       @ns;
 
+@grid-enable-inline-block:                      false;
 @grid-enable-modifier-divider:                  false;
 @grid-enable-modifier-match:                    false;
-@grid-enable-modifier-inline:                   false;
+@grid-enable-modifier-inline-block:             false;
 @grid-enable-container:                         false;
 
 @grid-gutter-horizontal:                        @base-gutter;
@@ -166,47 +167,49 @@
 // Inline-block based grids
 // ========================================================================
 
-// All content must be contained within child `grid__cell` elements.
-//
-// 1. Account for browser defaults of elements that might be the root node of
-//    the component.
-// 2. Remove inter-cell whitespace that appears between `inline-block` child
-//    elements.
-// 3. Ensure consistent default alignment.
+& when (@grid-enable-inline-block = true) {
 
-.@{grid-ns}grid-inline-block {
-    // 1
-    display: block;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    // 2
-    font-size: 0;
-    // 3
-    text-align: @start;
+    // All content must be contained within child `grid__cell` elements.
+    //
+    // 1. Account for browser defaults of elements that might be the root node of
+    //    the component.
+    // 2. Remove inter-cell whitespace that appears between `inline-block` child
+    //    elements.
+    // 3. Ensure consistent default alignment.
+
+    .@{grid-ns}grid-ib {
+        // 1
+        display: block;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        // 2
+        font-size: 0;
+        // 3
+        text-align: @start;
+    }
+
+    // Grid cell
+    //
+    // 1. Fundamentals of the non-float grid layout.
+    // 2. Reset font size change made in `grid-ib`.
+    // 3. Keeps content correctly aligned with the grid direction.
+    // 4. Controls vertical positioning of units.
+    // 5. Make cells full-width by default.
+
+    .@{grid-ns}grid-ib > .@{grid-ns}grid__cell {
+        // 1
+        display: inline-block;
+        // 2
+        font-size: @grid-inline-block-font-size;
+        // 3
+        text-align: @start;
+        // 4
+        vertical-align: top;
+        // 5
+        width: 100%;
+    }
 }
-
-// Grid cell
-//
-// 1. Fundamentals of the non-float grid layout.
-// 2. Reset font size change made in `grid-inline-block`.
-// 3. Keeps content correctly aligned with the grid direction.
-// 4. Controls vertical positioning of units.
-// 5. Make cells full-width by default.
-
-.@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell {
-    // 1
-    display: inline-block;
-    // 2
-    font-size: @grid-inline-block-font-size;
-    // 3
-    text-align: @start;
-    // 4
-    vertical-align: top;
-    // 5
-    width: 100%;
-}
-
 
 // Grid gutter
 // ========================================================================
@@ -214,17 +217,18 @@
 // Default gutter
 
 // Horizontal
-.@{grid-ns}grid, .@{grid-ns}grid-inline-block { margin-@{start}: -@grid-gutter-horizontal; }
+.@{grid-ns}grid,
+.@{grid-ns}grid-ib { margin-@{start}: -@grid-gutter-horizontal; }
 
 .@{grid-ns}grid > .@{grid-ns}grid__cell,
-.@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-horizontal; }
+.@{grid-ns}grid-ib > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-horizontal; }
 
 // Vertical
 .@{grid-ns}grid > .@{grid-ns}grid__cell,
-.@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-vertical; }
+.@{grid-ns}grid-ib > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-vertical; }
 
 .@{grid-ns}grid.@{grid-ns}grid--m-b-0,
-.@{grid-ns}grid-inline-block.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-vertical; }    
+.@{grid-ns}grid-ib.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-vertical; }    
 
 // Collapse gutter
 
@@ -345,13 +349,13 @@
 }
 
 
-// `grid-inline-block` modifiers
+// `grid-ib` modifiers
 //
 // Modifiers: `grid--align-center`, `grid--align-end`, `grid--align-middle`,
 // `grid--align-bottom`
 // ========================================================================
 
-& when (@grid-enable-modifier-inline = true) {
+& when (@grid-enable-modifier-inline-block = true) {
 
     .@{grid-ns}grid--align-center {
         text-align: center;
@@ -373,7 +377,7 @@
     // Set a specific unit to be horizontally centered. Doesn't affect
     // any other units. Can still contain a child `Grid` object.
 
-    .@{grid-ns}grid-inline-block > .@{grid-ns}grid__cell--center {
+    .@{grid-ns}grid-ib > .@{grid-ns}grid__cell--center {
         display: block;
         margin: 0 auto;
     }
