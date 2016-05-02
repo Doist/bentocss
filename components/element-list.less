@@ -25,6 +25,7 @@
 
 @list-ns:                                       @ns;
 
+@list-enable-normalize:                         true;
 @list-enable-modifier-line:                     false;
 @list-enable-modifier-striped:                  false;
 @list-enable-modifier-space:                    false;
@@ -60,8 +61,11 @@
 // Normalize
 // ========================================================================
 
-dt { font-weight: @list-description-term-font-weight; }
-dd { margin-@{start}: 0; }
+& when (@list-enable-normalize = true) {
+
+    dt { font-weight: @list-description-term-font-weight; }
+    dd { margin-@{start}: 0; }
+}
 
 
 // Lists
