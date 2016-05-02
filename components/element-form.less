@@ -53,8 +53,17 @@
 
 @form-ns:                                       @ns;
 
+@form-enable-normalize:                         true;
+@form-enable-legend:                            false;
 @form-enable-modifier-size:                     false;
+@form-enable-control-validation:                false;
+@form-enable-control-blank:                     false;
 @form-enable-modifier-width:                    false;
+@form-enable-row:                               true;
+@form-enable-help:                              false;
+@form-enable-controls:                          true;      
+@form-enable-modifier-stacked:                  true;    
+@form-enable-modifier-horizontal:               true;   
 @form-enable-sub-icon:                          false;
 
 @form-control-height:                           @base-height;
@@ -145,108 +154,111 @@
 // 3. Remove `border-radius` in iOS.
 // 4. Correct `font` properties and `color` not being inherited.
 
-input,
-select,
-textarea {
-    // 1
-    box-sizing: border-box;
-    // 2
-    margin: 0;
-    // 3
-    border-radius: 0;
-    // 4
-    -webkit-font-smoothing: inherit;
-    font: inherit;
-    color: inherit;
+& when (@form-enable-normalize = true) {
+
+    input,
+    select,
+    textarea {
+        // 1
+        box-sizing: border-box;
+        // 2
+        margin: 0;
+        // 3
+        border-radius: 0;
+        // 4
+        -webkit-font-smoothing: inherit;
+        font: inherit;
+        color: inherit;
+    }
+
+    // Address inconsistent `text-transform` inheritance which is only inherit in Firefox
+
+    select { text-transform: none; }
+
+    // 1. Correct `font` properties not being inherited.
+    // 2. Don't inherit the `font-weight` and use `bold` instead.
+    // NOTE: Both declarations don't work in Chrome, Safari and Opera.
+
+    optgroup {
+        // 1
+        font: inherit;
+        // 2
+        font-weight: bold;
+    }
+
+    // Removes inner padding and border in Firefox 4+.
+
+    input::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+
+    // Removes excess padding in IE 8/9/10.
+
+    input[type="checkbox"],
+    input[type="radio"] { padding: 0; }
+
+    // Improves consistency of cursor style for clickable elements
+
+    input[type="checkbox"]:not(:disabled),
+    input[type="radio"]:not(:disabled) { cursor: pointer; }
+
+    // Remove default style in iOS.
+
+    textarea,
+    input:not([type]),
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="datetime"] { -webkit-appearance: none; }
+
+    // Remove inner padding and search cancel button in Chrome, Safari and Opera on OS X.
+
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+    // Fix the cursor style for Chrome's increment/decrement buttons. For certain
+    // `font-size` values of the `input`, it causes the cursor style of the
+    // decrement button to change from `default` to `text`.
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { height: auto; }
+
+    // Define consistent border, margin, and padding.
+
+    fieldset {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    // 1. Remove default vertical scrollbar in IE 8/9/10/11.
+    // 2. Improve readability and alignment in all browsers.
+
+    textarea {
+        // 1
+        overflow: auto;
+        // 2
+        vertical-align: top;
+    }
+
+    // Removes placeholder transparency in Firefox.
+
+    ::-moz-placeholder { opacity: 1; }
+
+    // Removes `box-shadow` for invalid controls in Firefox.
+
+    :invalid { box-shadow: none; }
+
+    // Vertical alignment
+     
+    input:not([type="radio"]):not([type="checkbox"]),
+    select { vertical-align: middle; }
 }
-
-// Address inconsistent `text-transform` inheritance which is only inherit in Firefox
-
-select { text-transform: none; }
-
-// 1. Correct `font` properties not being inherited.
-// 2. Don't inherit the `font-weight` and use `bold` instead.
-// NOTE: Both declarations don't work in Chrome, Safari and Opera.
-
-optgroup {
-    // 1
-    font: inherit;
-    // 2
-    font-weight: bold;
-}
-
-// Removes inner padding and border in Firefox 4+.
-
-input::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-}
-
-// Removes excess padding in IE 8/9/10.
-
-input[type="checkbox"],
-input[type="radio"] { padding: 0; }
-
-// Improves consistency of cursor style for clickable elements
-
-input[type="checkbox"]:not(:disabled),
-input[type="radio"]:not(:disabled) { cursor: pointer; }
-
-// Remove default style in iOS.
-
-textarea,
-input:not([type]),
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="number"],
-input[type="datetime"] { -webkit-appearance: none; }
-
-// Remove inner padding and search cancel button in Chrome, Safari and Opera on OS X.
-
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
-
-// Fix the cursor style for Chrome's increment/decrement buttons. For certain
-// `font-size` values of the `input`, it causes the cursor style of the
-// decrement button to change from `default` to `text`.
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button { height: auto; }
-
-// Define consistent border, margin, and padding.
-
-fieldset {
-    border: none;
-    margin: 0;
-    padding: 0;
-}
-
-// 1. Remove default vertical scrollbar in IE 8/9/10/11.
-// 2. Improve readability and alignment in all browsers.
-
-textarea {
-    // 1
-    overflow: auto;
-    // 2
-    vertical-align: top;
-}
-
-// Removes placeholder transparency in Firefox.
-
-::-moz-placeholder { opacity: 1; }
-
-// Removes `box-shadow` for invalid controls in Firefox.
-
-:invalid { box-shadow: none; }
-
-// Vertical alignment
- 
-input:not([type="radio"]):not([type="checkbox"]),
-select { vertical-align: middle; }
 
 
 // Style
@@ -312,37 +324,40 @@ select { vertical-align: middle; }
     .form__control-Template;
 }
 
-// Legend
-// 1. Behave like block element
-// 2. Correct `color` not being inherited in IE 8/9/10/11.
-// 3. Remove padding
-// 4. `margin-bottom` is not working in Safari and Opera.
-//    Using `padding` and ::after instead to create the border
-// 5. Style
+& when (@form-enable-legend = true) {
 
-.@{form-ns}form__legend {
-    // 1
-    width: 100%;
-    // 2
-    border: 0;
-    // 3
-    padding: 0;
-    // 4
-    padding-bottom: @form-gutter;
-    // 5
-    font-size: @form-legend-font-size;
-    line-height: @form-legend-line-height;
-    .hook-form-legend;
-}
+    // Legend
+    // 1. Behave like block element
+    // 2. Correct `color` not being inherited in IE 8/9/10/11.
+    // 3. Remove padding
+    // 4. `margin-bottom` is not working in Safari and Opera.
+    //    Using `padding` and ::after instead to create the border
+    // 5. Style
 
-// 1. Fixes IE9
+    .@{form-ns}form__legend {
+        // 1
+        width: 100%;
+        // 2
+        border: 0;
+        // 3
+        padding: 0;
+        // 4
+        padding-bottom: @form-gutter;
+        // 5
+        font-size: @form-legend-font-size;
+        line-height: @form-legend-line-height;
+        .hook-form-legend;
+    }
 
-.@{form-ns}form__legend::after {
-    content: "";
-    display: block;
-    border-bottom: @form-legend-border-width solid @form-legend-border-color;
-    // 1
-    width: 100%;
+    // 1. Fixes IE9
+
+    .@{form-ns}form__legend::after {
+        content: "";
+        display: block;
+        border-bottom: @form-legend-border-width solid @form-legend-border-color;
+        // 1
+        width: 100%;
+    }
 }
 
 
@@ -379,41 +394,47 @@ select[size].@{form-ns}form__control { height: auto; }
 // Using !important to keep the selector simple
 // ========================================================================
 
-// Error state
+& when (@form-enable-control-validation = true) {
 
-.@{form-ns}form__control--danger {
-    border-color: @form-control-danger-border-color !important;
-    background-color: @form-control-danger-background !important;
-    color: @form-control-danger-color !important;
-    .hook-form-control-danger;
-}
+    // Error state
 
-// Success state
+    .@{form-ns}form__control--danger {
+        border-color: @form-control-danger-border-color !important;
+        background-color: @form-control-danger-background !important;
+        color: @form-control-danger-color !important;
+        .hook-form-control-danger;
+    }
 
-.@{form-ns}form__control--success  {
-    border-color: @form-control-success-border-color !important;
-    background-color: @form-control-success-background !important;
-    color: @form-control-success-color !important;
-    .hook-form-control-success;
+    // Success state
+
+    .@{form-ns}form__control--success  {
+        border-color: @form-control-success-border-color !important;
+        background-color: @form-control-success-background !important;
+        color: @form-control-success-color !important;
+        .hook-form-control-success;
+    }
 }
 
 
 // Style sub-modifiers
 // ========================================================================
 
-// Blank form control
+& when (@form-enable-control-blank = true) {
 
-.@{form-ns}form__control--blank {
-    border-color: transparent;
-    border-style: @form-control-blank-border-style;
-    background-color: none;
-    .hook-form-control-blank;
-}
+    // Blank form control
 
-.@{form-ns}form__control--blank:focus {
-    border-color: @form-control-blank-border-color;
-    background-color: none;
-    .hook-form-control-blank-focus;
+    .@{form-ns}form__control--blank {
+        border-color: transparent;
+        border-style: @form-control-blank-border-style;
+        background-color: none;
+        .hook-form-control-blank;
+    }
+
+    .@{form-ns}form__control--blank:focus {
+        border-color: @form-control-blank-border-color;
+        background-color: none;
+        .hook-form-control-blank-focus;
+    }
 }
 
 
@@ -438,58 +459,70 @@ select[size].@{form-ns}form__control { height: auto; }
 // Groups labels and controls in rows
 // ========================================================================
 
-// Micro clearfix
-// Needed for `form--horizontal` modifier
+& when (@form-enable-row = true) {
 
-.@{form-ns}form__row::before,
-.@{form-ns}form__row::after {
-    content: "";
-    display: table;
+    // Micro clearfix
+    // Needed for `form--horizontal` modifier
+
+    .@{form-ns}form__row::before,
+    .@{form-ns}form__row::after {
+        content: "";
+        display: table;
+    }
+
+    .@{form-ns}form__row::after { clear: both; }
+
+    // Vertical gutter
+
+    .@{form-ns}form__row + .@{form-ns}form__row { margin-top: @form-gutter; }
 }
-
-.@{form-ns}form__row::after { clear: both; }
-
-// Vertical gutter
-
-.@{form-ns}form__row + .@{form-ns}form__row { margin-top: @form-gutter; }
 
 
 // Help text
 // Sub-object: `form__help-inline`, `form__help-block`
 // ========================================================================
 
-.@{form-ns}form__help-inline {
-    display: inline-block;
-    margin: 0;
-    margin-@{start}: @form-help-inline-margin-start;
-}
+& when (@form-enable-help = true) {
 
-.@{form-ns}form__help-block { margin: @form-help-block-margin-top 0 0 0; }
+    .@{form-ns}form__help-inline {
+        display: inline-block;
+        margin: 0;
+        margin-@{start}: @form-help-inline-margin-start;
+    }
+
+    .@{form-ns}form__help-block { margin: @form-help-block-margin-top 0 0 0; }
+}
 
 
 // Controls content
 // Sub-object: `form__controls`, `form__controls-condensed`
 // ========================================================================
 
-// Remove margins
+& when (@form-enable-controls = true) {
 
-.@{form-ns}form__controls > :first-child { margin-top: 0; }
-.@{form-ns}form__controls > :last-child { margin-bottom: 0; }
+    // Remove margins
 
-// Group controls and text into blocks with a small spacing between blocks
+    .@{form-ns}form__controls > :first-child { margin-top: 0; }
+    .@{form-ns}form__controls > :last-child { margin-bottom: 0; }
 
-.@{form-ns}form__controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
+    // Group controls and text into blocks with a small spacing between blocks
+
+    .@{form-ns}form__controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
+}
 
 
 // Modifier: `form--stacked`
 // Requires sub-object: `form__label`
 // ========================================================================
 
-.@{form-ns}form--stacked .@{form-ns}form__label {
-    display: block;
-    margin-bottom: @form-label-margin-bottom;
-    font-weight: @form-label-font-weight;
-    .hook-form-stacked-label;
+& when (@form-enable-modifier-stacked = true) {
+
+    .@{form-ns}form--stacked .@{form-ns}form__label {
+        display: block;
+        margin-bottom: @form-label-margin-bottom;
+        font-weight: @form-label-font-weight;
+        .hook-form-stacked-label;
+    }
 }
 
 
@@ -497,34 +530,37 @@ select[size].@{form-ns}form__control { height: auto; }
 // Requires sub-objects: `form__label`, `form__controls`
 // ========================================================================
 
-// Tablet portrait and smaller
-@media (max-width: @form-horizontal-breakpoint-down) {
+& when (@form-enable-modifier-horizontal = true) {
 
-    // Behave like `form-stacked`
-    .@{form-ns}form--horizontal .@{form-ns}form__label {
-        display: block;
-        margin-bottom: @form-label-margin-bottom;
-        font-weight: @form-label-font-weight;
-        .hook-form-stacked-label;
+    // Tablet portrait and smaller
+    @media (max-width: @form-horizontal-breakpoint-down) {
+
+        // Behave like `form-stacked`
+        .@{form-ns}form--horizontal .@{form-ns}form__label {
+            display: block;
+            margin-bottom: @form-label-margin-bottom;
+            font-weight: @form-label-font-weight;
+            .hook-form-stacked-label;
+        }
+
     }
 
-}
+    // Desktop and bigger
+    @media (min-width: @form-horizontal-breakpoint-up) {
 
-// Desktop and bigger
-@media (min-width: @form-horizontal-breakpoint-up) {
+        .@{form-ns}form--horizontal .@{form-ns}form__label {
+            width: @form-horizontal-label-width;
+            margin-top: @form-horizontal-label-margin-top;
+            float: @start;
+            .hook-form-horizontal-label;
+        }
 
-    .@{form-ns}form--horizontal .@{form-ns}form__label {
-        width: @form-horizontal-label-width;
-        margin-top: @form-horizontal-label-margin-top;
-        float: @start;
-        .hook-form-horizontal-label;
+        .@{form-ns}form--horizontal .@{form-ns}form__controls { margin-@{start}: @form-horizontal-controls-margin-start; }
+
+        // Better vertical alignment if controls are checkboxes and radio buttons with text
+        .@{form-ns}form--horizontal .@{form-ns}form__controls--text { padding-top: @form-horizontal-controls-text-padding-top; }
+
     }
-
-    .@{form-ns}form--horizontal .@{form-ns}form__controls { margin-@{start}: @form-horizontal-controls-margin-start; }
-
-    // Better vertical alignment if controls are checkboxes and radio buttons with text
-    .@{form-ns}form--horizontal .@{form-ns}form__controls--text { padding-top: @form-horizontal-controls-text-padding-top; }
-
 }
 
 
