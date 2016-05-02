@@ -26,6 +26,7 @@
 
 @table-ns:                                      @ns;
 
+@table-enable-normalize:                        true;
 @table-enable-modifier-border:                  false;
 @table-enable-modifier-row:                     false;
 @table-enable-modifier-cell:                    false;
@@ -58,16 +59,19 @@
 // Normalize
 // ========================================================================
 
-// Remove most spacing between table cells.
+& when (@table-enable-normalize = true) {
 
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+    // Remove most spacing between table cells.
 
-td,
-th {
-    padding: 0;
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    td,
+    th {
+        padding: 0;
+    }
 }
 
 
