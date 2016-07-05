@@ -259,11 +259,13 @@
 
     // No Flex: 0 0 auto
     // Content dimensions
+    // Prevents a flexbox item from growing or shrinking    
 
     .@{flex-ns}flex__item--none@{breakpoint} { flex: none !important; }
 
     // Relative Flex: 1 1 auto
     // Space is allocated considering content
+    // Sets a flexbox item to automatically fill the available space    
     // 1. Fixes flex-shrink value in IE10
 
     .@{flex-ns}flex__item--auto@{breakpoint} {
