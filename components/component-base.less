@@ -42,6 +42,8 @@
 @base-enable-margin:                            true;
 @base-enable-headings:                          true;
 @base-enable-headings-size:                     true;
+@base-enable-lists:                             true;
+@base-enable-tables:                            true;
 @base-enable-blocks:                            true;
 @base-enable-frames:                            true;
 @base-enable-selection:                         true;
@@ -391,6 +393,8 @@
 
 .baseline-margin-top(@margin-top) {
 
+    // Add margin if adjacent element
+
     * + ul, * + ol, * + dl,
     * + p,
     * + pre,
@@ -511,6 +515,44 @@
         .hook-base-h6-size;
     }
 }
+
+
+// Lists
+// ========================================================================
+
+& when (@base-enable-lists = true) {
+
+    dt { font-weight: @base-bold-font-weight; }
+    dd { margin-@{start}: 0; }
+}
+
+
+// Tables
+// ========================================================================
+
+& when (@base-enable-tables = true) {
+
+    // 1. Remove most spacing between table cells.
+    // 2. Block element behavior
+
+    table {
+        // 1
+        border-collapse: collapse;
+        border-spacing: 0;
+        // 2
+        width: 100%;
+    }
+
+    td,
+    th {
+        padding: 0;
+    }
+
+    th {
+        font-weight: @base-bold-font-weight;
+    }
+}
+
 
 & when (@base-enable-blocks = true) {
 
