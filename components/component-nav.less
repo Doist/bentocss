@@ -8,10 +8,7 @@
 //                  `nav__item`
 //                  `nav__static`
 //
-// Modifiers:       `nav--center`
-//                  `nav--end`
-//                  `nav--start`
-//                  `nav--gutter-0`
+// Modifiers:       `nav--gutter-0`
 //                  `nav--gutter-sm`
 //                  `nav--divider-*`
 //                  `nav--pills`
@@ -23,8 +20,11 @@
 //
 // States:          `is-active`
 //                  `is-disabled`
+//                  `is-open`
 //
 // Dependencies:    vars-base
+//
+// Uses:            Flex: `flex--*` for horizontal alignment
 //
 // Markup:
 //
@@ -67,6 +67,7 @@
 
 @nav-ns:                                     @ns;
 
+@nav-enable-modifier-gutter:                 false;
 @nav-enable-modifier-divider:                false;
 @nav-enable-modifier-pills:                  false;
 @nav-enable-modifier-tabs:                   false;
@@ -127,39 +128,25 @@
 // ========================================================================
 
 // 1. Remove default list style
-// 2. Remove whitespace between child elements when using `inline-block`
 
 .@{nav-ns}nav {
+    display: flex;
+    flex-wrap: wrap;
     // 1
     padding: 0;
     list-style: none;
-    // 2
-    font-size: 0.001px;
 }
 
 
 // Items
 // ========================================================================
 
-// 1. Remove vertical gap with its container
-
-.@{nav-ns}nav__item,
-.@{nav-ns}nav__item::before,
-.@{nav-ns}nav__action,
-.@{nav-ns}nav__static {
-    display: inline-block;
-    // 1
-    vertical-align: middle;
-}
-
-// 1. Reset whitespace hack
-// 2. Create position context for dropdown menus
+// 1. Create position context for dropdown menus
 
 .@{nav-ns}nav__item {
-    white-space: nowrap;
+    box-sizing: border-box;
+    display: flex;
     // 1
-    font-size: @nav-font-size;
-    // 2
     position: relative;
 }
 
@@ -170,8 +157,8 @@
 
 .@{nav-ns}nav__action,
 .@{nav-ns}nav__static {
+    box-sizing: border-box;
     text-decoration: @nav-text-decoration;
-    white-space: normal;
 }
 
 .@{nav-ns}nav__action {
@@ -209,20 +196,22 @@
 // Alignment modifiers
 // ========================================================================
 
-.@{nav-ns}nav--start { text-align: @start; }
-.@{nav-ns}nav--end { text-align: @end; }
-.@{nav-ns}nav--center { text-align: center; }
+// Use Flex horizontal alignment utilities 
 
 
 // Gutter modifiers
 // ========================================================================
 
-.@{nav-ns}nav--gutter-0 .@{nav-ns}nav__item:nth-last-child(n+2) {
-    margin-@{end}: 0;
-}
+& when (@nav-enable-modifier-gutter = true) {
 
-.@{nav-ns}nav--gutter-sm .@{nav-ns}nav__item:nth-last-child(n+2) {
-    margin-@{end}: @nav-gutter-small;
+    .@{nav-ns}nav--gutter-0 .@{nav-ns}nav__item:nth-last-child(n+2) {
+        margin-@{end}: 0;
+    }
+
+    .@{nav-ns}nav--gutter-sm .@{nav-ns}nav__item:nth-last-child(n+2) {
+        margin-@{end}: @nav-gutter-small;
+    }
+
 }
 
 
@@ -300,13 +289,13 @@
 
     // Second level modifier
 
-    // 2. Reset text-align to center if alignment modifier is used
+    // 1. Reset text-align to center if alignment modifier is used
 
     .@{nav-ns}nav--pills-equalize .@{nav-ns}nav__action,
     .@{nav-ns}nav--pills-equalize .@{nav-ns}nav__static {
         box-sizing: content-box;
         min-width: ((@base-font-size * @base-line-height) + (@nav-pills-padding-vertical * 2)) - (@nav-pills-padding-horizontal * 2);
-        // 2
+        // 1
         text-align: center;
     }
 
@@ -318,9 +307,10 @@
 
 & when (@nav-enable-modifier-tabs = true) {
 
-    .@{nav-ns}nav--tabs .@{nav-ns}nav__action {
+    .@{nav-ns}nav--tabs .@{nav-ns}nav__action {        
         border: @nav-tab-border-width solid transparent;
         color: @nav-tab-color;
+        display: flex;
         padding-right: @nav-tab-padding-horizontal;
         padding-left: @nav-tab-padding-horizontal;
     }
@@ -407,18 +397,13 @@
 
 & when (@nav-enable-modifier-justify = true) {
 
-    .@{nav-ns}nav--justify {
-        box-sizing: border-box;
-        display: table;
-        table-layout: fixed;
+    .@{nav-ns}nav--justify {        
         text-align: center;
-        width: 100%;
     }
 
     .@{nav-ns}nav--justify .@{nav-ns}nav__item {
-        display: table-cell;
+        flex: 1;
         margin: 0;
-        width: 1%;
     }
 
     .@{nav-ns}nav--justify .@{nav-ns}nav__action {
@@ -435,7 +420,7 @@
     .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-top .@{nav-ns}nav__item:nth-last-child(n+2) .@{nav-ns}nav__action,
     .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__item:nth-last-child(n+2) .@{nav-ns}nav__action {
         margin-@{end}: @nav-tab-margin-horizontal;
-    }
+    }   
 
 }
 
