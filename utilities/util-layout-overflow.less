@@ -22,13 +22,6 @@
 @overflow-enable-scrollable:                  false;
 @overflow-enable-overflow:                    false;
 
-@overflow-scrollable-text-height:             300/@px;
-
-@overflow-scrollable-box-height:              170/@px;
-@overflow-scrollable-box-padding:             10/@px;
-@overflow-scrollable-box-border:              @base-color-border;
-@overflow-scrollable-box-border-width:        @base-border-width;
-
 
 // ========================================================================
 // Util: Overflow
@@ -42,7 +35,6 @@
     // Enable scrolling for preformatted text
 
     .@{overflow-ns}scrollable-text {
-        height: @overflow-scrollable-text-height;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         resize: both;
@@ -52,9 +44,6 @@
 
     .@{overflow-ns}scrollable-box {
         box-sizing: border-box;
-        height: @overflow-scrollable-box-height;
-        padding: @overflow-scrollable-box-padding;
-        border: @overflow-scrollable-box-border-width solid @overflow-scrollable-box-border;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         resize: both;
