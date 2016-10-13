@@ -3,20 +3,34 @@
 //
 // Namespace:       `form`
 //
-// Sub-objects:     `form__control-file`
+// Sub-objects:     `form-control-file`
+//                  `form-control-icon`
+//                  `form-control-icon-holder`
+//
+// Sub-modifiers:   `form-control-icon--start`
+//                  `form-control-icon--end`
+//                  `form-control--select`
 //
 // Dependencies:    vars-base
 //
 // Markup:
 //
-// <!-- form__control-file -->
-// <div class="form__control-file">
+// <!-- form-control-icon -->
+// <div class="form-control-icon form-control-icon--start">
+//     <div class="form__icon-holder">
+//         <svg width="25" height="25"  viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z" fill="#BBB" fill-rule="evenodd"/></svg>
+//     </div>
+//     <input class="form-control" type="text" placeholder="Search">
+// </div>
+//
+// <!-- form-control-file -->
+// <div class="form-control-file">
 //     <button class="button"></button>
 //     <input type="file">
 // </div>
 //
-// <!-- form__control-select -->
-// <select class="form__control form__control--select">
+// <!-- form-control-select -->
+// <select class="form-control form-control--select">
 //     <option selected>Open this select menu</option>
 //     <option value="1">One</option>
 //     <option value="2">Two</option>
@@ -37,8 +51,13 @@
 
 @form-ns:                                                   @ns;
 
+@form-enable-control-icon:                                  false;
 @form-enable-control-file:                                  false;
 @form-enable-control-select:                                false;
+
+@form-icon-width:                                           30/@px;
+@form-icon-font-size:                                       14/@px;
+@form-icon-color:                                           @base-color-text-muted;
 
 @form-control-select-background:                            #fff;
 // base64 encoded
@@ -52,6 +71,53 @@
 // Component: Form custom
 // ========================================================================
 
+// Icon (decorator for regular inputs)
+// ========================================================================
+
+& when (@form-enable-control-icon = true) {
+
+    // 1. Container width fits its content
+    // 2. Create position context
+    // 3. Prevent `inline-block` consequences
+
+    .@{form-ns}form-control-icon {
+        // 1
+        display: inline-block;
+        // 2
+        position: relative;
+        // 3
+        max-width: 100%;
+    }
+
+    // Must be applied to the image holder element.
+    // The holder element must contain an image icon (png, svg...) or a
+    // unicode character in the case of a webfont icon.
+    // 1. Support icon fonts
+    // 2. Make form element clickable through icon    
+
+    .@{form-ns}form-control-icon-holder {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: center;        
+        width: @form-icon-width;        
+        // 1
+        color: @form-icon-color;
+        font-size: @form-icon-font-size;        
+        // 2
+        pointer-events: none;
+    }
+
+    // Sub-modifiers: `form__icon--start`, `form__icon--end`
+
+    .@{form-ns}form-control-icon--start .@{form-ns}form-control-icon-holder { @{start}: 0; }
+    .@{form-ns}form-control-icon--start .@{form-ns}form-control { padding-@{start}: @form-icon-width; }    
+
+    .@{form-ns}form-control-icon--end .@{form-ns}form-control-icon-holder { @{end}: 0; }
+    .@{form-ns}form-control-icon--end .@{form-ns}form-control { padding-@{end}: @form-icon-width; }
+}
+
+
 // File
 // ========================================================================
 
@@ -61,7 +127,7 @@
     // 2. Create position context
     // 3. Clip content
 
-    .@{form-ns}form__control-file {
+    .@{form-ns}form-control-file {
         // 1
         display: inline-block;
         vertical-align: middle;
@@ -74,7 +140,7 @@
     // 1. Required for Firefox
     // 2. Expand height and required for the cursor
 
-    .@{form-ns}form__control-file input[type="file"] {
+    .@{form-ns}form-control-file input[type="file"] {
         position: absolute;
         top: 0;
         z-index: 1;
@@ -94,7 +160,7 @@
 
 & when (@form-enable-control-select = true) {
 
-    .@{form-ns}form__control--select {
+    .@{form-ns}form-control--select {
         appearance: none;
         user-select: none;            
         padding-@{end}: @form-control-select-caret-padding;
