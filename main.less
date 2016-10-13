@@ -5,35 +5,45 @@
 // Paths
 // ========================================================================
 
-@libs-path: "/Users/usernanme/doist_bentocss/";
+// Path to Bento CSS
+@libs-path: "";
+
+// Path to theme
+@theme-path: "";
+
+
+// Tools
+// ========================================================================
+
+@import "@{libs-path}utilities/tool-responsive.less";
 
 
 // Base
 // ========================================================================
 
 // Theme
-// @import "theme/fonts-theme-exa.less";
-// where exa is the 3 letter theme namspace
+// @import "@{theme-path}fonts-theme-foo.less";
+// where foo is the 3 letter theme namspace
 
 // Base styles
-// @import "@{libs-path}base/element-base.less";
+// @import "@{libs-path}components/component-base.less";
 
 
 // Components
 // ========================================================================
 
 // Layout (arranges content and every other component)
-// @import "@{libs-path}components/layout-grid.less";
+// @import "@{libs-path}components/component-grid.less";
 
 // Elements (base HTML elements)
-// @import "@{libs-path}components/element-button.less";
+// @import "@{libs-path}components/component-button.less";
 
 // Common (reusable UI patterns)
 // @import "@{libs-path}components/component-nav.less";
 
 // Theme (app specific theme and UI patterns)
-// @import "theme/component-theme-exa.less";
-// where exa is the 3 letter theme namspace
+// @import "@{theme-path}component-theme-foo.less";
+// where foo is the 3 letter theme namspace
 
 
 // Utilities
@@ -41,7 +51,7 @@
 
 // @import "@{libs-path}utilities/util-layout-size.less";
 
-// @import "@{libs-path}utilities/util-component.less";
+// @import "@{libs-path}utilities/util-polyfill.less";
 
 
 // Vars
@@ -49,8 +59,8 @@
 // ========================================================================
 
 // Base
-@import "@{libs-path}base/vars-base.less";
+@import "@{libs-path}vars-base.less";
 
 // Theme
-// @import "theme/vars-theme-exa.less";
-// where exa is the 3 letter theme namspace
+// @import "@{theme-path}vars-theme-foo.less";
+// where foo is the 3 letter theme namspace
