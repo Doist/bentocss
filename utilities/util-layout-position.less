@@ -39,12 +39,10 @@
 
     .@{position-ns}position-top {
         top: 0;
-        width: 100%;
     }
 
     .@{position-ns}position-bottom {
         bottom: 0;
-        width: 100%;
     }
 
     .@{position-ns}position-top-start {
@@ -87,26 +85,9 @@
         right: 0;
     }
 
-    // Center
-     
-    // The element will be vertically and horizontally centered relative to its nearest
-    // positioned ancestor.
-
-    .@{position-ns}position-center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
     // Cover
-    //
-    // Pins to all corners by default. But when a width and/or height are
-    // provided, the element will be centered in its nearest relatively-positioned
-    // ancestor.
 
     .@{position-ns}position-cover {
-        display: table;
         margin: auto;
         position: absolute;
         top: 0;
