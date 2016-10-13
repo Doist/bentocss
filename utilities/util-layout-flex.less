@@ -1,0 +1,276 @@
+// Name:            Flex
+// Description:     Defines styles to create layouts with flexbox
+//
+// Namespace:       `flex-*`
+//
+// Dependencies:    vars-base
+//                  tool-responsive
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/flex.less
+// https://github.com/jxnblk/basscss/blob/v5.2.1/scss/_flex-object.scss
+// https://github.com/suitcss/utils-flex/blob/1.0.0/lib/flex.css
+//
+// Notes:
+//
+// Browser support for the flexible box layout module is limited.
+// http://caniuse.com/#feat=flexbox
+//
+// Quick guide
+// http://jonibologna.com/flexbox-cheatsheet/
+// https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+// https://scotch.io/tutorials/a-visual-guide-to-css3-flexbox-properties
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@flex-ns:                                       @ns;
+
+@flex-container-breakpoints:                    false;
+@flex-alignment-breakpoints:                    false;
+@flex-alignment-cross-breakpoints:              @flex-alignment-breakpoints;
+@flex-alignment-main-breakpoints:               @flex-alignment-breakpoints;
+@flex-direction-breakpoints:                    false;
+@flex-wrap-breakpoints:                         false;
+@flex-item-alignment-breakpoints:               false;
+@flex-item-order-breakpoints:                   false;
+@flex-item-dimension-breakpoints:               false;
+@flex-equal-breakpoints:                        false;
+
+
+// ========================================================================
+// Util: Flex
+// ========================================================================
+
+.mixin(flex-container) {    
+
+    // Container
+
+    .@{flex-ns}flex@{breakpoint} { display: flex; }
+    .@{flex-ns}flex-inline@{breakpoint} { display: inline-flex; }
+
+    // Fixes initial flex-shrink value in IE10 - http://git.io/vllC7
+
+    .@{flex-ns}flex@{breakpoint} > *,
+    .@{flex-ns}flex-inline@{breakpoint} > * { -ms-flex-negative: 1; }
+}
+
+& when not (@flex-container-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-container-breakpoints; flex-container);
+}
+
+
+// Alignment
+// ========================================================================
+
+// Main axis alignment
+//
+// Flex items alignment along the main axis of the current line of the flex container
+
+.mixin(flex-alignment-main) {
+
+    //  Default value is `flex-start`
+    // `flex-start` and `flex-end` are language direction aware
+    .@{flex-ns}flex-start@{breakpoint} { justify-content: flex-start; }
+    .@{flex-ns}flex-center@{breakpoint} { justify-content: center; }
+    .@{flex-ns}flex-end@{breakpoint} { justify-content: flex-end; }
+    .@{flex-ns}flex-space-between@{breakpoint} { justify-content: space-between; }
+    .@{flex-ns}flex-space-around@{breakpoint} { justify-content: space-around;}
+}
+
+& when not (@flex-alignment-main-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-alignment-main-breakpoints; flex-alignment-main);
+}
+
+// Cross axis alignment
+//
+// Flex items alignment along the cross axis of the current line of the flex container
+
+.mixin(flex-alignment-cross) {
+
+    //  Default value is `stretch`
+    // `flex-start` and `flex-end` are language direction aware
+    .@{flex-ns}flex-x-stretch@{breakpoint} { align-items: stretch; }
+    .@{flex-ns}flex-x-start@{breakpoint} { align-items: flex-start; }
+    .@{flex-ns}flex-x-center@{breakpoint} { align-items: center; }
+    .@{flex-ns}flex-x-baseline@{breakpoint} { align-items: baseline; }
+    .@{flex-ns}flex-x-end@{breakpoint} { align-items: flex-end; }    
+}
+
+& when not (@flex-alignment-cross-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-alignment-cross-breakpoints; flex-alignment-cross);
+}
+
+
+// Direction
+// ========================================================================
+
+.mixin(flex-direction) {
+
+    //  Default value is `row`
+    .@{flex-ns}flex-row@{breakpoint} { flex-direction: row; }
+    .@{flex-ns}flex-row-reverse@{breakpoint} { flex-direction: row-reverse; }
+    .@{flex-ns}flex-column@{breakpoint} { flex-direction: column; }
+    .@{flex-ns}flex-column-reverse@{breakpoint} { flex-direction: column-reverse; }    
+}
+
+& when not (@flex-direction-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-direction-breakpoints; flex-direction);
+}
+
+
+// Wrap
+// ========================================================================
+
+.mixin(flex-wrap) {
+
+    //  Default value is `nowrap`
+    .@{flex-ns}flex-wrap-none@{breakpoint} { flex-wrap: nowrap; }
+    .@{flex-ns}flex-wrap@{breakpoint} { flex-wrap: wrap; }
+    .@{flex-ns}flex-wrap-reverse@{breakpoint} { flex-wrap: wrap-reverse; }
+
+    // Cross axis wrapping mode
+    //
+    // Aligns items within the flex container when there is extra space in the cross-axis
+    //
+    // Has no effect when there is only one line of flex items
+
+    //  Default value is `stretch`
+    .@{flex-ns}flex-wrap-stretch@{breakpoint} { align-content: stretch; }
+    .@{flex-ns}flex-wrap-start@{breakpoint} { align-content: flex-start; }
+    .@{flex-ns}flex-wrap-center@{breakpoint} { align-content: center; }
+    .@{flex-ns}flex-wrap-end@{breakpoint} { align-content: flex-end; }
+    .@{flex-ns}flex-wrap-space-between@{breakpoint} { align-content: space-between; }
+    .@{flex-ns}flex-wrap-space-around@{breakpoint} { align-content: space-around; }
+}
+
+& when not (@flex-wrap-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-wrap-breakpoints; flex-wrap);
+}
+
+
+// Item alignment
+// ========================================================================
+
+// Override default alignment of single item when specified by `align-items`
+
+.mixin(flex-item-alignment) {
+
+    // Aligning with `auto` margins
+    // http://www.w3.org/TR/css-flexbox-1/#auto-margins
+
+    .@{flex-ns}flex-item-start@{breakpoint} { margin-@{end}: auto; }
+    .@{flex-ns}flex-item-center@{breakpoint} { margin-right: auto; margin-left: auto; }    
+    .@{flex-ns}flex-item-end@{breakpoint} { margin-@{start}: auto; }
+
+    .@{flex-ns}flex-item-x-stretch@{breakpoint} { align-self: flex-stretch; }
+    .@{flex-ns}flex-item-x-start@{breakpoint} { align-self: flex-start; }
+    .@{flex-ns}flex-item-x-center@{breakpoint} { align-self: flex-center; }    
+    .@{flex-ns}flex-item-x-end@{breakpoint} { align-self: flex-end; }
+    .@{flex-ns}flex-item-x-baseline@{breakpoint} { align-self: flex-baseline; }
+    .@{flex-ns}flex-item-x-auto@{breakpoint} { align-self: flex-auto; }
+}
+
+& when not (@flex-item-alignment-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-item-alignment-breakpoints; flex-item-alignment);
+}
+
+
+// Item ordering
+// ========================================================================
+
+.mixin(flex-item-order) {
+
+    // Default is 0
+    .@{flex-ns}flex-item-unorder@{breakpoint} { order: 0; }    
+    .@{flex-ns}flex-item-first@{breakpoint} { order: -1; }
+    .@{flex-ns}flex-item-last@{breakpoint} { order: 99; }
+}
+
+& when not (@flex-item-order-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-item-order-breakpoints; flex-item-order);
+}
+
+
+// Item dimensions
+// ========================================================================
+
+.mixin(flex-item-dimension) {
+
+    // Initial: 0 1 auto
+    // Content dimensions, but shrinks
+
+    // No Flex: 0 0 auto
+    // Content dimensions
+    // Prevents a flexbox item from growing or shrinking    
+
+    .@{flex-ns}flex-item-none@{breakpoint} { flex: none !important; }
+
+    // Make an element fill the remaining space.
+    //
+    // Space is allocated solely based on flex
+    // Absolute flex: `1 1 0%`, or `1`
+    //
+    // 1. Be explicit to work around IE10 bug with shorthand flex
+    //    http://git.io/vllC7
+    // 2. IE10 ignores previous `flex-basis` value. Setting again here fixes
+    //    http://git.io/vllMt
+
+    .@{flex-ns}flex-item-fill@{breakpoint} {
+        flex: 1 1 0% !important; // 1
+        flex-basis: 0% !important; // 2
+    }
+
+    // An alternative method to make an element fill the remaining space.
+    //
+    // Space is allocated considering content
+    // Relative flex: `1 1 auto`, or `auto`
+    //
+    // http://www.w3.org/TR/css-flexbox/images/rel-vs-abs-flex.svg
+
+    .@{flex-ns}flex-item-fill-rel@{breakpoint} {
+        flex: auto !important;
+        flex-basis: auto !important;
+    }            
+}
+
+& when not (@flex-item-dimension-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-item-dimension-breakpoints; flex-item-dimension);
+}
+
+
+// Equal-width items
+// ========================================================================
+
+// This layout algorithm will create equal-width elements, irrespective of
+// the width of their content.
+
+.mixin(flex-equal) {
+
+    .@{flex-ns}flex-equal@{breakpoint} > * { flex: 1 !important; }
+}
+
+& when not (@flex-equal-breakpoints = false) {
+
+    .render-responsive-rulesets(@flex-equal-breakpoints; flex-equal);
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-flex-misc;
+
+.hook-flex-misc() {}
