@@ -22,7 +22,7 @@
 // Markup:
 //
 // <!-- overlay -->
-// <figure class="overlay" href="">
+// <figure class="overlay overlay--hover">
 //     <img src="" alt="">
 //     <figcaption class="overlay__cover"></figcaption>
 // </figure>
@@ -150,14 +150,15 @@
 
     // Fade
 
-    .@{overlay-ns}overlay__cover--fade { opacity: @overlay-fade-out-opacity; }
+    .@{overlay-ns}overlay__cover--fade {
+        opacity: @overlay-fade-out-opacity;
+    }
 
-    .@{overlay-ns}overlay--hover:hover .@{overlay-ns}overlay__cover--fade { opacity: @overlay-fade-in-opacity; }
+    .@{overlay-ns}overlay:hover .@{overlay-ns}overlay__cover--fade {
+        opacity: @overlay-fade-in-opacity;
+    }
 
     // Slide
-
-    [class^='@{overlay-ns}overlay__cover--slide-'],
-    [class*=' @{overlay-ns}overlay__cover--slide-'] { opacity: 0; }
 
     // Top
 
@@ -192,12 +193,9 @@
             transform: translateX(-100%);
         }
     }
-
-    // Hover
     
-    .@{overlay-ns}overlay--hover:hover [class^='@{overlay-ns}overlay__cover--slide-'],
-    .@{overlay-ns}overlay--hover:hover [class*=' @{overlay-ns}overlay__cover--slide-'] {
-        opacity: 1;
+    .@{overlay-ns}overlay:hover [class^='@{overlay-ns}overlay__cover--slide-'],
+    .@{overlay-ns}overlay:hover [class*=' @{overlay-ns}overlay__cover--slide-'] {
         transform: translateX(0) translateY(0);
     }
 
