@@ -1,9 +1,8 @@
 // Name:            Size
-// Description:     Collection of size utility classes
+// Description:     Size utility classes
 //
 // Namespace:       `width-*`
 //                  `height-*`
-//                  `size-*`
 //                  `responsive-*`
 //
 // Dependencies:    vars-base
@@ -174,62 +173,6 @@
     }
 
     .render-responsive-rulesets(@size-width-ratios-breakpoints; width-rulesets);
-}
-
-
-// Intrinsic widths
-//
-// Objects: `size-*`
-// ========================================================================
-
-.mixin(intrinsic-width-rulesets) {
-
-    // Make an element shrink wrap its content.
-
-    .@{size-ns}size-fit-start@{breakpoint},
-    .@{size-ns}size-fit-end@{breakpoint} {
-        display: block;
-        width: auto;
-    }
-
-    .@{size-ns}size-fit-start@{breakpoint} {
-        float: @start;
-    }
-
-    .@{size-ns}size-fit-end@{breakpoint} {
-        float: @end;
-    }
-
-    // Make an element fill the remaining space.
-    // N.B. This will hide overflow.
-
-    .@{size-ns}size-fill@{breakpoint} {
-        display: block;
-        overflow: hidden;
-        width: auto;
-    }
-
-    // An alternative method to make an element fill the remaining space.
-    // N.B. Do not use if child elements might be wider than the remaining space.
-    // In Chrome, Safari, and Firefox it results in undesired layout.
-
-    .@{size-ns}size-fill-alt@{breakpoint} {
-        display: table-cell;
-        max-width: 100%;
-        width: 10000px;
-    }
-
-    // Make an element the width of its parent.
-
-    .@{size-ns}size-full@{breakpoint} {
-        box-sizing: border-box;
-        display: block;
-        width: 100%;
-    }
-}
-
-& when not (@size-width-intrinsic-breakpoints = false) {
-    .render-responsive-rulesets(@size-width-intrinsic-breakpoints; intrinsic-width-rulesets);
 }
 
 
