@@ -1,9 +1,8 @@
 // Name:            Space
-// Description:     Collection of spacing utility classes
+// Description:     Spacing utility classes
 //
 // Namespace:       `m-*`
 //                  `p-*`
-//                  `whitespace-*`
 //
 // Dependencies:    vars-base
 //                  tool-responsive
@@ -209,29 +208,6 @@
 
     & {
         .render-space-gutter-classes(@space-units-base-gutter);
-    }
-}
-
-
-// White space
-// ========================================================================
-
-& when (@space-enable-white-space = true) {
-
-    // 1. Remove whitespace between child elements when using `inline-block`
-    //    or `inline-table`.
-
-    .@{space-ns}whitespace-0 {
-        // 1
-        font-size: 0.001px;
-    }
-
-    // 1. Child elements must set their base font size, or use the provided
-    // `.m-no-whitespace__item` font size reset.
-
-    .@{space-ns}whitespace-0__item {
-        // 1
-        font-size: 1rem;
     }
 }
 
