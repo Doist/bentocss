@@ -1,0 +1,49 @@
+// Name:            List
+// Description:     Defines styles for lists
+//
+// Namespace:       `list`
+//
+// Dependencies:    vars-base
+//
+// Based on:
+//
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/list.less
+// https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/description-list.less
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@list-ns:                                       @ns;
+
+
+// ========================================================================
+// Component: List
+// ========================================================================
+
+// Generic list container
+
+.@{list-ns}list {
+    padding: 0;
+    list-style: none;
+}
+
+// Micro clearfix to make list more robust
+
+.@{list-ns}list > li::before,
+.@{list-ns}list > li::after {
+    content: "";
+    display: table;
+}
+
+.@{list-ns}list > li::after { clear: both; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-list-misc;
+
+.hook-list-misc() {}
