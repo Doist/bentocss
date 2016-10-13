@@ -3,9 +3,6 @@
 //
 // Namespace:       `button`
 //
-// Super-objects:   `button-dropdown`
-//                  `button-group`
-//
 // Modifiers:       `button--primary`
 //                  `button--success`
 //                  `button--danger`
@@ -21,41 +18,12 @@
 //
 // Markup:
 //
-// <!-- button-group -->
-// <div class="button-group button-group--horizontal">
-//     <button class="button"></button>
-//     <button class="button"></button>
-// </div>
-//
-// <!-- button-group with wrapper elements (ul, ol, div...) -->
-// <ul class="button-group button-group--vertical">
-//     <li class="button-group__item">
-//         <a class="button" href="#">Dashboard</a>
-//     </li>
-//     <li class="button-group__item">
-//         <a class="button" href="#">Account</a>
-//     </li>
-//     <li class="button-group__item">
-//         <a class="button" href="#">Logout</a>
-//     </li>
-// </ul>
-//
-// <!-- button-dropdown -->
-// <div class="button-dropdown" data-dropdown>
-//     <button class="button"></button>
-//     <div class="dropdown dropdown--small">
-//         <ul class="nav nav--dropdown">
-//             <li><a href=""></a></li>
-//         </ul>
-//     </div>
-// </div>
+// <button class="button"></button>
 //
 // Based on:
 //
 // https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/button.less
 // https://github.com/uikit/uikit/blob/v2.17.0/themes/gradient/button.less
-// https://github.com/suitcss/components-button-group/blob/2.2.0/button-group.css
-// https://github.com/suitcss/components-button-group/blob/2.2.0/button-group.plugin.css
 //
 // ========================================================================
 
@@ -68,8 +36,6 @@
 @button-enable-modifier-color:                  false;
 @button-enable-modifier-size:                   false;
 @button-enable-modifier-link:                   false;
-@button-enable-super-group:                     false;
-@button-enable-super-dropdown:                  false;
 
 @button-height:                                 @base-height;
 @button-xsmall-height:                          @base-height-xsmall;
@@ -138,31 +104,22 @@
 @button-link-hover-text-decoration:             underline;
 @button-link-disabled-color:                    @base-color-text-muted;
 
-@button-group-border-width:                     @base-border-width;
-
 
 // ========================================================================
 //   Component: Button
 // ========================================================================
 
-// Fix a Firefox 4+ bug whereby `input type="submit"` gains 2px extra padding
-
-.@{button-ns}button::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-}
-
- // 1. Correct inability to style clickable `input` types in iOS.
- // 2. Remove margins in Chrome, Safari and Opera.
- // 3. Remove borders for `button`.
- // 4. Address `overflow` set to `hidden` in IE 8/9/10/11.
- // 5. Correct `font` properties and `color` not being inherited for `button`.
- // 6. Address inconsistent `text-transform` inheritance which is only inherit in Firefox and IE
- // 7. Style
- // 8. `line-height` is used to create a height
- // 9. `min-height` is necessary for `input` elements in Firefox and Opera because `line-height` is not working.
- // 10. Reset button group whitespace hack
- // 11. Required for `a`.
+// 1. Correct inability to style clickable `input` types in iOS.
+// 2. Remove margins in Chrome, Safari and Opera.
+// 3. Remove borders for `button`.
+// 4. Address `overflow` set to `hidden` in IE 8/9/10/11.
+// 5. Correct `font` properties and `color` not being inherited for `button`.
+// 6. Address inconsistent `text-transform` inheritance which is only inherit in Firefox and IE
+// 7. Style
+// 8. `line-height` is used to create a height
+// 9. `min-height` is necessary for `input` elements in Firefox and Opera because `line-height` is not working.
+// 10. Required for `a`.
+// 11. Fix a Firefox 4+ bug whereby `input type="submit"` gains 2px extra padding
  
 .button-Template() {
     // 1 
@@ -186,18 +143,24 @@
     padding: @button-padding-vertical @button-padding-horizontal;
     background: @button-background;
     font-family: @button-font-family;
+    font-size: @button-font-size;
     font-weight: @button-font-weight;
     vertical-align: middle;
     white-space: @button-white-space;
     // 8 
     line-height: @button-line-height;
     // 9 
-    min-height: @button-height;
+    min-height: @button-height;    
     // 10 
-    font-size: @button-font-size;
-    // 11 
     text-decoration: none;
     text-align: center;
+
+    // 11
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+
     .hook-button;
 
     &:not(:disabled) { cursor: pointer; }
@@ -395,134 +358,6 @@
         line-height: @button-large-line-height;
         font-size: @button-large-font-size;
     }
-}
-
-
-// Super-object `button-group`
-// ==========================================================================
-
-& when (@button-enable-super-group = true) {
-
-     // 1. Behave like buttons
-     // 2. Create position context for dropdowns
-     // 3. Remove whitespace between child elements when using `inline-block`
-     // 4. Prevent buttons from wrapping
-     // 5. Remove any default styles that might be present when `ol` or `ul` are the
-     //    root element.     
-
-    .@{button-ns}button-group {
-        // 1 
-        display: inline-block;
-        vertical-align: middle;
-        // 2 
-        position: relative;
-        // 3 
-        font-size: 0.001px;
-        // 4 
-        white-space: nowrap;
-        // 5 
-        margin: 0;
-        list-style: none;
-        padding: 0;
-    }
-
-    .@{button-ns}button-group__item { display: inline-block; }
-
-     // Reset border-radius
-
-    .@{button-ns}button-group > .@{button-ns}button:not(:first-child):not(:last-child),
-    .@{button-ns}button-group__item:not(:first-child):not(:last-child) .@{button-ns}button { border-radius: 0; }
-
-    .@{button-ns}button-group > .@{button-ns}button:first-child,
-    .@{button-ns}button-group__item:first-child .@{button-ns}button {
-        border-bottom-@{end}-radius: 0;
-    }
-
-    .@{button-ns}button-group > .@{button-ns}button:last-child,
-    .@{button-ns}button-group__item:last-child .@{button-ns}button {
-        border-top-@{start}-radius: 0;
-    }
-
-     // Create position context to superimpose the successor elements border
-     // Known issue: If you use an `a` element as button and an icon inside,
-     // the active state will not work if you click the icon inside the button
-     // Workaround: Just use a `button` or `input` element as button
-
-    .@{button-ns}button-group .@{button-ns}button:active { position: relative; }
-
-
-    // Modifier: `button-group--horizontal`
-    // ==========================================================================
-
-     // 1. Remove whitespace between child elements when using `inline-block`
-
-    .@{button-ns}button-group--horizontal .@{button-ns}button {
-        display: inline-block;
-        // 1
-        vertical-align: top;
-    }
-
-     // Reset border-radius
-
-    .@{button-ns}button-group--horizontal > .@{button-ns}button:first-child,
-    .@{button-ns}button-group--horizontal .@{button-ns}button-group__item:first-child .@{button-ns}button {
-        border-top-@{end}-radius: 0;
-    }
-
-    .@{button-ns}button-group--horizontal > .@{button-ns}button:last-child,
-    .@{button-ns}button-group--horizontal .@{button-ns}button-group__item:last-child .@{button-ns}button {
-        border-bottom-@{start}-radius: 0;
-    }
-
-     // Collapse border
-
-    .@{button-ns}button-group--horizontal > .@{button-ns}button:nth-child(n+2),
-    .@{button-ns}button-group--horizontal .@{button-ns}button-group__item:nth-child(n+2) .@{button-ns}button { margin-@{start}: -@button-group-border-width; }
-
-
-    // Modifier: `button-group--vertical`
-    // ==========================================================================
-
-    .@{button-ns}button-group--vertical .@{button-ns}button {
-        display: block;
-        width: 100%;
-    }
-
-     // Reset border-radius
-
-    .@{button-ns}button-group--vertical > .@{button-ns}button:first-child,
-    .@{button-ns}button-group--vertical .@{button-ns}button-group__item:first-child .@{button-ns}button {
-        border-bottom-@{start}-radius: 0;
-    }
-
-    .@{button-ns}button-group--vertical > .@{button-ns}button:last-child,
-    .@{button-ns}button-group--vertical .@{button-ns}button-group__item:last-child .@{button-ns}button {
-        border-top-@{end}-radius: 0;
-    }
-
-     // Collapse border
-
-    .@{button-ns}button-group--vertical > .@{button-ns}button:nth-child(n+2),
-    .@{button-ns}button-group--vertical .@{button-ns}button-group__item:nth-child(n+2) .@{button-ns}button { margin-top: -@button-group-border-width; }
-}
-
-
-// Super-object: `button-dropdown`
-// ==========================================================================
-
-& when (@button-enable-super-dropdown = true) {
-
-     // 1. Behave like buttons
-     // 2. Create position context for dropdowns
-
-    .@{button-ns}button-dropdown {
-        // 1
-        display: inline-block;
-        vertical-align: middle;
-        // 2
-        position: relative;
-    }
-
 }
 
 
