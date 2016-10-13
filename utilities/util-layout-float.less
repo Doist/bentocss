@@ -2,7 +2,7 @@
 // Description:     Collection of float utility classes
 //
 // Namespace:       `clearfix`
-//                  `clearfix-flex`
+//                  `clearfix-*`
 //                  `nbfc`
 //                  `nbfc-alt`
 //                  `float-*`
@@ -62,6 +62,18 @@
     }
 
     .@{float-ns}clearfix::after {
+        clear: both;
+    }
+
+    // Micro clearfix for children elements
+
+    .@{list-ns}clearfix-children > *::before,
+    .@{list-ns}clearfix-children > *::after {
+        content: "";
+        display: table;
+    }
+
+    .@{list-ns}clearfix-children > *::after {
         clear: both;
     }
 
