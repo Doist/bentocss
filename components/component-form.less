@@ -1,44 +1,29 @@
 // Name:            Form
 // Description:     Defines styles for forms
 //
-// Namespace:       `form`
+// Namespace:       `form-control` 
+//                  `form-fieldset`
+//                  `form-optgroup`
+//                  `form-switch`      
 //
-// Sub-objects:     `form__row`
-//                  `form__help-inline`
-//                  `form__help-block`
-//                  `form__label`
-//                  `form__legend`
-//                  `form__control`
-//                  `form__controls`
-//                  `form__controls-condensed`
-//                  `form__icon`
-//
-// Modifiers:       `form--stacked`
-//                  `form--horizontal`
-//
-// Sub-modifiers:   `form__control--danger`
-//                  `form__control--success`
-//                  `form__control--sm`
-//                  `form__control--lg`
-//                  `form__control--blank`
-//                  `form__control--width-xsm`
-//                  `form__control--width-sm`
-//                  `form__control--width-md`
-//                  `form__control--width-lg`
-//                  `form__controls--text`
+// Modifiers:       `form-control--danger`
+//                  `form-control--success`
+//                  `form-control--sm`
+//                  `form-control--lg`
+//                  `form-control--blank`
+//                  `form-control--width-xsm`
+//                  `form-control--width-sm`
+//                  `form-control--width-md`
+//                  `form-control--width-lg`
 //
 // Dependencies:    vars-base
 //
 // Markup:
 //
 // <!-- form -->
-// <form class="form">
-//     <div class="form__row">
-//         <label class="form__label" for="form-input-1">Text</label>
-//         <div class="form__controls">
-//             <input class="form__control" type="text" id="form-input-1" placeholder="Text">
-//         </div>
-//     </div>
+// <form>
+//     <label for="form-input-1">Text</label>
+//     <input class="form-control" type="text" id="form-input-1" placeholder="Text">
 // </form>
 //
 // Based on:
@@ -53,18 +38,13 @@
 
 @form-ns:                                       @ns;
 
-@form-enable-normalize:                         true;
-@form-enable-legend:                            false;
+@form-enable-global-normalize:                  false;
+@form-enable-local-normalize:                   true;
+@form-enable-additional-controls:               true;
 @form-enable-modifier-size:                     false;
 @form-enable-control-validation:                false;
 @form-enable-control-blank:                     false;
 @form-enable-modifier-width:                    false;
-@form-enable-row:                               true;
-@form-enable-help:                              false;
-@form-enable-controls:                          true;      
-@form-enable-modifier-stacked:                  true;    
-@form-enable-modifier-horizontal:               true;   
-@form-enable-sub-icon:                          false;
 
 @form-control-height:                           @base-height;
 @form-control-padding:                          4/@px 6/@px;
@@ -111,32 +91,6 @@
 @form-control-blank-border-color:               @base-color-border;
 @form-control-blank-border-style:               dashed;
 
-@form-label-font-weight:                        @base-bold-font-weight;
-@form-label-margin-bottom:                      5/@px;
-
-@form-legend-border-color:                      @base-color-border;
-@form-legend-border-width:                      @base-border-width;
-@form-legend-font-size:                         18/@px;
-@form-legend-line-height:                       30/18;
-
-@form-help-inline-margin-start:                 10/@px;
-@form-help-block-margin-top:                    5/@px;
-
-@form-controls-condensed-margin-vertical:       5/@px;
-
-@form-gutter:                                   15/@px;
-
-@form-horizontal-breakpoint-down:               @breakpoint-medium-max;
-@form-horizontal-breakpoint-up:                 @breakpoint-large;
-@form-horizontal-label-width:                   200/@px;
-@form-horizontal-label-margin-top:              5/@px;
-@form-horizontal-controls-margin-start:         215/@px;
-@form-horizontal-controls-text-padding-top:     5/@px;
-
-@form-icon-width:                               30/@px;
-@form-icon-font-size:                           14/@px;
-@form-icon-color:                               @base-color-text-muted;
-
 
 // ========================================================================
 // Component: Form
@@ -154,7 +108,7 @@
 // 3. Remove `border-radius` in iOS.
 // 4. Correct `font` properties and `color` not being inherited.
 
-& when (@form-enable-normalize = true) {
+& when (@form-enable-global-normalize = true) {
 
     input,
     select,
@@ -264,18 +218,49 @@
 // Style
 // ========================================================================
 
-// Remove margin from the last-child
-
-.@{form-ns}form > :last-child { margin-bottom: 0; }
-
-// Controls
-// Except for `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
+// Controls: input, textarea, select.
+// Except type: `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
+//
 // 1. Must be `height` because `min-height` is not working in OSX
 // 2. Responsiveness: Sets a maximum width relative to the parent to scale on narrower viewports
 // 3. Vertical `padding` needed for `select` elements in Firefox
 // 4. Style
 
-.form__control-Template() {
+.form-control-Template() {
+
+    & when (@form-enable-local-normalize = true) {
+
+        // See global normalize documentation
+
+        box-sizing: border-box;
+        margin: 0;
+        border-radius: 0;
+        -webkit-font-smoothing: inherit;
+        font: inherit;
+        color: inherit;
+
+        &::-moz-placeholder { opacity: 1; }
+
+        input&,
+        select& { vertical-align: middle; }
+
+        input&,
+        textarea& { -webkit-appearance: none; }
+
+        &[type="search"]::-webkit-search-cancel-button,
+        &[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+        &[type="number"]::-webkit-inner-spin-button,
+        &[type="number"]::-webkit-outer-spin-button { height: auto; }
+
+        textarea& {
+            overflow: auto;
+            vertical-align: top;
+        }
+
+        select& { text-transform: none; }    
+    }
+
     // 1
     height: @form-control-height;
     // 2
@@ -320,43 +305,53 @@
     &:disabled::-webkit-input-placeholder { color: @form-control-disabled-color; }
 }
 
-.@{form-ns}form__control {
-    .form__control-Template;
+.@{form-ns}form-control {
+    .form-control-Template;
 }
 
-& when (@form-enable-legend = true) {
+// Use these optional controls when the global form reset is disabled
 
-    // Legend
-    // 1. Behave like block element
-    // 2. Correct `color` not being inherited in IE 8/9/10/11.
-    // 3. Remove padding
-    // 4. `margin-bottom` is not working in Safari and Opera.
-    //    Using `padding` and ::after instead to create the border
-    // 5. Style
+& when (@form-enable-additional-controls = true) {
 
-    .@{form-ns}form__legend {
-        // 1
-        width: 100%;
-        // 2
-        border: 0;
-        // 3
-        padding: 0;
-        // 4
-        padding-bottom: @form-gutter;
-        // 5
-        font-size: @form-legend-font-size;
-        line-height: @form-legend-line-height;
-        .hook-form-legend;
+    // Input `checkbox` and `radio`
+
+    .form-switch {
+        // See global normalize documentation
+        & when (@form-enable-local-normalize = true) {
+
+            box-sizing: border-box;
+            margin: 0;
+
+            &[type="checkbox"],
+            &[type="radio"] { padding: 0; }
+
+            &[type="checkbox"]:not(:disabled),
+            &[type="radio"]:not(:disabled) { cursor: pointer; }
+        }
+        .hook-form-control-switch;
     }
 
-    // 1. Fixes IE9
+    // Optgroup
 
-    .@{form-ns}form__legend::after {
-        content: "";
-        display: block;
-        border-bottom: @form-legend-border-width solid @form-legend-border-color;
-        // 1
-        width: 100%;
+    .form-optgroup {
+        // See global normalize documentation
+        & when (@form-enable-local-normalize = true) {
+            font: inherit;
+            font-weight: @base-bold-font-weight;
+        }
+        .hook-form-control-optgroup;
+    }
+
+    // Fieldset
+
+    .form-fieldset {
+        // See global normalize documentation
+        & when (@form-enable-local-normalize = true) {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        .hook-form-control-fieldset;
     }
 }
 
@@ -367,13 +362,13 @@
 
 & when (@form-enable-modifier-size = true) {
 
-    .@{form-ns}form__control--sm {
+    .@{form-ns}form-control--sm {
         height: @form-control-small-height;
         padding: @form-control-small-padding;
         font-size: @form-control-small-font-size;
     }
 
-    .@{form-ns}form__control--lg  {
+    .@{form-ns}form-control--lg  {
         height: @form-control-large-height;
         padding: @form-control-large-padding;
         font-size: @form-control-large-font-size;
@@ -382,12 +377,12 @@
 
 
 // Reset height
-// Must be after size modifiers
+// Must appear after size modifiers
 // ========================================================================
 
-textarea.@{form-ns}form__control,
-select[multiple].@{form-ns}form__control,
-select[size].@{form-ns}form__control { height: auto; }
+textarea.@{form-ns}form-control,
+select[multiple].@{form-ns}form-control,
+select[size].@{form-ns}form-control { height: auto; }
 
 
 // Validation states
@@ -398,7 +393,7 @@ select[size].@{form-ns}form__control { height: auto; }
 
     // Error state
 
-    .@{form-ns}form__control--danger {
+    .@{form-ns}form-control--danger {
         border-color: @form-control-danger-border-color !important;
         background-color: @form-control-danger-background !important;
         color: @form-control-danger-color !important;
@@ -407,7 +402,7 @@ select[size].@{form-ns}form__control { height: auto; }
 
     // Success state
 
-    .@{form-ns}form__control--success  {
+    .@{form-ns}form-control--success  {
         border-color: @form-control-success-border-color !important;
         background-color: @form-control-success-background !important;
         color: @form-control-success-color !important;
@@ -423,14 +418,14 @@ select[size].@{form-ns}form__control { height: auto; }
 
     // Blank form control
 
-    .@{form-ns}form__control--blank {
+    .@{form-ns}form-control--blank {
         border-color: transparent;
         border-style: @form-control-blank-border-style;
         background-color: none;
         .hook-form-control-blank;
     }
 
-    .@{form-ns}form__control--blank:focus {
+    .@{form-ns}form-control--blank:focus {
         border-color: @form-control-blank-border-color;
         background-color: none;
         .hook-form-control-blank-focus;
@@ -446,164 +441,12 @@ select[size].@{form-ns}form__control { height: auto; }
     // Fixed widths
     // Different widths for xsmall sized `input` and `select` elements
 
-    input.@{form-ns}form__control--width-xsm { width: @form-control-xsmall-width; }
-    select.@{form-ns}form__control--width-xsm { width: (@form-control-xsmall-width + 25/@px); }
+    input.@{form-ns}form-control--width-xsm { width: @form-control-xsmall-width; }
+    select.@{form-ns}form-control--width-xsm { width: (@form-control-xsmall-width + 25/@px); }
 
-    .@{form-ns}form__control--width-sm { width: @form-control-small-width; }
-    .@{form-ns}form__control--width-md { width: @form-control-medium-width; }
-    .@{form-ns}form__control--width-lg { width: @form-control-large-width; }
-}
-
-
-// Sub-objects: `form__row`
-// Groups labels and controls in rows
-// ========================================================================
-
-& when (@form-enable-row = true) {
-
-    // Micro clearfix
-    // Needed for `form--horizontal` modifier
-
-    .@{form-ns}form__row::before,
-    .@{form-ns}form__row::after {
-        content: "";
-        display: table;
-    }
-
-    .@{form-ns}form__row::after { clear: both; }
-
-    // Vertical gutter
-
-    .@{form-ns}form__row + .@{form-ns}form__row { margin-top: @form-gutter; }
-}
-
-
-// Help text
-// Sub-object: `form__help-inline`, `form__help-block`
-// ========================================================================
-
-& when (@form-enable-help = true) {
-
-    .@{form-ns}form__help-inline {
-        display: inline-block;
-        margin: 0;
-        margin-@{start}: @form-help-inline-margin-start;
-    }
-
-    .@{form-ns}form__help-block { margin: @form-help-block-margin-top 0 0 0; }
-}
-
-
-// Controls content
-// Sub-object: `form__controls`, `form__controls-condensed`
-// ========================================================================
-
-& when (@form-enable-controls = true) {
-
-    // Remove margins
-
-    .@{form-ns}form__controls > :first-child { margin-top: 0; }
-    .@{form-ns}form__controls > :last-child { margin-bottom: 0; }
-
-    // Group controls and text into blocks with a small spacing between blocks
-
-    .@{form-ns}form__controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
-}
-
-
-// Modifier: `form--stacked`
-// Requires sub-object: `form__label`
-// ========================================================================
-
-& when (@form-enable-modifier-stacked = true) {
-
-    .@{form-ns}form--stacked .@{form-ns}form__label {
-        display: block;
-        margin-bottom: @form-label-margin-bottom;
-        font-weight: @form-label-font-weight;
-        .hook-form-stacked-label;
-    }
-}
-
-
-// Modifier: `form--horizontal`
-// Requires sub-objects: `form__label`, `form__controls`
-// ========================================================================
-
-& when (@form-enable-modifier-horizontal = true) {
-
-    // Tablet portrait and smaller
-    @media (max-width: @form-horizontal-breakpoint-down) {
-
-        // Behave like `form-stacked`
-        .@{form-ns}form--horizontal .@{form-ns}form__label {
-            display: block;
-            margin-bottom: @form-label-margin-bottom;
-            font-weight: @form-label-font-weight;
-            .hook-form-stacked-label;
-        }
-
-    }
-
-    // Desktop and bigger
-    @media (min-width: @form-horizontal-breakpoint-up) {
-
-        .@{form-ns}form--horizontal .@{form-ns}form__label {
-            width: @form-horizontal-label-width;
-            margin-top: @form-horizontal-label-margin-top;
-            float: @start;
-            .hook-form-horizontal-label;
-        }
-
-        .@{form-ns}form--horizontal .@{form-ns}form__controls { margin-@{start}: @form-horizontal-controls-margin-start; }
-
-        // Better vertical alignment if controls are checkboxes and radio buttons with text
-        .@{form-ns}form--horizontal .@{form-ns}form__controls--text { padding-top: @form-horizontal-controls-text-padding-top; }
-
-    }
-}
-
-
-// Sub-object: `form__icon`
-// ========================================================================
-
-& when (@form-enable-sub-icon = true) {
-
-    // 1. Container width fits its content
-    // 2. Create position context
-    // 3. Prevent `inline-block` consequences
-
-    .@{form-ns}form__icon {
-        // 1
-        display: inline-block;
-        // 2
-        position: relative;
-        // 3
-        max-width: 100%;
-    }
-
-    // 1. Make form element clickable through icon
-
-    .@{form-ns}form__icon > [class^='icon-'],
-    .@{form-ns}form__icon > [class*=' icon-'] {
-        position: absolute;
-        top: 50%;
-        width: @form-icon-width;
-        margin-top: round(@form-icon-font-size / -2);
-        font-size: @form-icon-font-size;
-        color: @form-icon-color;
-        text-align: center;
-        // 1
-        pointer-events: none;
-    }
-
-    .@{form-ns}form__icon > .@{form-ns}form__control { padding-@{start}: @form-icon-width; }
-
-    // Sub-modifier: `form__icon--flip`
-
-    .@{form-ns}form__icon--flip > [class^='icon-'],
-    .@{form-ns}form__icon--flip > [class*=' icon-'] { @{end}: 0; }
-    .@{form-ns}form__icon--flip > .@{form-ns}form__control { padding-@{end}: @form-icon-width; }
+    .@{form-ns}form-control--width-sm { width: @form-control-small-width; }
+    .@{form-ns}form-control--width-md { width: @form-control-medium-width; }
+    .@{form-ns}form-control--width-lg { width: @form-control-large-width; }
 }
 
 
@@ -619,7 +462,7 @@ select[size].@{form-ns}form__control { height: auto; }
 .hook-form-control-blank-focus() {}
 .hook-form-control-danger() {}
 .hook-form-control-success() {}
-.hook-form-legend() {}
-.hook-form-stacked-label() {}
-.hook-form-horizontal-label() {}
+.hook-form-control-switch() {}
+.hook-form-control-optgroup() {}
+.hook-form-control-fieldset() {}
 .hook-form-misc() {}
