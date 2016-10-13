@@ -1,0 +1,17 @@
+// Name:            Polyfill
+// Description:     Mixins for dealing with specific cross-browser issues
+//
+// Namespace:       (none)
+//
+// Dependencies:    (none)
+//
+// ========================================================================
+
+
+// Fixes
+
+// Fix Firefox aliased borders when using transparent border colors
+// http://stackoverflow.com/a/21039128
+.moz-border-smoothing() {
+    -moz-transform: scale(.9999);
+}
