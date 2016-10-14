@@ -7,9 +7,9 @@
 //
 // Sub-objects:     `grid__cell`
 //
-// Modifiers:       `grid--gutter-0`
-//                  `grid--gutter-sm`
-//                  `grid--gutter-md`
+// Modifiers:       `grid--gap-0`
+//                  `grid--gap-sm`
+//                  `grid--gap-md`
 //                  `grid--divider`
 //                  `grid--match`
 //
@@ -48,7 +48,7 @@
 //
 // Makes use of child combinator `>` to allow for component nesting.
 //
-// Parent modifiers (indirect) such as `.grid--gutter-0 > .grid__cell`
+// Parent modifiers (indirect) such as `.grid--gap-0 > .grid__cell`
 // could be replaced by less convenient per-child modifiers (direct)
 // `.grid__cell--collapse`.
 //
@@ -64,16 +64,16 @@
 @grid-enable-modifier-match:                    false;
 @grid-enable-container:                         false;
 
-@grid-gutter-horizontal:                        @base-gutter;
-@grid-gutter-vertical:                          @base-gutter;
+@grid-gap-horizontal:                           @base-gap;
+@grid-gap-vertical:                             @base-gap;
 
-@grid-gutter-modifiers-breakpoints:             false;
+@grid-gap-modifiers-breakpoints:                false;
 
-@grid-gutter-large-horizontal:                  @base-gutter-large;
-@grid-gutter-large-vertical:                    @base-gutter-large;
+@grid-gap-large-horizontal:                     @base-gap-large;
+@grid-gap-large-vertical:                       @base-gap-large;
 
-@grid-gutter-small-horizontal:                  @base-gutter-small;
-@grid-gutter-small-vertical:                    @base-gutter-small;
+@grid-gap-small-horizontal:                     @base-gap-small;
+@grid-gap-small-vertical:                       @base-gap-small;
 
 @grid-divider-breakpoint:                       @breakpoint-xlarge;
 
@@ -83,10 +83,10 @@
 @grid-container-breakpoint:                     @breakpoint-xlarge;
 
 @grid-container-max-width:                      980/@px;
-@grid-container-padding-horizontal:             @base-gutter;
+@grid-container-padding-horizontal:             @base-gap;
 
 @grid-container-large-max-width:                1200/@px;
-@grid-container-large-padding-horizontal:       @base-gutter-large;
+@grid-container-large-padding-horizontal:       @base-gap-large;
 
 
 // ========================================================================
@@ -137,59 +137,59 @@
 .@{grid-ns}grid__cell > :last-child { margin-bottom: 0; }
 
 
-// Grid gutter
+// Grid gap
 // ========================================================================
 
-// Default gutter
+// Default gap
 
 // Horizontal
-.@{grid-ns}grid { margin-@{start}: -@grid-gutter-horizontal; }
+.@{grid-ns}grid { margin-@{start}: -@grid-gap-horizontal; }
 
-.@{grid-ns}grid > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-horizontal; }
+.@{grid-ns}grid > .@{grid-ns}grid__cell { padding-@{start}: @grid-gap-horizontal; }
 
 // Vertical
-.@{grid-ns}grid > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-vertical; }
+.@{grid-ns}grid > .@{grid-ns}grid__cell { margin-bottom: @grid-gap-vertical; }
 
-.@{grid-ns}grid.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-vertical; }    
+.@{grid-ns}grid.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gap-vertical; }    
 
-// Collapse gutter
+// Collapse gap
 
 // Horizontal
-.@{grid-ns}grid--gutter-0 { margin-@{start}: 0; }
-.@{grid-ns}grid--gutter-0 > .@{grid-ns}grid__cell { padding-@{start}: 0; }
+.@{grid-ns}grid--gap-0 { margin-@{start}: 0; }
+.@{grid-ns}grid--gap-0 > .@{grid-ns}grid__cell { padding-@{start}: 0; }
 
 // Vertical
-.@{grid-ns}grid--gutter-0 > .@{grid-ns}grid__cell { margin-bottom: 0; }
+.@{grid-ns}grid--gap-0 > .@{grid-ns}grid__cell { margin-bottom: 0; }
 
 
-// Gutter modifiers
+// gap modifiers
 
-.mixin(grid-gutter-modifiers) {    
+.mixin(grid-gap-modifiers) {    
 
-    // Small gutter
-
-    // Horizontal
-    .@{grid-ns}grid--gutter-sm@{breakpoint} { margin-@{start}: -@grid-gutter-small-horizontal; }
-    .@{grid-ns}grid--gutter-sm@{breakpoint} > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-small-horizontal; }
-
-    // Vertical
-    .@{grid-ns}grid--gutter-sm@{breakpoint} > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-small-vertical; }                
-    .@{grid-ns}grid--gutter-sm@{breakpoint}.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-small-vertical; }
-
-    // Medium gutter
+    // Small gap
 
     // Horizontal
-    .@{grid-ns}grid--gutter-md@{breakpoint} { margin-@{start}: -@grid-gutter-horizontal; }
-    .@{grid-ns}grid--gutter-md@{breakpoint} > .@{grid-ns}grid__cell { padding-@{start}: @grid-gutter-horizontal; }
+    .@{grid-ns}grid--gap-sm@{breakpoint} { margin-@{start}: -@grid-gap-small-horizontal; }
+    .@{grid-ns}grid--gap-sm@{breakpoint} > .@{grid-ns}grid__cell { padding-@{start}: @grid-gap-small-horizontal; }
 
     // Vertical
-    .@{grid-ns}grid--gutter-md@{breakpoint} > .@{grid-ns}grid__cell { margin-bottom: @grid-gutter-vertical; }
-    .@{grid-ns}grid--gutter-md@{breakpoint}.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gutter-vertical; }          
+    .@{grid-ns}grid--gap-sm@{breakpoint} > .@{grid-ns}grid__cell { margin-bottom: @grid-gap-small-vertical; }                
+    .@{grid-ns}grid--gap-sm@{breakpoint}.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gap-small-vertical; }
+
+    // Medium gap
+
+    // Horizontal
+    .@{grid-ns}grid--gap-md@{breakpoint} { margin-@{start}: -@grid-gap-horizontal; }
+    .@{grid-ns}grid--gap-md@{breakpoint} > .@{grid-ns}grid__cell { padding-@{start}: @grid-gap-horizontal; }
+
+    // Vertical
+    .@{grid-ns}grid--gap-md@{breakpoint} > .@{grid-ns}grid__cell { margin-bottom: @grid-gap-vertical; }
+    .@{grid-ns}grid--gap-md@{breakpoint}.@{grid-ns}grid--m-b-0 { margin-bottom: -@grid-gap-vertical; }          
 }
 
-& when not (@grid-gutter-modifiers-breakpoints = false) {
+& when not (@grid-gap-modifiers-breakpoints = false) {
 
-    .render-responsive-rulesets(@grid-gutter-modifiers-breakpoints; grid-gutter-modifiers);
+    .render-responsive-rulesets(@grid-gap-modifiers-breakpoints; grid-gap-modifiers);
 }
 
 
@@ -199,17 +199,17 @@
 & when (@grid-enable-modifier-divider = true) {
 
     // Cell divider
-    // Only works with the default gutter. Does not work with gutter collapse, small or large.
+    // Only works with the default gap. Does not work with gap collapse, small or large.
     // Does not work with `push-*`, `pull-*` and not if the columns float into the next row.
 
     .@{grid-ns}grid--divider {
-        margin-@{start}: -@grid-gutter-horizontal;
-        margin-@{end}: -@grid-gutter-horizontal;
+        margin-@{start}: -@grid-gap-horizontal;
+        margin-@{end}: -@grid-gap-horizontal;
     }
 
     .@{grid-ns}grid--divider > .@{grid-ns}grid__cell {
-        padding-@{start}: @grid-gutter-horizontal;
-        padding-@{end}: @grid-gutter-horizontal;
+        padding-@{start}: @grid-gap-horizontal;
+        padding-@{end}: @grid-gap-horizontal;
     }
 
     .@{grid-ns}grid--divider > .@{grid-ns}grid__cell:not(:first-child) { border-@{start}: @grid-divider-border-width solid @grid-divider-border; }
@@ -217,16 +217,16 @@
     // Large screen and bigger
     @media (min-width: @grid-divider-breakpoint) {
 
-        // Large gutter    
+        // Large gap    
 
         .@{grid-ns}grid--divider {
-            margin-@{start}: -@grid-gutter-large-horizontal;
-            margin-@{end}: -@grid-gutter-large-horizontal;
+            margin-@{start}: -@grid-gap-large-horizontal;
+            margin-@{end}: -@grid-gap-large-horizontal;
         }
 
         .@{grid-ns}grid--divider > .@{grid-ns}grid__cell {
-            padding-@{start}: @grid-gutter-large-horizontal;
-            padding-@{end}: @grid-gutter-large-horizontal;
+            padding-@{start}: @grid-gap-large-horizontal;
+            padding-@{end}: @grid-gap-large-horizontal;
         }
 
     }
@@ -234,8 +234,8 @@
     // Row divider
 
     .@{grid-ns}grid-divider {
-        margin-top: @grid-gutter-vertical;
-        margin-bottom: @grid-gutter-vertical;
+        margin-top: @grid-gap-vertical;
+        margin-bottom: @grid-gap-vertical;
         border-top: @grid-divider-border-width solid @grid-divider-border;
     }
 
@@ -243,8 +243,8 @@
     @media (min-width: @grid-divider-breakpoint) {
 
         .@{grid-ns}grid-divider {
-            margin-top: @grid-gutter-large-vertical;
-            margin-bottom: @grid-gutter-large-vertical;
+            margin-top: @grid-gap-large-vertical;
+            margin-bottom: @grid-gap-large-vertical;
         }
 
     }

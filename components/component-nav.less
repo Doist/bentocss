@@ -8,8 +8,8 @@
 //                  `nav__item`
 //                  `nav__static`
 //
-// Modifiers:       `nav--gutter-0`
-//                  `nav--gutter-sm`
+// Modifiers:       `nav--gap-0`
+//                  `nav--gap-sm`
 //                  `nav--divider-*`
 //                  `nav--pills`
 //                  `nav--pills-equalize`
@@ -67,7 +67,7 @@
 
 @nav-ns:                                     @ns;
 
-@nav-enable-modifier-gutter:                 false;
+@nav-enable-modifier-gap:                    false;
 @nav-enable-modifier-divider:                false;
 @nav-enable-modifier-pills:                  false;
 @nav-enable-modifier-tabs:                   false;
@@ -86,8 +86,8 @@
 @nav-static-active-color:                    @base-color-text-inverse;
 @nav-static-active-background:               @base-color-background-primary;
 
-@nav-gutter:                                 @base-gutter-small;
-@nav-gutter-small:                           @base-gutter-xsmall;
+@nav-gap:                                    @base-gap-small;
+@nav-gap-small:                              @base-gap-xsmall;
 
 @nav-divider-breadcrumb:                     "/";
 @nav-divider-bar-height:                     10/@px;
@@ -111,8 +111,8 @@
 @nav-tab-padding-horizontal:                 12/@px;
 @nav-tab-padding-top:                        @nav-tab-padding-vertical;
 @nav-tab-padding-bottom:                     @nav-tab-padding-vertical;
-@nav-tab-margin-horizontal:                  @base-gutter-xsmall;
-@nav-tab-margin-vertical:                    @base-gutter-xsmall;
+@nav-tab-margin-horizontal:                  @base-gap-xsmall;
+@nav-tab-margin-vertical:                    @base-gap-xsmall;
 @nav-tab-color:                              @base-color-text-link;
 @nav-tab-hover-border:                       @base-color-background-normal-hover;
 @nav-tab-hover-background:                   @base-color-background-normal-hover;
@@ -150,9 +150,9 @@
     position: relative;
 }
 
-// Default gutter
+// Default gap
 .@{nav-ns}nav__item:nth-last-child(n+2) {
-    margin-@{end}: @nav-gutter;
+    margin-@{end}: @nav-gap;
 }
 
 .@{nav-ns}nav__action,
@@ -199,17 +199,17 @@
 // Use Flex horizontal alignment utilities 
 
 
-// Gutter modifiers
+// Gap modifiers
 // ========================================================================
 
-& when (@nav-enable-modifier-gutter = true) {
+& when (@nav-enable-modifier-gap = true) {
 
-    .@{nav-ns}nav--gutter-0 .@{nav-ns}nav__item:nth-last-child(n+2) {
+    .@{nav-ns}nav--gap-0 .@{nav-ns}nav__item:nth-last-child(n+2) {
         margin-@{end}: 0;
     }
 
-    .@{nav-ns}nav--gutter-sm .@{nav-ns}nav__item:nth-last-child(n+2) {
-        margin-@{end}: @nav-gutter-small;
+    .@{nav-ns}nav--gap-sm .@{nav-ns}nav__item:nth-last-child(n+2) {
+        margin-@{end}: @nav-gap-small;
     }
 
 }
@@ -222,7 +222,7 @@
 
     [class^='@{nav-ns}nav--divider-'] .@{nav-ns}nav__item::before,
     [class*=' @{nav-ns}nav--divider-'] .@{nav-ns}nav__item::before {
-        margin-@{end}: @nav-gutter;
+        margin-@{end}: @nav-gap;
     }
 
     // Shape dividers
@@ -410,7 +410,7 @@
         display: block;
     }
 
-    // Move gutter from nav__item (table-cell) to nav__action (block)
+    // Move gap from nav__item (table-cell) to nav__action (block)
 
     .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-top .@{nav-ns}nav__item,
     .@{nav-ns}nav--justify.@{nav-ns}nav--tabs-bottom .@{nav-ns}nav__item {

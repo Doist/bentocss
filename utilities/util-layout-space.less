@@ -29,7 +29,7 @@
 @space-important:                               !important;
 
 @space-enable-children:                         false;
-@space-enable-gutter:                           false;
+@space-enable-gap:                              false;
 @space-enable-white-space:                      false;
 
 // Space
@@ -72,7 +72,7 @@
 @space-units-xlarge-padding:                    @space-units-base-xlarge;
 
 // unit list
-@space-units-base-gutter:                       1;
+@space-units-base-gap:                          1;
 
 
 // ========================================================================
@@ -157,57 +157,57 @@
 }
 
 
-// Gutter
+// Gap
 // Only recommended for fixed, full, or auto width elements, as percentage
-// based widths will be based on total_available_width + gutter_width.
+// based widths will be based on total_available_width + gap_width.
 // ========================================================================
 
-& when (@space-enable-gutter = true) {
+& when (@space-enable-gap = true) {
 
-    .space-gutter-rulesets() {   
+    .space-gap-rulesets() {   
 
-        .@{space-ns}m-gutter-@{space-unit} {
+        .@{space-ns}m-gap-@{space-unit} {
             margin-bottom: -@@space-value;
             @{start}: -@@space-value;
         }
 
-        .@{space-ns}m-gutter-@{space-unit} > * {
+        .@{space-ns}m-gap-@{space-unit} > * {
             margin-bottom: @@space-value;
             margin-@{start}: @@space-value;
         }
     }
 
-    .render-space-gutter-classes(@space-units) when not (@space-units = false) {
+    .render-space-gap-classes(@space-units) when not (@space-units = false) {
       
         // Loop through the available spacing units
       
-        .loop-space-gutter-classes(@i: length(@space-units)) when (@i > 0) {
+        .loop-space-gap-classes(@i: length(@space-units)) when (@i > 0) {
 
-            .loop-space-gutter-classes(@i - 1);
+            .loop-space-gap-classes(@i - 1);
 
             @space-unit: extract(@space-units, @i);
             @space-value: "base-space-@{space-unit}";
           
-            .space-gutter-rulesets();
+            .space-gap-rulesets();
         }
       
-        .loop-space-gutter-classes();
+        .loop-space-gap-classes();
     }
 
-    [class^='@{space-ns}m-gutter-'],
-    [class*=' @{space-ns}m-gutter-'] {
+    [class^='@{space-ns}m-gap-'],
+    [class*=' @{space-ns}m-gap-'] {
         position: relative;
     }
 
     // Stop negative margin bottom from collapsing
-    [class^='@{space-ns}m-gutter-']::after,
-    [class*=' @{space-ns}m-gutter-']::after {
+    [class^='@{space-ns}m-gap-']::after,
+    [class*=' @{space-ns}m-gap-']::after {
         content: '';
         display: table;
     }
 
     & {
-        .render-space-gutter-classes(@space-units-base-gutter);
+        .render-space-gap-classes(@space-units-base-gap);
     }
 }
 
