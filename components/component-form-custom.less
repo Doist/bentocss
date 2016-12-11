@@ -5,7 +5,7 @@
 //
 // Sub-objects:     `form-control-file`
 //                  `form-control-icon`
-//                  `form-control-icon-holder`
+//                  `form-control-icon__holder`
 //
 // Sub-modifiers:   `form-control-icon--start`
 //                  `form-control-icon--end`
@@ -17,7 +17,7 @@
 //
 // <!-- form-control-icon -->
 // <div class="form-control-icon form-control-icon--start">
-//     <div class="form__icon-holder">
+//     <div class="form-control-icon__holder">
 //         <svg width="25" height="25"  viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z" fill="#BBB" fill-rule="evenodd"/></svg>
 //     </div>
 //     <input class="form-control" type="text" placeholder="Search">
@@ -95,7 +95,7 @@
     // 1. Support icon fonts
     // 2. Make form element clickable through icon    
 
-    .@{form-ns}form-control-icon-holder {
+    .@{form-ns}form-control-icon__holder {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -108,12 +108,12 @@
         pointer-events: none;
     }
 
-    // Sub-modifiers: `form__icon--start`, `form__icon--end`
+    // Modifiers: `form-control-icon--start`, `form-control-icon--end`
 
-    .@{form-ns}form-control-icon--start .@{form-ns}form-control-icon-holder { @{start}: 0; }
+    .@{form-ns}form-control-icon--start .@{form-ns}form-control-icon__holder { @{start}: 0; }
     .@{form-ns}form-control-icon--start .@{form-ns}form-control { padding-@{start}: @form-icon-width; }    
 
-    .@{form-ns}form-control-icon--end .@{form-ns}form-control-icon-holder { @{end}: 0; }
+    .@{form-ns}form-control-icon--end .@{form-ns}form-control-icon__holder { @{end}: 0; }
     .@{form-ns}form-control-icon--end .@{form-ns}form-control { padding-@{end}: @form-icon-width; }
 }
 
