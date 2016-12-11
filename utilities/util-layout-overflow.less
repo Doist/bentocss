@@ -32,6 +32,18 @@
 
 & when (@overflow-enable-scrollable = true) {
 
+    // Horizontal scrolling
+    // Inspired on Medium
+
+    .@{overflow-ns}scrollable-x {
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;        
+        // Inertia scrolling
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;        
+    }
+
     // Enable scrolling for preformatted text
 
     .@{overflow-ns}scrollable-text {
