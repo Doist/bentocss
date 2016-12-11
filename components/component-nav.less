@@ -132,9 +132,10 @@
 .@{nav-ns}nav {
     display: flex;
     flex-wrap: wrap;
-    // 1
-    padding: 0;
+    // 1    
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -428,7 +429,7 @@
 // Disabled state
 // ========================================================================
 
-.@{nav-ns}nav .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__action {
+.@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__action {
     background: none;
     color: @nav-disabled-color;
     cursor: text;
@@ -436,7 +437,7 @@
     .hook-nav-action-disabled;
 }
 
-.@{nav-ns}nav .@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__static {
+.@{nav-ns}nav__item.is-disabled .@{nav-ns}nav__static {
     background-color: @nav-disabled-background;
     color: @nav-disabled-color;
     .hook-nav-static-disabled;
