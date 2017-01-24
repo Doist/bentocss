@@ -130,7 +130,13 @@
 
 .mixin(space-rulesets) {
 
-    .@{space-ns}m-h-auto@{breakpoint} { margin-left: auto @space-units-important; margin-right: auto @space-units-important; }
+    .@{space-ns}m-a-auto@{breakpoint} { margin:          auto @space-units-important; }
+    .@{space-ns}m-v-auto@{breakpoint} { margin-top:      auto @space-units-important; margin-bottom: auto @space-units-important; }
+    .@{space-ns}m-h-auto@{breakpoint} { margin-left:     auto @space-units-important; margin-right:  auto @space-units-important; }
+    .@{space-ns}m-t-auto@{breakpoint} { margin-top:      auto @space-units-important; }
+    .@{space-ns}m-e-auto@{breakpoint} { margin-@{end}:   auto @space-units-important; }
+    .@{space-ns}m-b-auto@{breakpoint} { margin-bottom:   auto @space-units-important; }
+    .@{space-ns}m-s-auto@{breakpoint} { margin-@{start}: auto @space-units-important; }
 
     @space-units-margin: "space-units-@{breakpoint-name}-margin";
     @space-units-margin-negative: "space-units-@{breakpoint-name}-margin-negative";
