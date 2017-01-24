@@ -81,11 +81,13 @@
 
 // Global: breakpoints
 
+@breakpoint-xsmall:                             (320 / @px-breakpoint);
 @breakpoint-small:                              (480 / @px-breakpoint);
 @breakpoint-medium:                             (768 / @px-breakpoint);
 @breakpoint-large:                              (960 / @px-breakpoint);
 @breakpoint-xlarge:                             (1220 / @px-breakpoint);
 
+@breakpoint-xxsmall-max:                        ((320 - 1) / @px-breakpoint);
 @breakpoint-xsmall-max:                         ((480 - 1) / @px-breakpoint);
 @breakpoint-small-max:                          ((768 - 1) / @px-breakpoint);
 @breakpoint-medium-max:                         ((960 - 1) / @px-breakpoint);
@@ -95,6 +97,9 @@
 
 // Up
 
+// Phone portrait and bigger
+@breakpoint-media-xsmall-up:                    ~"(min-width: @{breakpoint-xsmall})";
+@breakpoint-media-xsmall:                       @breakpoint-media-xsmall-up;
 // Phone landscape and bigger
 @breakpoint-media-small-up:                     ~"(min-width: @{breakpoint-small})";
 @breakpoint-media-small:                        @breakpoint-media-small-up;
@@ -110,6 +115,8 @@
 
 // Down
 
+// Anything below phone portrait
+@breakpoint-media-xxsmall-down:                 ~"(max-width: @{breakpoint-xxsmall-max})";
 // Phone portrait and smaller
 @breakpoint-media-xsmall-down:                  ~"(max-width: @{breakpoint-xsmall-max})";
 // Phone landscape and smaller
@@ -121,9 +128,9 @@
 
 // Range
 
-// Phone
+// Small
 @breakpoint-media-small-range:                  ~"(min-width: @{breakpoint-small}) and (max-width: @{breakpoint-small-max})";
-// Tablet
+// Medium
 @breakpoint-media-medium-range:                 ~"(min-width: @{breakpoint-medium}) and (max-width: @{breakpoint-medium-max})";
 
 // Shorthand
