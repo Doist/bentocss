@@ -2,6 +2,12 @@
 // https://gist.github.com/janogarcia/8c140ff9294a285830a0
 
 
+// Environment
+// ========================================================================
+
+@environment: development;
+
+
 // Paths
 // ========================================================================
 
@@ -10,6 +16,15 @@
 
 // Path to theme
 @theme-path: "";
+
+.set-paths();
+
+.set-paths() when (@environment = development) {
+    @assets-path: "";
+}
+.set-paths() when (@environment = production) {
+    @assets-path: "";
+}
 
 
 // Tools
