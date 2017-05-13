@@ -25,11 +25,10 @@
 
 @display-ns:                                    @ns;
 
-@display-enable-mode:                           false;
 @display-enable-visibility:                     false;
 @display-enable-screen-readers:                 false;
-@display-enable-touch:                          false;
 
+@display-mode-breakpoints:                      false;
 @display-visibility-breakpoints:                false;
 
 
@@ -39,24 +38,29 @@
 
 // Display
 
-& when (@display-enable-mode = true) {
+.mixin(display-mode) {
 
-    .@{display-ns}display-block { display: block; }
-    .@{display-ns}display-inline { display: inline; }
+    .@{display-ns}display-block@{breakpoint} { display: block; }
+    .@{display-ns}display-inline@{breakpoint} { display: inline; }
 
     // 1. Fix for Firefox bug: an image styled `max-width: 100%` within an
     // inline-block will display at its default size, and not limit its width to
     // 100% of an ancestral container.
 
-    .@{display-ns}display-inline-block {
+    .@{display-ns}display-inline-block@{breakpoint} {
         display: inline-block;
         // 1
         max-width: 100%;
     }
 
-    .@{display-ns}display-table { display: table; }
-    .@{display-ns}display-table-cell { display: table-cell; }
-    .@{display-ns}display-table-row { display: table-row; }
+    .@{display-ns}display-table@{breakpoint} { display: table; }
+    .@{display-ns}display-table-cell@{breakpoint} { display: table-cell; }
+    .@{display-ns}display-table-row@{breakpoint} { display: table-row; }       
+}
+
+& when not (@display-mode-breakpoints = false) {
+
+    .render-responsive-rulesets(@display-mode-breakpoints; display-mode);
 }
 
 // Visibility
