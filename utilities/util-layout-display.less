@@ -7,8 +7,6 @@
 //                  `hidden`
 //                  `hidden-*`
 //                  `sr-*`
-//                  `touch`
-//                  `notouch`
 //
 // Dependencies:    vars-base
 //                  tool-responsive
@@ -176,13 +174,6 @@
         clip: auto;
       }
     }
-}
-
-& when (@display-enable-touch = true) {
-
-    // Hide on touch
-    .@{display-ns}touch .@{display-ns}hidden-touch,
-    .@{display-ns}notouch .@{display-ns}hidden-notouch { display: none !important; }
 }
 
 
