@@ -22,6 +22,8 @@
 
 @box-ns:                                        @ns;
 
+@box-important:                                 !important;
+
 @box-enable-background-color:                   false;
 @box-enable-background-images:                  false;
 @box-enable-border-color:                       false;
@@ -73,7 +75,9 @@
 
 // Background Images
 
-& when (@box-enable-background-images = true) {
+.mixin(box-background-images) {    
+
+    .@{box-ns}bg-img-none     { background-image: none @box-important; }    
 
     .@{box-ns}bg-cover        { background-size: cover; }
     .@{box-ns}bg-contain      { background-size: contain; }
@@ -95,7 +99,11 @@
     .@{box-ns}bg-bottom-right { background-position: bottom right; }
     .@{box-ns}bg-bottom-start { background-position: bottom @start; }
     .@{box-ns}bg-bottom-end   { background-position: bottom @end; }
+}
 
+& when not (@box-background-images-breakpoints = false) {
+
+    .render-responsive-rulesets(@box-background-images-breakpoints; box-background-images);
 }
 
 
