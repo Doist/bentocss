@@ -25,7 +25,6 @@
 @box-enable-background-color:                   false;
 @box-enable-background-images:                  false;
 @box-enable-border-color:                       false;
-@box-enable-border-display:                     false;
 @box-enable-border-radius:                      false;
 @box-enable-opacity:                            false;
 
@@ -102,44 +101,6 @@
 
 // Border
 // ========================================================================
-
-& when (@box-enable-border-display = true) {
-
-    .@{box-ns}border {
-      border-style: solid;
-      border-width: @box-base-border-width;
-    }
-
-    .@{box-ns}border-top {
-      border-top-style: solid;
-      border-top-width: @box-base-border-width;
-    }
-
-    .@{box-ns}border-right {
-      border-right-style: solid;
-      border-right-width: @box-base-border-width;
-    }
-
-    .@{box-ns}border-bottom {
-      border-bottom-style: solid;
-      border-bottom-width: @box-base-border-width;
-    }
-
-    .@{box-ns}border-left {
-      border-left-style: solid;
-      border-left-width: @box-base-border-width;
-    }
-
-    .@{box-ns}border-start {
-      border-@{start}-style: solid;
-      border-@{start}-width: @box-base-border-width;
-    }
-
-    .@{box-ns}border-end {
-      border-@{end}-style: solid;
-      border-@{end}-width: @box-base-border-width;
-    }
-}
 
 // Border Color
 
