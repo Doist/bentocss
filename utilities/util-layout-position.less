@@ -21,15 +21,16 @@
 
 @position-ns:                                 @ns;
 
-@position-enable-positioning:                 false;
 @position-enable-z:                           false;
+
+@position-positioning-breakpoints:            false;
 
 
 // ========================================================================
 // Util: Position
 // ========================================================================
 
-& when (@position-enable-positioning = true) {
+.mixin(position-positioning) {    
 
     .@{position-ns}position-absolute,
     [class^='@{position-ns}position-top'],
@@ -113,7 +114,12 @@
         position: fixed;
         // 1
         backface-visibility: hidden;
-    }
+    }      
+}
+
+& when not (@position-positioning-breakpoints = false) {
+
+    .render-responsive-rulesets(@position-positioning-breakpoints; position-positioning);
 }
 
 
