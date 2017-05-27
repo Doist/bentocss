@@ -226,7 +226,7 @@
 // 3. Vertical `padding` needed for `select` elements in Firefox
 // 4. Style
 
-.form-control-Template() {
+.mixin(form-control) {
 
     & when (@form-enable-local-normalize = true) {
 
@@ -306,7 +306,7 @@
 }
 
 .@{form-ns}form-control {
-    .form-control-Template;
+    .mixin(form-control);
 }
 
 // Use these optional controls when the global form reset is disabled

@@ -121,7 +121,7 @@
 // 10. Required for `a`.
 // 11. Fix a Firefox 4+ bug whereby `input type="submit"` gains 2px extra padding
  
-.button-Template() {
+.mixin(button) {
     // 1 
     -webkit-appearance: none;
     // 2 
@@ -191,7 +191,7 @@
 }
 
 .@{button-ns}button {
-    .button-Template;
+    .mixin(button);
 }
 
 
@@ -200,7 +200,7 @@
 
 // Modifier: `button--primary`
 
-.button--primary-Template() {
+.mixin(button--primary) {
     background-color: @button-primary-background;
     color: @button-primary-color;
     .hook-button-primary;
@@ -224,7 +224,7 @@
 
 // Modifier: `button--success`
 
-.button--success-Template() {
+.mixin(button--success) {
     background-color: @button-success-background;
     color: @button-success-color;
     .hook-button-success;
@@ -248,7 +248,7 @@
 
 // Modifier: `button--danger`
 
-.button--danger-Template() {
+.mixin(button--danger) {
     background-color: @button-danger-background;
     color: @button-danger-color;
     .hook-button-danger;
@@ -273,15 +273,15 @@
 & when (@button-enable-modifier-color = true) {
 
     .@{button-ns}button--primary {
-        .button--primary-Template;
+        .mixin(button--primary);
     }        
 
     .@{button-ns}button--success {
-        .button--success-Template;
+        .mixin(button--success);
     }
 
     .@{button-ns}button--danger {
-        .button--danger-Template;
+        .mixin(button--danger);
     }
 }
 
