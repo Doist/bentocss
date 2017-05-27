@@ -76,10 +76,17 @@
 @nav-font-size:                              @base-font-size;
 
 @nav-color:                                  @base-color-text;
+@nav-background:                             transparent;
+@nav-padding-horizontal:                     0;
+@nav-padding-vertical:                       0;
 @nav-text-decoration:                        none;
 @nav-hover-color:                            @base-color-text-link;
+@nav-hover-background:                       @nav-background;
 @nav-hover-text-decoration:                  none;
+@nav-onclick-color:                          @nav-hover-color;
+@nav-onclick-background:                     @nav-hover-background;
 @nav-active-color:                           @base-color-text-link;
+@nav-active-background:                      @nav-background;
 @nav-disabled-color:                         @base-color-text-muted;
 @nav-disabled-background:                    @base-color-background-light;
 @nav-static-color:                           @base-color-text;
@@ -136,6 +143,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    .hook-nav;
 }
 
 
@@ -149,6 +157,7 @@
     display: flex;
     // 1
     position: relative;
+    .hook-nav-item;
 }
 
 // Default gap
@@ -159,30 +168,46 @@
 .@{nav-ns}nav__action,
 .@{nav-ns}nav__static {
     box-sizing: border-box;
+    padding: @nav-padding-vertical @nav-padding-horizontal;
     text-decoration: @nav-text-decoration;
 }
 
 .@{nav-ns}nav__action {
+    background: @nav-background;
     color: @nav-color;
+    .hook-nav-action;
 }
 
 .@{nav-ns}nav__static {
     color: @nav-static-color;
+    .hook-nav-static;
 }
 
 // Hover
 // 1. Apply hover style also to focus state
+// 2. Remove default focus style
 
 .@{nav-ns}nav__action:hover,
 .@{nav-ns}nav__action:focus { // 1
+    background: @nav-hover-background;    
     color: @nav-hover-color;
     text-decoration: @nav-hover-text-decoration;
+    // 2
+    outline: none;
     .hook-nav-action-hover;
+}
+
+// OnClick
+
+.@{nav-ns}nav__action:active {
+    background: @nav-onclick-background;
+    color: @nav-onclick-color;
 }
 
 // Active
 
 .@{nav-ns}nav__item.is-active .@{nav-ns}nav__action {
+    background: @nav-active-background;
     color: @nav-active-color;
     .hook-nav-action-active;
 }
@@ -276,6 +301,7 @@
     }
 
     // OnClick
+
     .@{nav-ns}nav--pills .@{nav-ns}nav__action:active {
         background: @nav-pills-onclick-background;
         color: @nav-pills-onclick-color;
@@ -449,10 +475,16 @@
 
 .hook-nav-misc;
 
+.hook-nav() {}
+
+.hook-nav-item() {}
+
+.hook-nav-action() {}
 .hook-nav-action-hover() {}
 .hook-nav-action-active() {}
 .hook-nav-action-disabled() {}
 
+.hook-nav-static() {}
 .hook-nav-static-active() {}
 .hook-nav-static-disabled() {}
 
