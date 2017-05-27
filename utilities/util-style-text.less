@@ -209,40 +209,48 @@
 // Wrap modifiers
 // ========================================================================
 
-& when (@text-enable-wrap = true) {
+// Text truncation
+//
+// Prevent text from wrapping onto multiple lines, and truncate with an
+// ellipsis.
+//
+// 1. Ensure that the node has a maximum width after which truncation can
+//    occur.
+// 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
+//    nodes.
 
-    // Prevent text from wrapping onto multiple lines
-
-    .@{text-ns}text-nowrap { white-space: nowrap; }
-
-    // Text truncation
-    //
-    // Prevent text from wrapping onto multiple lines, and truncate with an
-    // ellipsis.
-    //
-    // 1. Ensure that the node has a maximum width after which truncation can
-    //    occur.
-    // 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
-    //    nodes.
-
-    .@{text-ns}text-truncate,
-    .@{text-ns}text-truncate-nowrap {
+.mixin(text-truncate) {
         // 1 
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         // 2 
-        word-wrap: normal;
-    }
+        word-wrap: normal;    
+}
 
-    .@{text-ns}text-truncate-wrap {
+.mixin(text-truncate-wrap) {
         // 1 
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         // 2 
-        word-wrap: normal;
+        word-wrap: normal;    
+}
+
+& when (@text-enable-wrap = true) {
+
+    // Prevent text from wrapping onto multiple lines
+
+    .@{text-ns}text-nowrap { white-space: nowrap; }
+
+    .@{text-ns}text-truncate,
+    .@{text-ns}text-truncate-nowrap {
+        .mixin(text-truncate);
+    }
+
+    .@{text-ns}text-truncate-wrap {
+        .mixin(text-truncate-wrap);
     }
 
     // Break strings if their length exceeds the width of their container
