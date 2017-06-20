@@ -168,8 +168,12 @@
     // Inherit the ancestor's text color.
 
     .@{text-ns}text-color-inherit {
-      color: inherit;
+        color: inherit;
     }
+
+    .@{text-ns}text-color-current {
+        color: currentColor;
+    }    
 }
 
 
@@ -220,22 +224,22 @@
 //    nodes.
 
 .mixin(text-truncate) {
-        // 1 
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        // 2 
-        word-wrap: normal;    
+    // 1 
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    // 2 
+    word-wrap: normal;    
 }
 
 .mixin(text-truncate-wrap) {
-        // 1 
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        // 2 
-        word-wrap: normal;    
+    // 1 
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // 2 
+    word-wrap: normal;    
 }
 
 & when (@text-enable-wrap = true) {
