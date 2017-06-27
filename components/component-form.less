@@ -226,83 +226,157 @@
 // 3. Vertical `padding` needed for `select` elements in Firefox
 // 4. Style
 
-.mixin(form-control) {
+// Heads up
+//
+// When local normalization is enabled for the form control the following
+// parameters may be needed. 
+//
+// @pre             Selector for any required ancestor elements.
+//                  @pre: ~'.grand-parent .parent'
+//
+// @element         The name of the element type if the target element is
+//                  an element selector: input, select, textarea.
+//                  Only single values are supported.
+//                  @element: input
+//
+// Use a simple selector with this mixin when local normalization is enabled,
+// the simple selector must target the form element. It can be an element or a class/id.
+//
+// Valid:
+// input { .mixin(form-control; @element: input); }
+// .my-form-input { .mixin(form-control); }
+//
+// No descendant, child or any other combinators are supported in the mixin
+// selector.
+//
+// Wrong:
+// .my-form input { .mixin(form-control; @element: input); }
+// .my-form .my-form-input { .mixin(form-control); }
+//
+// If a parent selector is required, use the @pre parameter instead.
+//
+// Valid:
+// input { .mixin(form-control; @pre: ~'.my-form'; @element: input); } 
+// .my-form-input { .mixin(form-control; @pre: ~'.my-form'); }
+//
+// Mulitple simple selectors can be combined.
+//
+// Valid:
+// input[type="text"], input[type="email"] { .mixin(form-control; @pre: ~'.my-form'; @element: input); } 
+
+.mixin(form-control, @pre: ~'', @element: ~'') {
 
     & when (@form-enable-local-normalize = true) {
 
-        // See global normalize documentation
+        // Common normalize styles for all supported elements
+        @{pre} & {
+            box-sizing: border-box;
+            margin: 0;
+            border-radius: 0;
+            -webkit-font-smoothing: inherit;
+            font: inherit;
+            color: inherit;
 
-        box-sizing: border-box;
-        margin: 0;
-        border-radius: 0;
-        -webkit-font-smoothing: inherit;
-        font: inherit;
-        color: inherit;
+            &::-moz-placeholder { opacity: 1; }
+        }
+        
+        // Element specific normalize styles
+        .reset-input() {
+            -webkit-appearance: none;          
+            vertical-align: middle;
+          
+            &[type="search"]::-webkit-search-cancel-button,
+            &[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
 
-        &::-moz-placeholder { opacity: 1; }
-
-        input&,
-        select& { vertical-align: middle; }
-
-        input&,
-        textarea& { -webkit-appearance: none; }
-
-        &[type="search"]::-webkit-search-cancel-button,
-        &[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
-
-        &[type="number"]::-webkit-inner-spin-button,
-        &[type="number"]::-webkit-outer-spin-button { height: auto; }
-
-        textarea& {
-            overflow: auto;
-            vertical-align: top;
+            &[type="number"]::-webkit-inner-spin-button,
+            &[type="number"]::-webkit-outer-spin-button { height: auto; } 
         }
 
-        select& { text-transform: none; }    
+        .reset-select() {
+            text-transform: none;
+            vertical-align: middle;      
+        }
+
+        .reset-textarea() {
+            -webkit-appearance: none;
+            overflow: auto;
+            vertical-align: top;      
+        }
+
+        // Target element is not an element selector
+        & when (@element = ~'') {
+        
+            @{pre} input& {
+                .reset-input();
+            }
+          
+            @{pre} select& {
+                .reset-select();
+            }
+          
+            @{pre} textarea& {
+                .reset-textarea();
+            }      
+        }
+
+        // Target element is an element selector
+        @{pre} & when (@element = input) { 
+            .reset-input(); 
+        }    
+
+        @{pre} & when (@element = select) { 
+            .reset-select();
+        }
+         
+        @{pre} & when (@element = textarea) {  
+            .reset-textarea();
+        }   
     }
 
-    // 1
-    height: @form-control-height;
-    // 2
-    max-width: 100%;
-    // 3
-    padding: @form-control-padding;
-    // 4
-    border: @form-control-border-width solid @form-control-border-color;
-    border-radius: @form-control-border-radius;
-    background-color: @form-control-background;
-    color: @form-control-color;
-    font-size: @form-control-font-size;
-    transition: @form-control-transition;
-    .hook-form-control;
+    @{pre} & {
+        // 1
+        height: @form-control-height;
+        // 2
+        max-width: 100%;
+        // 3
+        padding: @form-control-padding;
+        // 4
+        border: @form-control-border-width solid @form-control-border-color;
+        border-radius: @form-control-border-radius;
+        background-color: @form-control-background;
+        color: @form-control-color;
+        font-size: @form-control-font-size;
+        transition: @form-control-transition;
+        .hook-form-control;
 
-    // Focus state
-    &:focus {
-        border-color: @form-control-focus-border-color;
-        outline: 0;
-        background-color: @form-control-focus-background;
-        color: @form-control-focus-color;
-        .hook-form-control-focus;
+        // Focus state
+        &:focus {
+            border-color: @form-control-focus-border-color;
+            outline: 0;
+            background-color: @form-control-focus-background;
+            color: @form-control-focus-color;
+            .hook-form-control-focus;
+        }
+
+        // Disabled state
+        &:disabled {
+            border-color: @form-control-disabled-border-color;
+            background-color: @form-control-disabled-background;
+            color: @form-control-disabled-color;
+            .hook-form-control-disabled;
+        }
+
+        // Placeholder
+        // Keep -moz and -webkit rules separated, -moz won't work when grouped with -webkit
+        
+        &:-ms-input-placeholder { color: @form-control-placeholder-color !important; }
+        &::-moz-placeholder { color: @form-control-placeholder-color; }
+        &::-webkit-input-placeholder { color: @form-control-placeholder-color; }
+
+        &:disabled:-ms-input-placeholder { color: @form-control-disabled-color !important; }
+        &:disabled::-moz-placeholder{ color: @form-control-disabled-color; }
+        &:disabled::-webkit-input-placeholder { color: @form-control-disabled-color; }
     }
-
-    // Disabled state
-    &:disabled {
-        border-color: @form-control-disabled-border-color;
-        background-color: @form-control-disabled-background;
-        color: @form-control-disabled-color;
-        .hook-form-control-disabled;
-    }
-
-    // Placeholder
-    // Keep -moz and -webkit rules separated, -moz won't work when grouped with -webkit
-    
-    &:-ms-input-placeholder { color: @form-control-placeholder-color !important; }
-    &::-moz-placeholder { color: @form-control-placeholder-color; }
-    &::-webkit-input-placeholder { color: @form-control-placeholder-color; }
-
-    &:disabled:-ms-input-placeholder { color: @form-control-disabled-color !important; }
-    &:disabled::-moz-placeholder{ color: @form-control-disabled-color; }
-    &:disabled::-webkit-input-placeholder { color: @form-control-disabled-color; }
 }
 
 .@{form-ns}form-control {
