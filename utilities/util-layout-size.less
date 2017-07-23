@@ -54,85 +54,25 @@
 // ========================================================================
 
 // Proportional widths
-// Supported ratios: 2, 3, 4, 5, 6, 8, 10, 12
+// Any ratio is supported: 2, 3, 4, 5, 6, 8, 10, 12...
 //
 // Objects: `width-*`
 // =========================================================================
 
 // Widths
 
-// Halves
-.width-rulesets(@width-ratio) when (@width-ratio = 2) {    
-    .@{size-ns}width-1-2@{breakpoint},
-    .@{size-ns}width-2-4@{breakpoint},
-    .@{size-ns}width-3-6@{breakpoint},
-    .@{size-ns}width-4-8@{breakpoint},
-    .@{size-ns}width-5-10@{breakpoint},
-    .@{size-ns}width-6-12@{breakpoint} { width: percentage(1/2) @size-width-ratios-important; }
-}
-
-// Thirds
-.width-rulesets(@width-ratio) when (@width-ratio = 3) {    
-    .@{size-ns}width-1-3@{breakpoint},
-    .@{size-ns}width-2-6@{breakpoint},
-    .@{size-ns}width-4-12@{breakpoint} { width: percentage(1/3) @size-width-ratios-important; }
-    .@{size-ns}width-2-3@{breakpoint},
-    .@{size-ns}width-4-6@{breakpoint},
-    .@{size-ns}width-8-12@{breakpoint} { width: percentage(2/3) @size-width-ratios-important; }
-}
-
-// Quarters
-.width-rulesets(@width-ratio) when (@width-ratio = 4) {    
-    .@{size-ns}width-1-4@{breakpoint},
-    .@{size-ns}width-2-8@{breakpoint},
-    .@{size-ns}width-3-12@{breakpoint} { width: percentage(1/4) @size-width-ratios-important; }
-    .@{size-ns}width-3-4@{breakpoint},
-    .@{size-ns}width-6-8@{breakpoint},
-    .@{size-ns}width-9-12@{breakpoint} { width: percentage(3/4) @size-width-ratios-important; }
-}
-
-// Fifths
-.width-rulesets(@width-ratio) when (@width-ratio = 5) {    
-    .@{size-ns}width-1-5@{breakpoint},
-    .@{size-ns}width-2-10@{breakpoint} { width: percentage(1/5) @size-width-ratios-important; }
-    .@{size-ns}width-2-5@{breakpoint},
-    .@{size-ns}width-4-10@{breakpoint} { width: percentage(2/5) @size-width-ratios-important; }
-    .@{size-ns}width-3-5@{breakpoint},
-    .@{size-ns}width-6-10@{breakpoint} { width: percentage(3/5) @size-width-ratios-important; }
-    .@{size-ns}width-4-5@{breakpoint},
-    .@{size-ns}width-8-10@{breakpoint} { width: percentage(4/5) @size-width-ratios-important; }
-}
-
-// Sixths
-.width-rulesets(@width-ratio) when (@width-ratio = 6) {    
-    .@{size-ns}width-1-6@{breakpoint},
-    .@{size-ns}width-2-12@{breakpoint} { width: percentage(1/6) @size-width-ratios-important; }
-    .@{size-ns}width-5-6@{breakpoint},
-    .@{size-ns}width-10-12@{breakpoint} { width: percentage(5/6) @size-width-ratios-important; }
-}
+.width-rulesets(@width-ratio) {
   
-// Eighths
-.width-rulesets(@width-ratio) when (@width-ratio = 8) {    
-    .@{size-ns}width-1-8@{breakpoint} { width: percentage(1/8) @size-width-ratios-important; }
-    .@{size-ns}width-3-8@{breakpoint} { width: percentage(3/8) @size-width-ratios-important; }
-    .@{size-ns}width-5-8@{breakpoint} { width: percentage(5/8) @size-width-ratios-important; }
-    .@{size-ns}width-7-8@{breakpoint} { width: percentage(7/8) @size-width-ratios-important; }
-}
+    // Generate classes for current ratio    
+
+    .loop-ratio-classes(@i: @width-ratio) when (@i > 0) {
+
+        .loop-ratio-classes(@i - 1);
+      
+        .@{size-ns}width-@{i}-@{width-ratio}@{breakpoint} { width: percentage(@i/@width-ratio) @size-width-ratios-important; }
+    }
   
-// Tenths
-.width-rulesets(@width-ratio) when (@width-ratio = 10) {    
-    .@{size-ns}width-1-10@{breakpoint} { width: percentage(1/10) @size-width-ratios-important; }
-    .@{size-ns}width-3-10@{breakpoint} { width: percentage(3/10) @size-width-ratios-important; }
-    .@{size-ns}width-7-10@{breakpoint} { width: percentage(7/10) @size-width-ratios-important; }
-    .@{size-ns}width-9-10@{breakpoint} { width: percentage(9/10) @size-width-ratios-important; }
-}
- 
-// Twelfths
-.width-rulesets(@width-ratio) when (@width-ratio = 12) {    
-    .@{size-ns}width-1-12@{breakpoint} { width: percentage(1/12) @size-width-ratios-important; }
-    .@{size-ns}width-5-12@{breakpoint} { width: percentage(5/12) @size-width-ratios-important; }
-    .@{size-ns}width-7-12@{breakpoint} { width: percentage(7/12) @size-width-ratios-important; }
-    .@{size-ns}width-11-12@{breakpoint} { width: percentage(11/12) @size-width-ratios-important; }
+    .loop-ratio-classes();
 }
 
 .render-width-classes(@size-width-ratios; @breakpoint) when not (@size-width-ratios = false) {  
