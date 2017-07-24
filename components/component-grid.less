@@ -104,18 +104,6 @@
     list-style: none;
 }
 
-// Micro clearfix to make grids more robust
-// Can't use `table` because it creates a 1px gap when it becomes a flex item, only in Webkit
-
-.@{grid-ns}grid::before,
-.@{grid-ns}grid::after {
-    content: "";
-    display: block;
-    overflow: hidden;
-}
-
-.@{grid-ns}grid::after { clear: both; }
-
 // Grid cell
 // 1. Makes grid more robust so that it can be used with other block elements
 // 2. Space is allocated solely based on content dimensions
