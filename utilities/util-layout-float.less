@@ -40,57 +40,21 @@
 
     // Contain floats
     //
-    // Original clearfix from @necolas
-    // https://github.com/suitcss/utils-layout/blob/0.4.2/lib/layout.css
-    //
-    // Make an element expand to contain floated children.
-    // Uses pseudo-elements (micro clearfix).
-    //
-    // 1. The space content is one way to avoid an Opera bug when the
-    //    `contenteditable` attribute is included anywhere else in the document.
-    //    Otherwise it causes space to appear at the top and bottom of the
-    //    element.
-    // 2. The use of `table` rather than `block` is only necessary if using
-    //    `::before` to contain the top-margins of child elements.
+    // Original clearfix from @thierrykoblentz
+    // http://cssmojo.com/the-very-latest-clearfix-reloaded/
 
-    .@{float-ns}clearfix::before,
-    .@{float-ns}clearfix::after {
-        // 1
-        content: " ";
-        // 2
-        display: table;
-    }
-
-    .@{float-ns}clearfix::after {
+    .@{float-ns}clearfix::after {                
         clear: both;
+        content: "";
+        display: block;
     }
 
     // Micro clearfix for children elements
 
-    .@{list-ns}clearfix-children > *::before,
-    .@{list-ns}clearfix-children > *::after {
-        content: "";
-        display: table;
-    }
-
     .@{list-ns}clearfix-children > *::after {
         clear: both;
-    }
-
-    // Micro clearfix
-    // `table-cell` is used with `::before` because `table` creates a 1px gap when it becomes a flex item, only in Webkit
-    // `table` is used again with `::after` because `clear` only works with block elements.
-    // Note: `display: block` with `overflow: hidden` is currently not working in the latest Safari
-
-    .@{float-ns}clearfix-flex::before {
         content: "";
-        display: table-cell;
-    }
-
-    .@{float-ns}clearfix-flex::after {
-        content: "";
-        display: table;
-        clear: both;
+        display: block;
     }
 
     // New block formatting context

@@ -37,13 +37,11 @@
 
 // Micro clearfix to make list more robust
 
-.@{list-ns}list > li::before,
-.@{list-ns}list > li::after {
+.@{list-ns}list > li::after {                
+    clear: both;
     content: "";
-    display: table;
+    display: block;
 }
-
-.@{list-ns}list > li::after { clear: both; }
 
 
 // Hooks

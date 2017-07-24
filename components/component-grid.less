@@ -289,14 +289,11 @@
     }
 
     // Micro clearfix to make container more robust
-
-    .@{grid-ns}container::before,
-    .@{grid-ns}container::after {
+    .@{grid-ns}container::after {                
+        clear: both;
         content: "";
-        display: table;
+        display: block;
     }
-
-    .@{grid-ns}container::after { clear: both; }
 }
 
 // Hooks
