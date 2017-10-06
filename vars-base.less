@@ -64,10 +64,17 @@
 // For RTL set @base-text-direction: rtl;
 @base-text-direction:                           ltr;
 
-// For LTR set @start: left; @end: right;
-// For RTL set @start: right; @end: left;
-@start:                                         left;
-@end:                                           right;
+.set-text-direction();
+
+.set-text-direction() when (@base-text-direction = ltr) {
+    @start: left;
+    @end: right;
+}
+.set-text-direction() when (@base-text-direction = rtl) {
+    @start: right;
+    @end: left;
+}
+
 
 // Global: length units
 
