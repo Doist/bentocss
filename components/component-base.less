@@ -30,16 +30,27 @@
 
 @base-elements-ns:                              @ns;
 @base-heading-ns:                               @base-elements-ns;
+@base-enable-local-ns:                          false;
+
+.set-base-local-ns();
+
+.set-base-local-ns() when (@base-enable-local-ns = true) {
+   @base-local-ns: ~".@{ns}";
+}
+.set-base-local-ns() when (@base-enable-local-ns = false) {
+   @base-local-ns: ~"";
+}
 
 @base-reset-box-sizing:                         true;
-
 @base-enable-html:                              true;
 @base-enable-body:                              true;
+
 @base-enable-links:                             true;
 @base-enable-text-direction:                    true;
 @base-enable-text-semantics:                    true;
 @base-enable-images:                            true;
 @base-enable-margin:                            true;
+@base-enable-margin-top:                        false;
 @base-enable-headings:                          true;
 @base-enable-headings-size:                     true;
 @base-enable-lists:                             true;
@@ -203,7 +214,7 @@
 // Links
 // ========================================================================
 
-& when (@base-enable-links = true) {
+.mixin(base-links) {
 
     // Remove the gray background color from active links in IE 10.
 
@@ -227,6 +238,12 @@
     .@{base-elements-ns}link:hover {
         color: @base-link-hover-color;
         text-decoration: @base-link-hover-text-decoration;
+    }
+}
+
+& when (@base-enable-links = true) {
+    @{base-local-ns} {
+        .mixin(base-links)
     }
 }
 
@@ -263,7 +280,7 @@
     }
 }
 
-& when (@base-enable-text-semantics = true) {
+.mixin(base-text-semantics) {
 
     // Addresses styling not present in Chrome, Safari, Opera and IE 8/9/10.
 
@@ -332,6 +349,13 @@
     sub { bottom: -0.25em; }
 }
 
+& when (@base-enable-text-semantics = true) {
+    @{base-local-ns} {
+        .mixin(base-text-semantics)
+    }
+}
+
+
 // Images
 // ========================================================================
 
@@ -340,7 +364,7 @@
 // 3. Remove border when inside `a` element in IE 8/9/10.
 // 4. Remove the gap between images and the bottom of their containers
 
-& when (@base-enable-images = true) {
+.mixin(base-images) {
 
     img {
         & when (@base-img-responsive = true) {
@@ -364,6 +388,13 @@
 
     svg:not(:root) { overflow: hidden; }
 }
+
+& when (@base-enable-images = true) {
+    @{base-local-ns} {
+        .mixin(base-images)
+    }
+}
+
 
 // Block elements
 // ========================================================================
@@ -421,7 +452,7 @@
     }
 }
 
-& when (@base-enable-margin = true) {
+.mixin(base-margin) {
 
     // Reset margin
 
@@ -441,17 +472,23 @@
     figure { margin: 0 0 @base-margin-vertical 0; }
 }
 
+& when (@base-enable-margin = true) {
+    @{base-local-ns} {
+        .mixin(base-margin)
+    }
+}
+
 & when (@base-enable-margin-top = true) {
-
-    .baseline-margin-top(@base-margin-vertical);
-
+    @{base-local-ns} {
+        .baseline-margin-top(@base-margin-vertical);
+    }
 }
 
 
 // Headings
 // ========================================================================
 
-& when (@base-enable-headings = true) {
+.mixin(base-headings) {
 
     h1, .@{base-heading-ns}h1,
     h2, .@{base-heading-ns}h2,
@@ -467,17 +504,23 @@
     }
 }
 
+& when (@base-enable-headings = true) {
+    @{base-local-ns} {
+        .mixin(base-headings)
+    }
+}
+
 // Margins
 
 & when (@base-enable-margin-top = true) {
-
-    .baseline-margin-top-headings(@base-heading-margin-top);
-
+    @{base-local-ns} {
+        .baseline-margin-top-headings(@base-heading-margin-top);
+    }
 }
 
 // Sizes
 
-& when (@base-enable-headings-size = true) {
+.mixin(base-headings-size) {
 
     h1, .@{base-heading-ns}h1 {
         font-size: @base-h1-font-size;
@@ -516,21 +559,33 @@
     }
 }
 
+& when (@base-enable-headings-size = true) {
+    @{base-local-ns} {
+        .mixin(base-headings-size)
+    }
+}
+
 
 // Lists
 // ========================================================================
 
-& when (@base-enable-lists = true) {
+.mixin(base-lists) {
 
     dt { font-weight: @base-bold-font-weight; }
     dd { margin-@{start}: 0; }
+}
+
+& when (@base-enable-lists = true) {
+    @{base-local-ns} {
+        .mixin(base-lists)
+    }
 }
 
 
 // Tables
 // ========================================================================
 
-& when (@base-enable-tables = true) {
+.mixin(base-tables) {
 
     // 1. Remove most spacing between table cells.
     // 2. Block element behavior
@@ -553,8 +608,14 @@
     }
 }
 
+& when (@base-enable-tables = true) {
+    @{base-local-ns} {
+        .mixin(base-tables)
+    }
+}
 
-& when (@base-enable-blocks = true) {
+
+.mixin(base-blocks) {
 
     // Horizontal rules
     // ========================================================================
@@ -651,8 +712,14 @@
     template { display: none; }
 }
 
+& when (@base-enable-blocks = true) {
+    @{base-local-ns} {
+        .mixin(base-blocks)
+    }
+}
 
-& when (@base-enable-frames = true) {
+
+.mixin(base-frames) {
 
     // Iframe
     // ========================================================================
@@ -660,6 +727,12 @@
     iframe {
         border: 0;
         vertical-align: middle;
+    }
+}
+
+& when (@base-enable-frames = true) {
+    @{base-local-ns} {
+        .mixin(base-frames)
     }
 }
 
