@@ -69,10 +69,12 @@
 .set-text-direction() when (@base-text-direction = ltr) {
     @start: left;
     @end: right;
+    @xsign: 1;
 }
 .set-text-direction() when (@base-text-direction = rtl) {
     @start: right;
     @end: left;
+    @xsign: -1;
 }
 
 
