@@ -10,6 +10,7 @@
 //                  `button--xs`
 //                  `button--sm`
 //                  `button--lg`
+//                  `button--xl`
 //
 // States:          `is-active`
 //                  `[disabled]`
@@ -41,26 +42,31 @@
 @button-xsmall-height:                          @base-height-xsmall;
 @button-small-height:                           @base-height-small;
 @button-large-height:                           @base-height-large;
+@button-xlarge-height:                          @base-height-xlarge;
 
 @button-line-height:                            @base-height;
 @button-xsmall-line-height:                     @base-height-xsmall;
 @button-small-line-height:                      @base-height-small;
 @button-large-line-height:                      @base-height-large;
+@button-xlarge-line-height:                     @base-height-xlarge;
 
 @button-font-size:                              @base-font-size;
 @button-xsmall-font-size:                       11/@px;
 @button-small-font-size:                        12/@px;
 @button-large-font-size:                        16/@px;
+@button-xlarge-font-size:                       18/@px;
 
 @button-padding-horizontal:                     12/@px;
 @button-xsmall-padding-horizontal:              6/@px;
 @button-small-padding-horizontal:               10/@px;
 @button-large-padding-horizontal:               15/@px;
+@button-xlarge-padding-horizontal:              20/@px;
 
 @button-padding-vertical:                       0;
 @button-xsmall-padding-vertical:                0;
 @button-small-padding-vertical:                 0;
 @button-large-padding-vertical:                 0;
+@button-xlarge-padding-vertical:                0;
 
 @button-font-family:                            inherit;
 @button-font-weight:                            @base-normal-font-weight;
@@ -309,8 +315,8 @@
     .@{button-ns}button--link:active,
     .@{button-ns}button--link.is-active,
     .@{button-ns}button--link:disabled {
-        border-color: transparent;
         background: none;
+        border-color: transparent;        
         .hook-button-link-reset;
     }
 
@@ -336,28 +342,36 @@
 // Size modifiers
 // ==========================================================================
 
-.mixin(button--xs) {
+.mixin(button--xs) {        
+    font-size: @button-xsmall-font-size;
+    line-height: @button-xsmall-line-height;
     min-height: @button-xsmall-height;
     padding: @button-xsmall-padding-vertical @button-xsmall-padding-horizontal;
-    line-height: @button-xsmall-line-height;
-    font-size: @button-xsmall-font-size;
     .hook-button-xs;
 }
 
-.mixin(button--sm) {
+.mixin(button--sm) {    
+    font-size: @button-small-font-size;
+    line-height: @button-small-line-height;
     min-height: @button-small-height;
     padding: @button-small-padding-vertical @button-small-padding-horizontal;
-    line-height: @button-small-line-height;
-    font-size: @button-small-font-size;
     .hook-button-sm;
 }
 
 .mixin(button--lg) {
+    font-size: @button-large-font-size;
+    line-height: @button-large-line-height;
     min-height: @button-large-height;
     padding: @button-large-padding-vertical @button-large-padding-horizontal;
-    line-height: @button-large-line-height;
-    font-size: @button-large-font-size;
     .hook-button-lg;
+}
+
+.mixin(button--xl) {
+    font-size: @button-xlarge-font-size;
+    line-height: @button-xlarge-line-height;
+    min-height: @button-xlarge-height;
+    padding: @button-xlarge-padding-vertical @button-xlarge-padding-horizontal;
+    .hook-button-xl
 }
 
 & when (@button-enable-modifier-size = true) {
@@ -373,6 +387,10 @@
     .@{button-ns}button--lg {
         .mixin(button--lg);
     }
+
+    .@{button-ns}button--xl {
+        .mixin(button--xl);
+    }    
 }
 
 
@@ -398,4 +416,5 @@
 .hook-button-xs() {}
 .hook-button-sm() {}
 .hook-button-lg() {}
+.hook-button-xl() {}
 .hook-button-misc() {}
