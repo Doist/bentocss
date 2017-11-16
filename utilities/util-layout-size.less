@@ -161,13 +161,12 @@
         height: auto;
     }
 
-    // 1. Ugly hack to honor HTML `height` attribute. CSS `height` initial value is `auto`.
+    // We can't overwrite CSS `height: auto` back with the HTML `height` attribute.
     // Specificity zero attributes https://www.w3.org/TR/css3-cascade/#preshint
+    // https://stackoverflow.com/a/20176692
 
     .@{size-ns}responsive-width-reset {
         max-width: none;
-        // 1
-        height: invalid;
     }    
 
     // Responsiveness: Sets a maximum height relative to the parent and auto scales the width
@@ -178,13 +177,12 @@
         width: auto;
     }
 
-    // 1. Ugly hack to honor HTML `width` attribute. `width`. CSS `width` initial value is `auto`.
+    // We can't overwrite CSS `width: auto` back with the HTML `width` attribute.
     // Specificity zero attributes https://www.w3.org/TR/css3-cascade/#preshint
+    // https://stackoverflow.com/a/20176692
 
     .@{size-ns}responsive-height-reset {
         max-height: none;
-        // 1
-        width: invalid;
     }    
 }
 

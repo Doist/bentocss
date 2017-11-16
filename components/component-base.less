@@ -382,6 +382,10 @@
 
     // Preserve original image dimensions
 
+    // We can't overwrite CSS `height: auto` back with the HTML `height` attribute.
+    // Specificity zero attributes https://www.w3.org/TR/css3-cascade/#preshint
+    // https://stackoverflow.com/a/20176692    
+
     .@{base-elements-ns}img-preserve { max-width: none; }
 
     // Correct overflow not hidden in IE 9/10/11.
