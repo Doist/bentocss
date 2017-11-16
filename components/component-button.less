@@ -371,7 +371,7 @@
     line-height: @button-xlarge-line-height;
     min-height: @button-xlarge-height;
     padding: @button-xlarge-padding-vertical @button-xlarge-padding-horizontal;
-    .hook-button-xl
+    .hook-button-xl;
 }
 
 & when (@button-enable-modifier-size = true) {
@@ -397,7 +397,7 @@
 // Hooks
 // ========================================================================
 
-.hook-button-misc;
+& { .hook-button-misc; }
 
 .hook-button() {}
 .hook-button-hover() {}

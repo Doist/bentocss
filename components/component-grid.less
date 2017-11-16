@@ -149,6 +149,8 @@
 // Vertical
 .@{grid-ns}grid--gap-0 > .@{grid-ns}grid__cell { margin-bottom: 0; }
 
+& { .hook-grid-gap; }
+
 
 // gap modifiers
 
@@ -299,6 +301,7 @@
 // Hooks
 // ========================================================================
 
-.hook-grid-misc;
+& { .hook-grid-misc; }
 
+.hook-grid-gap() {}
 .hook-grid-misc() {}
