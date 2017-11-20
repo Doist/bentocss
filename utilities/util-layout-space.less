@@ -91,7 +91,7 @@
     .@{space-ns}m-s-@{space-unit}@{breakpoint} { margin-@{start}: @@space-value @space-units-important; }
 }
 
-.space-rulesets(@space-type) when (@space-type = margin-negative) and (@space-unit > 0) {
+.space-rulesets(@space-type) when (@space-type = margin-negative) and not (@space-unit = 0) {
     .@{space-ns}m-an-@{space-unit}@{breakpoint} { margin:          -@@space-value @space-units-important; }
     .@{space-ns}m-vn-@{space-unit}@{breakpoint} { margin-top:      -@@space-value @space-units-important; margin-bottom:   -@@space-value @space-units-important; }
     .@{space-ns}m-hn-@{space-unit}@{breakpoint} { margin-@{end}:   -@@space-value @space-units-important; margin-@{start}: -@@space-value @space-units-important; }
