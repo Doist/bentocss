@@ -37,7 +37,20 @@
 @flex-direction-breakpoints:                    false;
 @flex-wrap-breakpoints:                         false;
 @flex-item-alignment-breakpoints:               false;
+
+// breakpoint list
 @flex-item-order-breakpoints:                   false;
+
+// unit list
+@flex-item-order-base:                          false;
+
+@flex-item-order-small:                         @flex-item-order-base;
+@flex-item-order-medium:                        @flex-item-order-base;
+@flex-item-order-large:                         @flex-item-order-base;
+@flex-item-order-xlarge:                        @flex-item-order-base;
+
+@flex-item-last:                                99;
+
 @flex-item-dimension-breakpoints:               false;
 @flex-equal-breakpoints:                        false;
 
@@ -189,17 +202,42 @@
 // Item ordering
 // ========================================================================
 
-.mixin(flex-item-order) {
+.flex-item-order-rulesets(@flex-item-order) {
+        
+    .@{flex-ns}flex-item-@{flex-item-order}@{breakpoint} { order: @flex-item-order; }
+}
+
+.render-flex-item-order-classes(@flex-item-order-list; @breakpoint) when not (@flex-item-order-list = false) {  
+  
+    // Loop through the available orders
+  
+    .loop-flex-item-order-classes(@i: length(@flex-item-order-list)) when (@i > 0) {
+
+        .loop-flex-item-order-classes(@i - 1);
+
+        @flex-item-order: extract(@flex-item-order-list, @i);
+      
+        .flex-item-order-rulesets(@flex-item-order);
+    }
+  
+    .loop-flex-item-order-classes();
+}
+
+.mixin(flex-item-order-rulesets) {
 
     // Default is 0
     .@{flex-ns}flex-item-unorder@{breakpoint} { order: 0; }    
     .@{flex-ns}flex-item-first@{breakpoint} { order: -1; }
-    .@{flex-ns}flex-item-last@{breakpoint} { order: 99; }
+    .@{flex-ns}flex-item-last@{breakpoint} { order: @flex-item-last; }
+
+    @flex-item-order-list: "flex-item-order-@{breakpoint-name}";
+
+    .render-flex-item-order-classes(@@flex-item-order-list; @breakpoint);
 }
 
 & when not (@flex-item-order-breakpoints = false) {
 
-    .render-responsive-rulesets(@flex-item-order-breakpoints; flex-item-order);
+    .render-responsive-rulesets(@flex-item-order-breakpoints; flex-item-order-rulesets);
 }
 
 
