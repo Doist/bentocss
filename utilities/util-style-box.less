@@ -80,35 +80,35 @@
 
 .mixin(box-background-images) {    
 
-    .@{box-ns}bg-img-none     { background-image: none @box-important; }    
+    .@{box-ns}bg-img-none@{breakpoint}     { background-image: none @box-important; }    
 
-    .@{box-ns}bg-cover        { background-size: cover; }
-    .@{box-ns}bg-contain      { background-size: contain; }
+    .@{box-ns}bg-cover@{breakpoint}        { background-size: cover; }
+    .@{box-ns}bg-contain@{breakpoint}      { background-size: contain; }
 
-    .@{box-ns}bg-center       { background-position: center; }
-    .@{box-ns}bg-left         { background-position: left; }
-    .@{box-ns}bg-right        { background-position: right; }
-    .@{box-ns}bg-start        { background-position: @start; }
-    .@{box-ns}bg-end          { background-position: @end; }
+    .@{box-ns}bg-center@{breakpoint}       { background-position: center; }
+    .@{box-ns}bg-left@{breakpoint}         { background-position: left; }
+    .@{box-ns}bg-right@{breakpoint}        { background-position: right; }
+    .@{box-ns}bg-start@{breakpoint}        { background-position: @start; }
+    .@{box-ns}bg-end@{breakpoint}          { background-position: @end; }
 
-    .@{box-ns}bg-top          { background-position: top; }
-    .@{box-ns}bg-top-center   { background-position: top center; }
-    .@{box-ns}bg-top-left     { background-position: top left; }
-    .@{box-ns}bg-top-right    { background-position: top right; }
-    .@{box-ns}bg-top-start    { background-position: top @start; }
-    .@{box-ns}bg-top-end      { background-position: top @end; }
+    .@{box-ns}bg-top@{breakpoint}          { background-position: top; }
+    .@{box-ns}bg-top-center@{breakpoint}   { background-position: top center; }
+    .@{box-ns}bg-top-left@{breakpoint}     { background-position: top left; }
+    .@{box-ns}bg-top-right@{breakpoint}    { background-position: top right; }
+    .@{box-ns}bg-top-start@{breakpoint}    { background-position: top @start; }
+    .@{box-ns}bg-top-end@{breakpoint}      { background-position: top @end; }
 
-    .@{box-ns}bg-bottom       { background-position: bottom; }
-    .@{box-ns}bg-bottom-center{ background-position: bottom center; }
-    .@{box-ns}bg-bottom-left  { background-position: bottom left; }
-    .@{box-ns}bg-bottom-right { background-position: bottom right; }
-    .@{box-ns}bg-bottom-start { background-position: bottom @start; }
-    .@{box-ns}bg-bottom-end   { background-position: bottom @end; }
+    .@{box-ns}bg-bottom@{breakpoint}       { background-position: bottom; }
+    .@{box-ns}bg-bottom-center@{breakpoint}{ background-position: bottom center; }
+    .@{box-ns}bg-bottom-left@{breakpoint}  { background-position: bottom left; }
+    .@{box-ns}bg-bottom-right@{breakpoint} { background-position: bottom right; }
+    .@{box-ns}bg-bottom-start@{breakpoint} { background-position: bottom @start; }
+    .@{box-ns}bg-bottom-end@{breakpoint}   { background-position: bottom @end; }
 
-    .@{box-ns}bg-repeat       { background-repeat: repeat; }
-    .@{box-ns}bg-repeat-none  { background-repeat: no-repeat; }
-    .@{box-ns}bg-repeat-x     { background-repeat: repeat-x; }
-    .@{box-ns}bg-repeat-y     { background-repeat: repeat-y; }
+    .@{box-ns}bg-repeat@{breakpoint}       { background-repeat: repeat; }
+    .@{box-ns}bg-repeat-none@{breakpoint}  { background-repeat: no-repeat; }
+    .@{box-ns}bg-repeat-x@{breakpoint}     { background-repeat: repeat-x; }
+    .@{box-ns}bg-repeat-y@{breakpoint}     { background-repeat: repeat-y; }
 }
 
 & when not (@box-background-images-breakpoints = false) {

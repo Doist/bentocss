@@ -32,63 +32,63 @@
 
 .mixin(position-positioning) {    
 
-    .@{position-ns}position-absolute,
+    .@{position-ns}position-absolute@{breakpoint},
     [class^='@{position-ns}position-top'],
     [class*=' @{position-ns}position-top'],
     [class^='@{position-ns}position-bottom'],
     [class*=' @{position-ns}position-bottom'] { position: absolute; }
 
-    .@{position-ns}position-top {
+    .@{position-ns}position-top@{breakpoint} {
         top: 0;
     }
 
-    .@{position-ns}position-bottom {
+    .@{position-ns}position-bottom@{breakpoint} {
         bottom: 0;
     }
 
-    .@{position-ns}position-top-start {
+    .@{position-ns}position-top-start@{breakpoint} {
         top: 0;
         @{start}: 0;
     }
 
-    .@{position-ns}position-top-end {
+    .@{position-ns}position-top-end@{breakpoint} {
         top: 0;
         @{end}: 0;
     }
 
-    .@{position-ns}position-top-left {
+    .@{position-ns}position-top-left@{breakpoint} {
         top: 0;
         left: 0;
     }
 
-    .@{position-ns}position-top-right {
+    .@{position-ns}position-top-right@{breakpoint} {
         top: 0;
         right: 0;
     }
 
-    .@{position-ns}position-bottom-start {
+    .@{position-ns}position-bottom-start@{breakpoint} {
         bottom: 0;
         @{start}: 0;
     }
 
-    .@{position-ns}position-bottom-end {
+    .@{position-ns}position-bottom-end@{breakpoint} {
         bottom: 0;
         @{end}: 0;
     }
 
-    .@{position-ns}position-bottom-left {
+    .@{position-ns}position-bottom-left@{breakpoint} {
         bottom: 0;
         left: 0;
     }
 
-    .@{position-ns}position-bottom-right {
+    .@{position-ns}position-bottom-right@{breakpoint} {
         bottom: 0;
         right: 0;
     }
 
     // Cover
 
-    .@{position-ns}position-cover {
+    .@{position-ns}position-cover@{breakpoint} {
         margin: auto;
         position: absolute;
         top: 0;
@@ -99,18 +99,18 @@
 
     // Relative
      
-    .@{position-ns}position-relative { position: relative; }
+    .@{position-ns}position-relative@{breakpoint} { position: relative; }
 
     // Static
 
-    .@{position-ns}position-static { position: static; }
+    .@{position-ns}position-static@{breakpoint} { position: static; }
 
     // Fixed
     //
     // 1. Make sure fixed elements are promoted into a new layer, for performance
     //    reasons.
 
-    .@{position-ns}position-fixed {
+    .@{position-ns}position-fixed@{breakpoint} {
         position: fixed;
         // 1
         backface-visibility: hidden;
