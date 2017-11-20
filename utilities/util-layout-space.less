@@ -166,6 +166,9 @@
 // Gap
 // Only recommended for fixed, full, or auto width elements, as percentage
 // based widths will be based on total_available_width + gap_width.
+//
+// Note: Use a standalone .overflow-hidden element to prevent negative margins
+// from collapsing between adjacent siblings.
 // ========================================================================
 
 & when (@space-enable-gap = true) {
@@ -203,13 +206,6 @@
     [class^='@{space-ns}m-gap-'],
     [class*=' @{space-ns}m-gap-'] {
         position: relative;
-    }
-
-    // Stop negative margin bottom from collapsing
-    [class^='@{space-ns}m-gap-']::after,
-    [class*=' @{space-ns}m-gap-']::after {
-        content: '';
-        display: table;
     }
 
     & {
