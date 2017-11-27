@@ -19,8 +19,8 @@
 
 @overflow-ns:                                 @ns;
 
-@overflow-enable-scrollable:                  false;
-@overflow-enable-overflow:                    false;
+@overflow-scrollable-breakpoints:             false;
+@overflow-overflow-breakpoints:               false;
 
 
 // ========================================================================
@@ -30,15 +30,14 @@
 // Scrollable
 // ========================================================================
 
-& when (@overflow-enable-scrollable = true) {
+.mixin(overflow-scrollable) {
 
     // Horizontal scrolling
     // Inspired on Medium
 
-    .@{overflow-ns}scrollable-x {
+    .@{overflow-ns}scrollable-x@{breakpoint} {
         overflow-x: auto;
         overflow-y: hidden;
-        white-space: nowrap;        
         // Inertia scrolling
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: -ms-autohiding-scrollbar;        
@@ -46,7 +45,7 @@
 
     // Enable scrolling for preformatted text
 
-    .@{overflow-ns}scrollable-text {
+    .@{overflow-ns}scrollable-text@{breakpoint} {
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         resize: both;
@@ -54,34 +53,45 @@
 
     // Box with scrolling enabled
 
-    .@{overflow-ns}scrollable-box {
+    .@{overflow-ns}scrollable-box@{breakpoint} {
         box-sizing: border-box;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         resize: both;
     }
 
-    .@{overflow-ns}scrollable-box > :last-child { margin-bottom: 0; }
+    .@{overflow-ns}scrollable-box@{breakpoint} > :last-child { margin-bottom: 0; }
+}
+
+& when not (@overflow-scrollable-breakpoints = false) {
+
+    .render-responsive-rulesets(@overflow-scrollable-breakpoints; overflow-scrollable);
+}
 }
 
 
 // Overflow
 // ========================================================================
 
-& when (@overflow-enable-overflow = true) {
+.mixin(overflow-overflow) {
 
     // Enable scrollbars if content is clipped
 
-    .@{overflow-ns}overflow-container {
+    .@{overflow-ns}overflow-container@{breakpoint} {
         overflow: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    .@{overflow-ns}overflow-container > :last-child { margin-bottom: 0; }
+    .@{overflow-ns}overflow-container@{breakpoint} > :last-child { margin-bottom: 0; }
 
-    .@{overflow-ns}overflow-hidden { overflow: hidden }
-    .@{overflow-ns}overflow-scroll { overflow: scroll }
-    .@{overflow-ns}overflow-auto   { overflow: auto }
+    .@{overflow-ns}overflow-hidden@{breakpoint} { overflow: hidden }
+    .@{overflow-ns}overflow-scroll@{breakpoint} { overflow: scroll }
+    .@{overflow-ns}overflow-auto@{breakpoint}   { overflow: auto }
+}
+
+& when not (@overflow-overflow-breakpoints = false) {
+
+    .render-responsive-rulesets(@overflow-overflow-breakpoints; overflow-overflow);
 }
 
 
