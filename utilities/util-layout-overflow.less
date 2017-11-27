@@ -2,6 +2,7 @@
 // Description:     Atomic overflow classes
 //
 // Namespace:       `scrollable-*`
+//                  `scrollbar-*`
 //                  `overflow-*`
 //
 // Dependencies:    vars-base
@@ -20,6 +21,7 @@
 @overflow-ns:                                 @ns;
 
 @overflow-scrollable-breakpoints:             false;
+@overflow-scrollbar-breakpoints:              false;
 @overflow-overflow-breakpoints:               false;
 
 
@@ -67,6 +69,55 @@
 
     .render-responsive-rulesets(@overflow-scrollable-breakpoints; overflow-scrollable);
 }
+
+
+// Scrollbars
+// ========================================================================
+
+.mixin(overflow-scrollbar) {
+
+    // Not supported on Firefox
+    //
+    // 1. IE, Edge
+    //    https://developer.mozilla.org/en-US/docs/Web/CSS/-ms-overflow-style
+    // 2. Chrome, Safari, Opera
+    //    https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+
+    .@{overflow-ns}scrollbar-none@{breakpoint}  {
+        // 1
+        -ms-overflow-style: none;
+
+        // 2
+        &::-webkit-scrollbar {
+            display: none;
+        } 
+    } 
+
+    // Must be applied to a parent element
+    // Inspired on https://stackoverflow.com/a/23771140 and medium.com
+
+    .@{overflow-ns}scrollbar-x-hide@{breakpoint} {
+        overflow-y: hidden;
+
+        & > * {
+            margin-bottom: -100px !important;
+            padding-bottom: 100px !important;        
+        }
+    }
+
+    .@{overflow-ns}scrollbar-y-hide@{breakpoint} {
+        overflow-x: hidden;
+
+        & > * {
+            margin-@{end}: -100px !important;
+            padding-@{end}: 100px !important;        
+        }
+    }    
+}
+
+& when not (@overflow-scrollbar-breakpoints = false) {
+
+    .render-responsive-rulesets(@overflow-scrollbar-breakpoints; overflow-scrollbar);
 }
 
 
