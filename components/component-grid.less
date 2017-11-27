@@ -246,7 +246,7 @@
 
 & when (@grid-enable-modifier-match = true) {
 
-    // Match columns height in a single row
+    // Match column heights, but limited to a single row
 
     .@{grid-ns}grid--match > .@{grid-ns}grid__cell {
         display: flex;
@@ -266,6 +266,32 @@
     .@{grid-ns}grid--match > .@{grid-ns}grid__cell > .@{grid-ns}grid {
         flex: 1;
     }
+
+    // Match row heights, but limited to a single column 
+    //   
+    // Notes:
+    //
+    // The parent element must be flex.
+    // Content overflow issues may happen, CSS Grid Layout should be preferred for those cases.
+
+    .@{grid-ns}grid--match-rows {
+        flex: 1;
+        flex-direction: column;
+    }
+
+    .@{grid-ns}grid--match-rows > .@{grid-ns}grid__cell {
+        display: flex;
+        flex: 1;
+    }
+
+    // 1. Behave like a block element
+
+    .@{grid-ns}grid--match-rows > .@{grid-ns}grid__cell > *:not(.@{grid-ns}grid) {
+        flex: none;
+        // 1
+        box-sizing: border-box;
+        width: 100%;
+    }           
 }
 
 
