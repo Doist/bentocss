@@ -267,6 +267,16 @@
         unicode-bidi: embed;
     }
 
+    .@{base-elements-ns}dir-initial {
+        & when (@base-text-direction = ltr) {
+            direction: ltr;
+        }
+        & when (@base-text-direction = rtl) {
+            direction: rtl;
+        }
+        unicode-bidi: initial;
+    }
+
     bdo[dir="ltr"],
     .@{base-elements-ns}dir-ltr-bdo {
         direction: ltr;
@@ -277,7 +287,7 @@
     .@{base-elements-ns}dir-rtl-bdo {
         direction: rtl;
         unicode-bidi: bidi-override;
-    }
+    }    
 }
 
 .mixin(base-text-semantics) {
