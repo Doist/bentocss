@@ -241,10 +241,12 @@
 }
 
 
-// Match cell inner containers
+// Match cells' inner container height
 // ========================================================================
 
 & when (@grid-enable-modifier-match = true) {
+
+    // Match columns height in a single row
 
     .@{grid-ns}grid--match > .@{grid-ns}grid__cell {
         display: flex;
@@ -252,11 +254,17 @@
 
     // 1. Behave like a block element
 
-    .@{grid-ns}grid--match > .@{grid-ns}grid__cell > * {
+    .@{grid-ns}grid--match > .@{grid-ns}grid__cell > *:not(.@{grid-ns}grid) {
         flex: none;
         // 1
         box-sizing: border-box;
         width: 100%;
+    }
+
+    // Allow for nested grids to take up the correct full width
+
+    .@{grid-ns}grid--match > .@{grid-ns}grid__cell > .@{grid-ns}grid {
+        flex: 1;
     }
 }
 
