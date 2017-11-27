@@ -2,6 +2,7 @@
 // Description:     Atomic size classes
 //
 // Namespace:       `width-*`
+//                  `w-*` (see notes for .hook-util-size)
 //                  `height-*`
 //                  `responsive-*`
 //
@@ -189,6 +190,9 @@
 
 // Hooks
 // ========================================================================
+
+// Use the `w-*` namespace for any width that shouldn't fall back to 100% by default
+// Useful for image elements that have a `width` set in HTML
 
 & { .hook-util-size; }
 
