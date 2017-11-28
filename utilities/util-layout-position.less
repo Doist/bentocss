@@ -21,9 +21,9 @@
 
 @position-ns:                                 @ns;
 
-@position-enable-z:                           false;
-
 @position-positioning-breakpoints:            false;
+
+@position-z-breakpoints:                      false;
 
 
 // ========================================================================
@@ -135,17 +135,22 @@
 // z-index
 // ========================================================================
 
-& when (@position-enable-z = true) {
+.mixin(position-z) {
 
-    .@{position-ns}z-1 { z-index: @base-z-1; }
-    .@{position-ns}z-2 { z-index: @base-z-2; }
-    .@{position-ns}z-3 { z-index: @base-z-3; }
-    .@{position-ns}z-4 { z-index: @base-z-4; }
-    .@{position-ns}z-5 { z-index: @base-z-5; }
-    .@{position-ns}z-6 { z-index: @base-z-6; }
-    .@{position-ns}z-7 { z-index: @base-z-7; }
-    .@{position-ns}z-8 { z-index: @base-z-8; }
-    .@{position-ns}z-9 { z-index: @base-z-9; }
+    .@{position-ns}z-1@{breakpoint} { z-index: @base-z-1; }
+    .@{position-ns}z-2@{breakpoint} { z-index: @base-z-2; }
+    .@{position-ns}z-3@{breakpoint} { z-index: @base-z-3; }
+    .@{position-ns}z-4@{breakpoint} { z-index: @base-z-4; }
+    .@{position-ns}z-5@{breakpoint} { z-index: @base-z-5; }
+    .@{position-ns}z-6@{breakpoint} { z-index: @base-z-6; }
+    .@{position-ns}z-7@{breakpoint} { z-index: @base-z-7; }
+    .@{position-ns}z-8@{breakpoint} { z-index: @base-z-8; }
+    .@{position-ns}z-9@{breakpoint} { z-index: @base-z-9; }
+}
+
+& when not (@position-z-breakpoints = false) {
+
+    .render-responsive-rulesets(@position-z-breakpoints; position-z);
 }
 
 
