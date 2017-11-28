@@ -28,13 +28,16 @@
 @text-enable-weight:                            false;
 @text-enable-style:                             false;
 @text-enable-color:                             false;
-@text-enable-wrap:                              false;
 @text-enable-link:                              false;
 
 // Alignment
 
 @text-align-h-breakpoints:                      false;
 @text-align-v-breakpoints:                      false;
+
+// Wrap
+
+@text-wrap-breakpoints:                         false;
 
 // Color
 
@@ -242,27 +245,32 @@
     word-wrap: normal;    
 }
 
-& when (@text-enable-wrap = true) {
+.mixin(text-wrap) {
 
     // Prevent text from wrapping onto multiple lines
 
-    .@{text-ns}text-nowrap { white-space: nowrap; }
+    .@{text-ns}text-nowrap@{breakpoint} { white-space: nowrap; }
 
-    .@{text-ns}text-truncate,
-    .@{text-ns}text-truncate-nowrap {
+    .@{text-ns}text-truncate@{breakpoint},
+    .@{text-ns}text-truncate-nowrap@{breakpoint} {
         .mixin(text-truncate);
     }
 
-    .@{text-ns}text-truncate-wrap {
+    .@{text-ns}text-truncate-wrap@{breakpoint} {
         .mixin(text-truncate-wrap);
     }
 
     // Break strings if their length exceeds the width of their container
 
-    .@{text-ns}text-break {
+    .@{text-ns}text-break@{breakpoint} {
         word-wrap: break-word;
         hyphens: auto;
-    }
+    }    
+}
+
+& when not (@text-wrap-breakpoints = false) {
+
+    .render-responsive-rulesets(@text-wrap-breakpoints; text-wrap);
 }
 
 
