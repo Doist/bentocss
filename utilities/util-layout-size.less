@@ -24,11 +24,6 @@
 
 @size-important:                                !important;
 
-@size-enable-height:                            false;
-@size-enable-responsive-objects:                false;
-
-@size-height-viewport-min-height:               600/@px;
-
 // Ratios
 
 @size-width-ratios-important:                   @size-important;
@@ -48,6 +43,11 @@
 
 // breakpoint list
 @size-width-intrinsic-breakpoints:              false;
+
+@size-height-breakpoints:                       false;
+@size-height-viewport-min-height:               600/@px;
+
+@size-responsive-objects-breakpoints:           false;
 
 
 // ========================================================================
@@ -120,7 +120,7 @@
 // Height
 // =========================================================================
 
-& when (@size-enable-height = true) {
+.mixin(size-height) {
 
     // More robust if padding and border are used
 
@@ -131,33 +131,38 @@
 
     // Useful to extend the `html` and `body` element to the full height of the page.
 
-    .@{size-ns}height-full,
-    .@{size-ns}height-1-1 { height: 100%; }
+    .@{size-ns}height-full@{breakpoint},
+    .@{size-ns}height-1-1@{breakpoint} { height: 100%; }
 
     // Useful to create image teasers
 
-    .@{size-ns}height-viewport {
+    .@{size-ns}height-viewport@{breakpoint} {
         height: 100vh;
         min-height: @size-height-viewport-min-height;
     }
+}
+
+& when not (@size-height-breakpoints = false) {
+
+    .render-responsive-rulesets(@size-height-breakpoints; size-height);
 }
 
 
 // Responsive objects
 // ========================================================================
 
-& when (@size-enable-responsive-objects = true) {
+.mixin(size-responsive-objects) {
 
     // 1. Corrects `max-width` and `max-height` behavior if padding and border are used
 
-    .@{size-ns}responsive-width,
-    .@{size-ns}responsive-height {
+    .@{size-ns}responsive-width@{breakpoint},
+    .@{size-ns}responsive-height@{breakpoint} {
         box-sizing: border-box;
     }
 
     // Responsiveness: Sets a maximum width relative to the parent and auto scales the height
 
-    .@{size-ns}responsive-width {
+    .@{size-ns}responsive-width@{breakpoint} {
         max-width: 100%;
         height: auto;
     }
@@ -166,14 +171,14 @@
     // Specificity zero attributes https://www.w3.org/TR/css3-cascade/#preshint
     // https://stackoverflow.com/a/20176692
 
-    .@{size-ns}responsive-width-reset {
+    .@{size-ns}responsive-width-reset@{breakpoint} {
         max-width: none;
     }    
 
     // Responsiveness: Sets a maximum height relative to the parent and auto scales the width
     // Only works if the parent element has a fixed height.
 
-    .@{size-ns}responsive-height {
+    .@{size-ns}responsive-height@{breakpoint} {
         max-height: 100%;
         width: auto;
     }
@@ -182,9 +187,14 @@
     // Specificity zero attributes https://www.w3.org/TR/css3-cascade/#preshint
     // https://stackoverflow.com/a/20176692
 
-    .@{size-ns}responsive-height-reset {
+    .@{size-ns}responsive-height-reset@{breakpoint} {
         max-height: none;
     }    
+}
+
+& when not (@size-responsive-objects-breakpoints = false) {
+
+    .render-responsive-rulesets(@size-responsive-objects-breakpoints; size-responsive-objects);
 }
 
 
