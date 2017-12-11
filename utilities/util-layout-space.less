@@ -9,7 +9,7 @@
 //
 // Naming conventions:
 //
-// .(m|p)-(a|v|h|t|e|b|s)(n) = margin/padding all/vertical/horizontal/top/end/bottom/start negative
+// .(m|p)-(a|v|h|t|e|r|b|s|l)(n) = margin/padding all/vertical/horizontal/top/end/right/bottom/start/left negative
 //
 // Based on:
 //
@@ -107,8 +107,10 @@
     .@{space-ns}p-h-@{space-unit}@{breakpoint} { padding-@{end}:   @@space-value @space-units-important; padding-@{start}: @@space-value @space-units-important; }
     .@{space-ns}p-t-@{space-unit}@{breakpoint} { padding-top:      @@space-value @space-units-important; }
     .@{space-ns}p-e-@{space-unit}@{breakpoint} { padding-@{end}:   @@space-value @space-units-important; }
+    .@{space-ns}p-r-@{space-unit}@{breakpoint} { padding-right:    @@space-value @space-units-important; }    
     .@{space-ns}p-b-@{space-unit}@{breakpoint} { padding-bottom:   @@space-value @space-units-important; }
     .@{space-ns}p-s-@{space-unit}@{breakpoint} { padding-@{start}: @@space-value @space-units-important; }
+    .@{space-ns}p-l-@{space-unit}@{breakpoint} { padding-left:     @@space-value @space-units-important; }    
 } 
 
 .render-space-classes(@space-type; @space-units; @breakpoint) when not (@space-units = false) {  
