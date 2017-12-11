@@ -104,6 +104,8 @@
     @size-width-ratios: "size-width-ratios-@{breakpoint-name}";
 
     .render-width-classes(@@size-width-ratios; @breakpoint);
+
+    .hook-util-size-breakpoint(@breakpoint-name);
 }
 
 & when not (@size-width-ratios-breakpoints = false) {
@@ -207,3 +209,4 @@
 & { .hook-util-size; }
 
 .hook-util-size() {}
+.hook-util-size-breakpoint(@breakpoint-name) {}
