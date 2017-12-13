@@ -49,7 +49,10 @@
 
 // Border
 
+@box-border-breakpoints:                        false;
+
 @box-base-border-width:                         @base-border-width;
+@box-base-border-color:                         @base-color-border;
 
 @box-border-rounded-base:                       @base-border-radius;
 @box-border-rounded-xsmall:                     @base-border-radius-xsmall;
@@ -119,6 +122,56 @@
 
 // Border
 // ========================================================================
+
+.mixin(box-border) { 
+
+    .@{box-ns}border@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-style: solid;
+        border-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-top@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-top-style: solid;
+        border-top-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-right@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-right-style: solid;
+        border-right-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-bottom@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-bottom-style: solid;
+        border-bottom-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-left@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-left-style: solid;
+        border-left-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-start@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-@{start}-style: solid;
+        border-@{start}-width: @box-base-border-width;
+    }
+
+    .@{box-ns}border-end@{breakpoint} {
+        border-color: @box-base-border-color;
+        border-@{end}-style: solid;
+        border-@{end}-width: @box-base-border-width;
+    }
+}
+
+& when not (@box-border-breakpoints = false) {
+
+    .render-responsive-rulesets(@box-border-breakpoints; box-border);
+}
 
 // Border Color
 
