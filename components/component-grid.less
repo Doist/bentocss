@@ -10,6 +10,7 @@
 // Modifiers:       `grid--gap-0`
 //                  `grid--gap-sm`
 //                  `grid--gap-md`
+//                  `grid--auto`
 //                  `grid--divider`
 //                  `grid--match`
 //
@@ -180,6 +181,18 @@
 & when not (@grid-gap-modifiers-breakpoints = false) {
 
     .render-responsive-rulesets(@grid-gap-modifiers-breakpoints; grid-gap-modifiers);
+}
+
+
+// Modifier: `grid--auto`
+// ========================================================================
+
+// Alow for auto sized grid elements that shrink as expected
+// 1. Space is allocated solely based on content dimensions, but shrinks: 0 1 auto
+
+.@{grid-ns}grid--auto > .@{grid-ns}grid__cell {
+    // 1
+    flex: initial;
 }
 
 
