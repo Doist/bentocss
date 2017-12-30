@@ -32,11 +32,9 @@
 
 .mixin(position-positioning) {    
 
-    .@{position-ns}position-absolute@{breakpoint},
-    [class^='@{position-ns}position-top'],
-    [class*=' @{position-ns}position-top'],
-    [class^='@{position-ns}position-bottom'],
-    [class*=' @{position-ns}position-bottom'] { position: absolute; }
+    .@{position-ns}position-absolute@{breakpoint} {
+        position: absolute;
+    }
 
     .@{position-ns}position-top@{breakpoint} {
         top: 0;
