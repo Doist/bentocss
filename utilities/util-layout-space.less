@@ -28,9 +28,6 @@
 
 @space-important:                               !important;
 
-@space-enable-gap:                              false;
-@space-enable-white-space:                      false;
-
 // Space
 
 @space-units-important:                         @space-important;
@@ -73,8 +70,15 @@
 // breakpoint list
 @space-children-breakpoints:                    false;
 
+// breakpoint list
+@space-gap-breakpoints:                         false;
+
 // unit list
-@space-units-base-gap:                          1;
+@space-gap-units-base:                          false;
+@space-gap-units-small:                         @space-gap-units-base;
+@space-gap-units-medium:                        @space-gap-units-base;
+@space-gap-units-large:                         @space-gap-units-base;
+@space-gap-units-xlarge:                        @space-gap-units-base;
 
 
 // ========================================================================
@@ -181,46 +185,54 @@
 // from collapsing between adjacent siblings.
 // ========================================================================
 
-& when (@space-enable-gap = true) {
+.space-gap-rulesets() {
 
-    .space-gap-rulesets() {   
-
-        .@{space-ns}m-gap-@{space-unit} {
-            margin-bottom: -@@space-value;
+    .@{space-ns}m-gap-@{space-unit}@{breakpoint} {
+        margin-bottom: -@@space-value;
+        
+        &:not(.@{space-ns}m-gap-no-offset@{breakpoint}) {
             @{start}: -@@space-value;
         }
-
-        .@{space-ns}m-gap-@{space-unit} > * {
-            margin-bottom: @@space-value;
-            margin-@{start}: @@space-value;
-        }
     }
 
-    .render-space-gap-classes(@space-units) when not (@space-units = false) {
-      
-        // Loop through the available spacing units
-      
-        .loop-space-gap-classes(@i: length(@space-units)) when (@i > 0) {
-
-            .loop-space-gap-classes(@i - 1);
-
-            @space-unit: extract(@space-units, @i);
-            @space-value: "base-space-@{space-unit}";
-          
-            .space-gap-rulesets();
-        }
-      
-        .loop-space-gap-classes();
+    .@{space-ns}m-gap-@{space-unit}@{breakpoint} > * {
+        margin-bottom: @@space-value;
+        margin-@{start}: @@space-value;
     }
+}
+ 
+.render-space-gap-classes(@space-units; @breakpoint) when not (@space-units = false) {
+  
+    // Loop through the available spacing units
+  
+    .loop-space-gap-classes(@i: length(@space-units)) when (@i > 0) {
+
+        .loop-space-gap-classes(@i - 1);
+
+        @space-unit: extract(@space-units, @i);
+        @space-value: "base-space-@{space-unit}";
+      
+        .space-gap-rulesets();
+    }
+  
+    .loop-space-gap-classes();
+}
+
+.mixin(space-gap-rulesets) {
+
+    @space-gap-units: "space-gap-units-@{breakpoint-name}";
+
+    .render-space-gap-classes(@@space-gap-units; @breakpoint);
+}
+
+& when not (@space-gap-breakpoints = false) {
 
     [class^='@{space-ns}m-gap-'],
     [class*=' @{space-ns}m-gap-'] {
         position: relative;
     }
 
-    & {
-        .render-space-gap-classes(@space-units-base-gap);
-    }
+    .render-responsive-rulesets(@space-gap-breakpoints; space-gap-rulesets);
 }
 
 
