@@ -153,6 +153,8 @@
     .render-space-classes(margin; @@space-units-margin; @breakpoint);
     .render-space-classes(margin-negative; @@space-units-margin-negative; @breakpoint);
     .render-space-classes(padding; @@space-units-padding; @breakpoint);
+
+    .hook-util-space-breakpoint(@breakpoint-name);
 }
 
 & when not (@space-units-breakpoints = false) {
@@ -242,3 +244,4 @@
 & { .hook-util-space; }
 
 .hook-util-space() {}
+.hook-util-space-breakpoint(@breakpoint-name) {}
