@@ -27,11 +27,11 @@
 @box-enable-background-color:                   false;
 @box-enable-background-images:                  false;
 @box-enable-border-color:                       false;
-@box-enable-border-radius:                      false;
 @box-enable-opacity:                            false;
 
 // breakpoint list
 @box-background-images-breakpoints:             false;
+@box-border-radius-breakpoints:                 false;
 
 // Color
 
@@ -185,17 +185,17 @@
 
 // Border Radius
 
-& when (@box-enable-border-radius = true) {
+.mixin(box-border-radius) { 
 
-    .@{box-ns}border-circular { border-radius: @box-border-circular; }
-    .@{box-ns}border-rounded { border-radius: @box-border-rounded-base; }
+    .@{box-ns}border-circular@{breakpoint} { border-radius: @box-border-circular; }
+    .@{box-ns}border-rounded@{breakpoint} { border-radius: @box-border-rounded-base; }
 
-    .@{box-ns}border-rounded-top    { border-radius: @box-border-rounded-base @box-border-rounded-base 0 0; }
-    .@{box-ns}border-rounded-right  { border-radius: 0 @box-border-rounded-base @box-border-rounded-base 0; }
-    .@{box-ns}border-rounded-bottom { border-radius: 0 0 @box-border-rounded-base @box-border-rounded-base; }
-    .@{box-ns}border-rounded-left   { border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base; }
+    .@{box-ns}border-rounded-top@{breakpoint}    { border-radius: @box-border-rounded-base @box-border-rounded-base 0 0; }
+    .@{box-ns}border-rounded-right@{breakpoint}  { border-radius: 0 @box-border-rounded-base @box-border-rounded-base 0; }
+    .@{box-ns}border-rounded-bottom@{breakpoint} { border-radius: 0 0 @box-border-rounded-base @box-border-rounded-base; }
+    .@{box-ns}border-rounded-left@{breakpoint}   { border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base; }
 
-    .@{box-ns}border-rounded-start {
+    .@{box-ns}border-rounded-start@{breakpoint} {
         & when (@base-text-direction = ltr) {
             border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base;
         }
@@ -204,7 +204,7 @@
         }
     }
 
-    .@{box-ns}border-rounded-end {
+    .@{box-ns}border-rounded-end@{breakpoint} {
         & when (@base-text-direction = ltr) {
             border-radius: 0 @box-border-rounded-base @box-border-rounded-base 0;
         }
@@ -212,8 +212,13 @@
             border-radius: @box-border-rounded-base 0 0 @box-border-rounded-base;
         }
     }
-
 }
+
+& when not (@box-border-radius-breakpoints = false) {
+
+    .render-responsive-rulesets(@box-border-radius-breakpoints; box-border-radius);
+}
+
 
 // Opacity
 // ========================================================================
