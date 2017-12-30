@@ -45,7 +45,6 @@
 @size-width-intrinsic-breakpoints:              false;
 
 @size-height-breakpoints:                       false;
-@size-height-viewport-min-height:               600/@px;
 
 @size-responsive-objects-breakpoints:           false;
 
@@ -136,11 +135,10 @@
     .@{size-ns}height-full@{breakpoint},
     .@{size-ns}height-1-1@{breakpoint} { height: 100%; }
 
-    // Useful to create image teasers
+    // Useful to create teasers
 
     .@{size-ns}height-viewport@{breakpoint} {
-        height: 100vh;
-        min-height: @size-height-viewport-min-height;
+        min-height: 100vh;
     }
 }
 
