@@ -16,6 +16,7 @@
 // https://github.com/uikit/uikit/blob/v2.17.0/src/less/core/utility.less
 // https://github.com/twbs/bootstrap/blob/v3.3.2/less/utilities.less
 // https://github.com/suitcss/utils-display/blob/0.4.2/lib/display.css
+// https://github.com/h5bp/html5-boilerplate/blob/6.0.1/src/css/main.css
 //
 // ========================================================================
 
@@ -26,10 +27,10 @@
 @display-ns:                                    @ns;
 
 @display-enable-visibility:                     false;
-@display-enable-screen-readers:                 false;
 
 @display-mode-breakpoints:                      false;
 @display-visibility-breakpoints:                false;
+@display-screen-readers-breakpoints:            false;
 
 
 // ========================================================================
@@ -70,14 +71,14 @@
 
     // Binary
 
+    // It's hidden, but still affects layout
+    .@{display-ns}invisible { visibility: hidden !important; }
+
     // Remove from the flow and screen readers on any device
     .@{display-ns}hidden {
         display: none !important;
         visibility: hidden !important;
     }
-
-    // It's hidden, but still affects layout
-    .@{display-ns}invisible { visibility: hidden !important; }
 
     // Range
 
@@ -133,38 +134,53 @@
     }
 }
 
-& when (@display-enable-screen-readers = true) {
+.mixin(display-screen-readers) {
 
-    // Only display content to screen readers
-    // Completely remove from the flow but leave available to screen readers
+    // Completely remove from the flow, but have it available for screen readers
+    // https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
     // http://a11yproject.com/posts/how-to-hide-content/
 
-    .@{display-ns}sr-only,
-    .@{display-ns}sr-only-focusable {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(1px, 1px, 1px, 1px);
-      border: 0;
+    // 1. For long content, line feeds are not interpreted as spaces and small width
+    // causes content to wrap 1 word per line:
+    // https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+
+    .@{display-ns}sr-only@{breakpoint},
+    .@{display-ns}sr-only-focusable@{breakpoint} {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+        // 1
+        white-space: nowrap;
     }
 
-    // Use in conjunction with .sr-only to only display content when it's focused.
+    // Use in conjunction with .sr-only to allow the element to be focusable
+    // when navigated to via the keyboard
     // Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
 
-    .@{display-ns}sr-only-focusable {
-      &:active,
-      &:focus {
-        position: static;
-        width: auto;
-        height: auto;
-        margin: 0;
-        overflow: visible;
-        clip: auto;
-      }
-    }
+    .@{display-ns}sr-only-focusable@{breakpoint} {
+        &:active,
+        &:focus {
+            clip: auto;
+            clip-path: none;
+            height: auto;
+            margin: 0;
+            overflow: visible;
+            position: static;
+            width: auto;
+            white-space: inherit;
+        }
+    }       
+}
+
+& when not (@display-screen-readers-breakpoints = false) {
+
+    .render-responsive-rulesets(@display-screen-readers-breakpoints; display-screen-readers);
 }
 
 
