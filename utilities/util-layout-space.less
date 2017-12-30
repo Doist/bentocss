@@ -28,7 +28,6 @@
 
 @space-important:                               !important;
 
-@space-enable-children:                         false;
 @space-enable-gap:                              false;
 @space-enable-white-space:                      false;
 
@@ -70,6 +69,9 @@
 @space-units-xlarge-margin:                     @space-units-base-xlarge;
 @space-units-xlarge-margin-negative:            @space-units-base-xlarge;
 @space-units-xlarge-padding:                    @space-units-base-xlarge;
+
+// breakpoint list
+@space-children-breakpoints:                    false;
 
 // unit list
 @space-units-base-gap:                          1;
@@ -158,11 +160,16 @@
 // Children
 // ========================================================================
 
-& when (@space-enable-children = true) {
+.mixin(space-children) {
 
-    .@{space-ns}m-child-ab-0 > * { margin-bottom: 0 @space-children-important; }
-    .@{space-ns}m-child-ft-0 > :first-child { margin-top: 0 @space-children-important; }
-    .@{space-ns}m-child-lb-0 > :last-child { margin-bottom: 0 @space-children-important; }
+    .@{space-ns}m-child-ab-0@{breakpoint} > * { margin-bottom: 0 @space-children-important; }
+    .@{space-ns}m-child-ft-0@{breakpoint} > :first-child { margin-top: 0 @space-children-important; }
+    .@{space-ns}m-child-lb-0@{breakpoint} > :last-child { margin-bottom: 0 @space-children-important; }
+}
+
+& when not (@space-children-breakpoints = false) {
+
+    .render-responsive-rulesets(@space-children-breakpoints; space-children);
 }
 
 
